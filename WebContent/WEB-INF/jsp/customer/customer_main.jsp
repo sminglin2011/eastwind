@@ -54,10 +54,9 @@
 							<td><a href="javascript:;" class="btn btn-link radius" 
 								onclick="loadPage('customerContactMaster.htm?customerId=${customer.id}')">${customer.name }</a></td>
 							<td class="f-14 td-manage"><a style="text-decoration: none" class="ml-5"
-								onClick="user_edit('用户编辑','editUser.htm?id=${customer.id}','800','520')"
 								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
 								<a style="text-decoration: none" class="ml-5"
-								onClick="user_del(this,${customer.id})" href="javascript:;"
+								onClick="customer_del(this,${customer.id})" href="javascript:;"
 								title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 						</tr>
 					</c:forEach>
@@ -100,6 +99,26 @@
 	
 	function loadPage(url){
 		location.replace(url)
+	}
+	
+	function customer_del(obj, id) {
+		layer.confirm('确认要删除吗？',function(index){
+			$.ajax({
+				  method: "POST",
+				  url: "deleteCustomer.htm",
+				  data: { id: id },
+				  success: function(data) {
+					  if(data == 'y') {
+						  layer.msg('删除成功!');
+						  location.replace(location.href);
+					  } else {
+						  layer.notice('There are contact details');
+					  }
+				  }, error: function(data) {
+					  layer.msg('system error, please contact administrator')
+				  }
+				});
+		});
 	}
 </script>
 </html>

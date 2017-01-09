@@ -28,8 +28,8 @@
 			<div class="row cl">
 			<label class="form-label col-xs-2">Customer Name：</label>
 			<div class="formControls col-xs-2">
-				<input type="hidden" id="id" name="id" value="${model.customer.id }">
-				<input type="text" name="name" id="name" datatype="s4-50" value="${model.customer.name }"
+				<input type="hidden" id="id" name="id" value="${customer.id }">
+				<input type="text" name="name" id="name" datatype="s4-50" value="${customer.name }"
 				style="width: 250px" class="input-text">
 			</div>
 			
@@ -48,7 +48,7 @@
 				<thead>
 					<tr>
 						<th scope="col" colspan="8">Bill Contact
-						<a href="javascript:;" onclick="new_wind('New Bill Address','newCustomerBillContact.htm?customerId=${model.customer.id}')" class="btn btn-success radius"><i class="Hui-iconfont">&#xe600;</i> New Bill Address</a>
+						<a href="javascript:;" onclick="new_wind('New Bill Address','newCustomerBillContact.htm?customerId=${customer.id}')" class="btn btn-success radius"><i class="Hui-iconfont">&#xe600;</i> New Bill Address</a>
 						</th>
 					</tr>
 					<tr class="text-c">
@@ -63,7 +63,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${model.billContactList}" var="billContact" varStatus="status">
+					<c:forEach items="${billContactList}" var="billContact" varStatus="status">
 						<tr class="text-c">
 							<td><input type="checkbox" value="" name=""></td>
 							<td class=""> ${billContact.billAttention }</td>

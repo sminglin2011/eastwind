@@ -163,6 +163,12 @@ $(function(){
 		        dataType:"json",
 		        success: function (data) { 
 		            console.log(data.status == 'y', "success log");
+		            if (data.status == 'y') {
+		            	layer.msg("Success");
+		            	var index = parent.layer.getFrameIndex(window.name);
+		    			parent.location.replace(parent.location.href)
+		    			parent.layer.close(index);
+		            }
 		        },
 		        error: function(data){
 		        	console.log("error,log", data);
@@ -174,9 +180,7 @@ $(function(){
 			//form[0].submit(); 直接提交表单
 			//ajaxPost(flag,sync,url); flag = true 跳过验证直接提交表单， sync = true 同步提交
 			//layer.msg(data.status);
-			/* var index = parent.layer.getFrameIndex(window.name);
-			parent.location.replace(parent.location.href)
-			parent.layer.close(index); */
+			
 		}
 	});
 	

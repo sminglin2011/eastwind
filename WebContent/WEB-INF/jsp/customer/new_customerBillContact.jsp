@@ -17,10 +17,10 @@
 	<div class="page-container">
 	<form action="saveCustomerBillContact.htm" method="post" class="form form-horizontal responsive" id="form-billContact">
 		<div class="row cl">
-			<label class="form-label col-xs-6">Customer Name：${model.customer.name}</label>
+			<label class="form-label col-xs-6">Customer Name：${customer.name}</label>
 			<div class="formControls col-xs-1">
 				<input type="hidden" id="id" name="id" value="0">
-				<input type="hidden" id="customerId" name="customerId" value="${model.customer.id}">
+				<input type="hidden" id="customerId" name="customerId" value="${customer.id}">
 				<input type="hidden" id="billFax" name="billFax" >
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 			<label class="form-label col-xs-3">Bill PostCode：</label>
 			<div class="formControls col-xs-3">
 				<input type="text" class="input-text" placeholder="Bill PostCode" name="billPostcode" id="billPostcode" 
-					datatype="n6-6" ignore="ignore" value="${model.billContact.billPostcode}" nullmsg="Not Empty!" errormsg="eg.600116" sucmsg="Success">
+					datatype="n6-6" ignore="ignore" nullmsg="Not Empty!" errormsg="eg.600116" sucmsg="Success">
 			</div>
 		</div>
 		<div class="row cl">
@@ -99,9 +99,9 @@ $.fn.serializeObject = function(){
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
             }
-            o[this.name].push(this.value || '');
+            o[this.name].push(this.value || null);
         } else {
-            o[this.name] = this.value || '';
+            o[this.name] = this.value || null;
         }
     });
     return o;
@@ -112,11 +112,14 @@ $(function(){
 	$("#form-billContact").Validform({
 		tiptype:3,
 		beforeSubmit: function(form) {
+			console.log("JSON.stringify($(form).serializeObject())=",JSON.stringify($(form).serializeObject()));
+			console.log("$(form).serializeObject()=",$(form).serializeObject());
 			$.ajax({ 
 		        type: 'post', 
 		        url: $(form).attr("action"), 
-		        data: (form.serializeArray()), //JSON.stringify serializeArray
+		        data: JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
 		        dataType:"json",
+		        contentType:"application/json;charset=UTF-8",
 		        success: function (data) { 
 		            console.log(data.status == 'y', "success log");
 		        },

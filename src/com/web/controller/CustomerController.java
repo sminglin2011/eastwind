@@ -107,8 +107,19 @@ public class CustomerController { //extends BaseController
 		}
 		return com.web.views.JsonView.Render(map, res);
 	}
-	
-	/************************************* customer *********************************************/
+	@ResponseBody
+	@RequestMapping(value="deleteCustomer.htm")
+	public String deleteCustomer(ModelMap model, String id) {
+		log.debug("be deleted customer id = " + id);
+		try {
+			customerService.deleteCustomer(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "e";
+		}
+		return "y";
+	}
+	/************************************* customer end *********************************************/
 	
 	@RequestMapping(value="/customerContactMaster.htm")
 	public ModelAndView customerContactMaster(ModelMap model, String customerId) {
@@ -162,14 +173,15 @@ public class CustomerController { //extends BaseController
 		log.debug("edit Customer Bill contact id = " + id);
 		CustomerBillContact billContact = new CustomerBillContact();
 		billContact = customerService.loadCustomerBillContact(Integer.parseInt(id));
-		Customer customer = customerService.loadCustomer(billContact.getCustomerId());
+		Customer customer = customerService.loadCustomer(String.valueOf(billContact.getCustomerId()));
 		model.addAttribute("customer", customer);
 		model.addAttribute("billContact", billContact);
 		return new ModelAndView("customer/new_customerBillContact");
 	}
 	
 	@RequestMapping(value="/saveCustomerBillContact.htm")
-	public Object saveCustomerBillContact(ModelMap model, CustomerBillContact billContact, HttpServletResponse res) {
+	public Object saveCustomerBillContact(ModelMap model, 
+			@RequestBody CustomerBillContact billContact, HttpServletResponse res) {
 		log.debug("model  =" + model);
 		log.debug(" <save bill contact + ????" + billContact);
 		Map<String, Object> map = new HashMap<>();

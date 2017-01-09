@@ -38,16 +38,16 @@
       class="org.springframework.jdbc.datasource.DriverManagerDataSource">
  
       <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-      
+     <!-- 
       <property name="url" value="jdbc:mysql://203.118.16.169:3311/FoodSolutions" />
       <property name="username" value="root" />
       <property name="password" value="webpcom0404+-" />
-       
-       <!-- 
+       -->
+        
       <property name="url" value="jdbc:mysql://127.0.0.1/FoodSolutions" />
       <property name="username" value="root" />
       <property name="password" value="Lsm870720" />
-      -->
+      
   	</bean>
 
 	<!-- 配置Spring的JdbcTemplate -->

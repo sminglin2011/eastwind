@@ -54,7 +54,7 @@ public class CustomerService {
 		} catch (Exception e) {
 			throw e;
 		}
-		if (customer.getId() != null && !customer.getId().equals("0")) { //ID 存在意思是客户名字已经存在不能在用这个名字注册了
+		if (customer.getId() > 0) { //ID 存在意思是客户名字已经存在不能在用这个名字注册了
 			exist_name = true;
 		}
 		return exist_name;
@@ -70,24 +70,24 @@ public class CustomerService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Customer saveCustomer(Customer customer) {
 		try {
-			if (customer.getId() == null || customer.getId().equals("0")) {
+			if (customer.getId() == null || customer.getId()== 0) {
 				customerDao.saveCustomer(customer);
 				int customerId = customerDao.selectLastInsertId();
 //				if(customer.getBillContact().getBillAttention() == null){
 //					
 //				}
-				customer.getBillContact().setCustomerId("0");
+				customer.getBillContact().setCustomerId(0);
 				customerDao.saveCustomerBillContact(customer.getBillContact());
 				int billContactId = customerDao.selectLastInsertId();
-				customer.getDeliveryContact().setCustomerId("0");
+				customer.getDeliveryContact().setCustomerId(0);
 				customerDao.saveCustomerDeliveryContact(customer.getDeliveryContact());
 				int deliveryContactId = customerDao.selectLastInsertId();
 
-				customer.getBillContact().setCustomerId(String.valueOf(customerId));
-				customer.getBillContact().setId(String.valueOf(billContactId));
+				customer.getBillContact().setCustomerId(customerId);
+				customer.getBillContact().setId(billContactId);
 
-				customer.getDeliveryContact().setCustomerId(String.valueOf(customerId));
-				customer.getDeliveryContact().setId(String.valueOf(deliveryContactId));
+				customer.getDeliveryContact().setCustomerId(customerId);
+				customer.getDeliveryContact().setId(deliveryContactId);
 			} else {
 				customerDao.updateCustomer(customer);
 			}
@@ -97,18 +97,13 @@ public class CustomerService {
 		}
 		return customer;
 	}
-
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void updateCustomerBillContact(CustomerBillContact billContact) {
-		customerDao.updateCustomerBillContact(billContact);
-	}
-
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void updateCustomerDeliveryContact(CustomerDeliveryContact deliveryContact) {
-		customerDao.updateCustomerDeliveryContact(deliveryContact);
-	}
 	
-	/********************************** Customer *********************************************/
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void deleteCustomer(String id) {
+		customerDao.deleteCustomer(Integer.parseInt(id));
+	}
+
+	/********************************** Customer end *********************************************/
 	
 	/********************************** Customer BillContact *********************************************/
 	public List loadCustomerBillContactList(int customerId) {
@@ -122,12 +117,17 @@ public class CustomerService {
 	}
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void saveCustomerBillContact(CustomerBillContact billContact) {
-		if (billContact.getId() == null || billContact.getId().equals("0") ) {
+		if (billContact.getId() == null || billContact.getId() == 0 ) {
 			customerDao.saveCustomerBillContact(billContact);
 		} else {
 			customerDao.updateCustomerBillContact(billContact);
 		}
 	}
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void updateCustomerBillContact(CustomerBillContact billContact) {
+		customerDao.updateCustomerBillContact(billContact);
+	}
+
 	/********************************** Customer BillContact *********************************************/
 	
 	/********************************** Customer DeliveryContact *********************************************/
@@ -145,11 +145,15 @@ public class CustomerService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void saveCustomerDeliveryContact(CustomerDeliveryContact deliveryContact){
 		// id = 0, means created new entity, else updated entity
-		if (deliveryContact.getId() == null || deliveryContact.getId().equals("0")) {
+		if (deliveryContact.getId() == null || deliveryContact.getId() == 0) {
 			customerDao.saveCustomerDeliveryContact(deliveryContact);
 		} else {
 			customerDao.updateCustomerDeliveryContact(deliveryContact);
 		}
+	}
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void updateCustomerDeliveryContact(CustomerDeliveryContact deliveryContact) {
+		customerDao.updateCustomerDeliveryContact(deliveryContact);
 	}
 	/********************************** Customer DeliveryContact *********************************************/
 	

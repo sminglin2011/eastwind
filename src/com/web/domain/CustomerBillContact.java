@@ -11,8 +11,8 @@ public class CustomerBillContact implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String id;
-	private String customerId;
+	private Integer id;
+	private Integer customerId;
 	private String customerName;
 	private String billAttention;
 	private String billTelephone;
@@ -22,5 +22,5 @@ public class CustomerBillContact implements Serializable{
 	private String billAddress1;
 	private String billAddress2;
 	private String billAddress3;
-	private String billPostcode;
+	private Integer billPostcode;
 }

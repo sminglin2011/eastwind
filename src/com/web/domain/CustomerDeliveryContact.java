@@ -11,8 +11,8 @@ public class CustomerDeliveryContact implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String id;
-	private String customerId;
+	private Integer id;
+	private Integer customerId;
 	private String customerName;
 	private String deliveryAttention;
 	private String deliveryTelephone;
@@ -21,5 +21,5 @@ public class CustomerDeliveryContact implements Serializable{
 	private String deliveryAddress1;
 	private String deliveryAddress2;
 	private String deliveryAddress3;
-	private String deliveryPostcode;
+	private Integer deliveryPostcode;
 }

@@ -34,7 +34,7 @@ public class CustomerDao {
 		String sql = "select distinct c.id, c.name, c.migrationId, c.terms, c.accountCode from customer c"
 				+ " left join customerbillcontact cbc on cbc.customerId = c.id"
 				+ " left join customerdeliverycontact cdc on cdc.customerId = c.id"
-				+ " where c.id > 0";
+				+ " where c.id > 0 order by c.id desc";
 		list = jdbcTemplate.queryForList(sql);
 		return list;
 	}
@@ -64,7 +64,7 @@ public class CustomerDao {
 			public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				log.debug("rowNum=" +rowNum);
 				Customer customer = new Customer();
-				customer.setId(String.valueOf(rs.getInt("id")));
+				customer.setId(rs.getInt("id"));
 				customer.setName(rs.getString("name"));
 				customer.setMigrationId(rs.getString("migrationId"));
 				return customer;
@@ -89,7 +89,7 @@ public class CustomerDao {
 		RowMapper<Customer> rowMapper = new RowMapper<Customer>() {
 			public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Customer customer = new Customer();
-				customer.setId(String.valueOf(rs.getInt("id")));
+				customer.setId(rs.getInt("id"));
 				customer.setName(rs.getString("name"));
 				customer.setMigrationId(rs.getString("migrationId"));
 				return customer;
@@ -130,7 +130,19 @@ public class CustomerDao {
 			throw e;
 		}
 	}
-	/***************************** Customer **********************************************/
+	
+	public void deleteCustomer(Integer id) {
+		String sql = "delete from customer where id = ?";
+		log.debug("dao delete customer sql = " + sql);
+		try {
+			jdbcTemplate.update(sql, id);
+		} catch (DataAccessException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	/***************************** Customer end **********************************************/
 	
 	/***************************** billContact **********************************************/
 	public List fetchCustomerBillContactList(int customerId) {
@@ -150,8 +162,8 @@ public class CustomerDao {
 		RowMapper<CustomerBillContact> rowMapper = new RowMapper<CustomerBillContact>() {
 			public CustomerBillContact mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CustomerBillContact billContact = new CustomerBillContact();
-				billContact.setId(String.valueOf(rs.getInt("id")));
-				billContact.setCustomerId(String.valueOf(rs.getInt("custoemrId")));
+				billContact.setId(rs.getInt("id"));
+				billContact.setCustomerId(rs.getInt("custoemrId"));
 				billContact.setBillAttention(rs.getString("billAttention"));
 				billContact.setBillTelephone(rs.getString("billTelephone"));
 				billContact.setBillMobile(rs.getString("billMobile"));
@@ -160,7 +172,7 @@ public class CustomerDao {
 				billContact.setBillAddress1(rs.getString("billAddress1"));
 				billContact.setBillAddress2(rs.getString("billAddress2"));
 				billContact.setBillAddress3(rs.getString("billAddress3"));
-				billContact.setBillPostcode(String.valueOf(rs.getInt("billPostcode")));
+				billContact.setBillPostcode(rs.getInt("billPostcode"));
 				return billContact;
 			}
 		};
@@ -229,8 +241,8 @@ public class CustomerDao {
 		RowMapper<CustomerDeliveryContact> rowMapper = new RowMapper<CustomerDeliveryContact>() {
 			public CustomerDeliveryContact mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CustomerDeliveryContact deliveryContact = new CustomerDeliveryContact();
-				deliveryContact.setId(String.valueOf(rs.getInt("id")));
-				deliveryContact.setCustomerId(String.valueOf(rs.getInt("custoemrId")));
+				deliveryContact.setId(rs.getInt("id"));
+				deliveryContact.setCustomerId(rs.getInt("custoemrId"));
 				deliveryContact.setDeliveryAttention(rs.getString("deliveryAttention"));
 				deliveryContact.setDeliveryTelephone(rs.getString("deliveryTelephone"));
 				deliveryContact.setDeliverylMobile(rs.getString("deliverylMobile"));
@@ -238,7 +250,7 @@ public class CustomerDao {
 				deliveryContact.setDeliveryAddress1(rs.getString("deliveryAddress1"));
 				deliveryContact.setDeliveryAddress2(rs.getString("deliveryAddress2"));
 				deliveryContact.setDeliveryAddress3(rs.getString("deliveryAddress3"));
-				deliveryContact.setDeliveryPostcode(String.valueOf(rs.getInt("deliveryPostcode")));
+				deliveryContact.setDeliveryPostcode(rs.getInt("deliveryPostcode"));
 				return deliveryContact;
 			}
 		};
@@ -258,7 +270,7 @@ public class CustomerDao {
 		log.debug("dao save deliveryContact sql = " + sql);
 		int i = 0;
 		try {
-			jdbcTemplate.update(sql,null, deliveryContact.getDeliveryAttention(), deliveryContact.getDeliveryTelephone()
+			jdbcTemplate.update(sql,deliveryContact.getCustomerId(), deliveryContact.getDeliveryAttention(), deliveryContact.getDeliveryTelephone()
 					, deliveryContact.getDeliverylMobile(), deliveryContact.getDeliveryEmail(), deliveryContact.getDeliveryAddress1()
 					, deliveryContact.getDeliveryAddress2(), deliveryContact.getDeliveryAddress3(), deliveryContact.getDeliveryPostcode());
 		} catch (DataAccessException e) {
@@ -300,7 +312,7 @@ public class CustomerDao {
 		RowMapper<Customer> rowMapper = new RowMapper<Customer>() {
 			public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Customer customer = new Customer();
-				customer.setId(String.valueOf(rs.getInt("id")));
+				customer.setId(rs.getInt("id"));
 				customer.setName(rs.getString("name"));
 				customer.setMigrationId(rs.getString("migrationId"));
 				return customer;
