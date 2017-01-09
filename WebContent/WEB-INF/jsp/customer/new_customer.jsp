@@ -11,7 +11,7 @@
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <%@ include file="/WEB-INF/jsp/_meta.jsp"%>
-<title>Customer Details</title>
+<title>New Customer</title>
 </head>
 <body>
 	<div class="page-container">
@@ -19,7 +19,8 @@
 		<div class="row cl">
 			<label class="form-label col-xs-2">Customer Name：</label>
 			<div class="formControls col-xs-4">
-				<input type="text" class="input-text" placeholder="Customer Name" name="name" id="CustomerName" datatype="*3-50" nullmsg="Customer is not empty" ajaxurl="checkDuplicateName.htm">
+				<input type="text" class="input-text" placeholder="Customer Name" name="name" id="CustomerName" 
+				datatype="*3-50" nullmsg="Customer is not empty" ajaxurl="checkDuplicateName.htm">
 			</div>
 		</div>
 		<h4>Billing Information</h4>
@@ -28,49 +29,58 @@
 		<div class="row cl">
 			<label class="form-label col-xs-2">Billing Attention：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Billing Attention" name="billContact.billAttention" id="billAttention" datatype="*3-50" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Billing Attention" name="billContact.billAttention" 
+				id="billAttention" datatype="*3-50" ignore="ignore">
 			</div>
 			<label class="form-label col-xs-2">Billing Email：</label>
 			<div class="formControls col-xs-4">
-				<input type="text" class="input-text" placeholder="Billing Email" name="billContact.billEmail" id="billEmail" datatype="e" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Billing Email" name="billContact.billEmail" 
+				id="billEmail" datatype="e" ignore="ignore">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2">Billing Mobile：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Billing Mobile" name="billContact.billMobile" id="billMobile" datatype="n" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Billing Mobile" name="billContact.billMobile" 
+				id="billMobile" datatype="n" ignore="ignore">
 			</div>
 			<label class="form-label col-xs-2">Billing Telephone：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Billing Telephone" name="billContact.billTelephone" id="billTelephone" datatype="n" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Billing Telephone" name="billContact.billTelephone" 
+				id="billTelephone" datatype="n" ignore="ignore">
 			</div>
 			<label class="form-label col-xs-2">Billing Fax：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Billing Fax" name="billContact.billFax" id="billFax" datatype="n" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Billing Fax" name="billContact.billFax" 
+				id="billFax" datatype="n" ignore="ignore">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2">Billing PostCode：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Billing PostCode" name="billContact.billPostcode" id="billPostcode" datatype="n6-6" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Billing PostCode" name="billContact.billPostcode" 
+				id="billPostcode" datatype="n6-6" ignore="ignore">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2">Billing Address：</label>
 			<div class="formControls col-xs-8">
-				<input type="text" class="input-text" placeholder="Billing Address1" name="billContact.billAddress1" id="billAddress1" datatype="*3-50" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Billing Address1" name="billContact.billAddress1" 
+				id="billAddress1" datatype="*3-50" ignore="ignore">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2"></label>
 			<div class="formControls col-xs-8">
-				<input type="text" class="input-text" placeholder="Billing Address2" name="billContact.billAddress2" id="billAddress2">
+				<input type="text" class="input-text" placeholder="Billing Address2" name="billContact.billAddress2" 
+				id="billAddress2">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2"></label>
 			<div class="formControls col-xs-8">
-				<input type="text" class="input-text" placeholder="Billing Address" name="billContact.billAddress3" id="billAddress3">
+				<input type="text" class="input-text" placeholder="Billing Address" name="billContact.billAddress3" 
+				id="billAddress3">
 			</div>
 		</div>
 		<span><input type="checkbox" id="sameas">same as bill information</span>
@@ -80,45 +90,53 @@
 		<div class="row cl">
 			<label class="form-label col-xs-2">Delivery Attention：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Delivery Attention" name="deliveryContact.deliveryAttention" id="deliveryAttention" datatype="*3-50" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Attention" 
+				name="deliveryContact.deliveryAttention" id="deliveryAttention" datatype="*3-50" ignore="ignore">
 			</div>
 			<label class="form-label col-xs-2">Delivery Email：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Delivery Email" name="deliveryContact.deliveryEmail" id="deliveryEmail" datatype="e" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Email" name="deliveryContact.deliveryEmail" 
+				id="deliveryEmail" datatype="e" ignore="ignore">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2">Delivery Mobile：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Delivery Mobile" name="deliveryContact.deliveryMobile" id="deliveryMobile" datatype="n" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Mobile" name="deliveryContact.deliveryMobile" 
+				id="deliveryMobile" datatype="n" ignore="ignore">
 			</div>
 			<label class="form-label col-xs-2">Delivery Telephone：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Delivery Telephone" name="deliveryContact.deliveryTelephone" id="deliveryTelephone" datatype="n" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Telephone" 
+				name="deliveryContact.deliveryTelephone" id="deliveryTelephone" datatype="n" ignore="ignore">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2">Delivery PostCode：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" placeholder="Delivery PostCode" name="deliveryContact.deliveryPostcode" id="deliveryPostcode" datatype="n6-6" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery PostCode" 
+				name="deliveryContact.deliveryPostcode" id="deliveryPostcode" datatype="n6-6" ignore="ignore">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2">Delivery Address：</label>
 			<div class="formControls col-xs-8">
-				<input type="text" class="input-text" placeholder="Delivery Address1" name="deliveryContact.deliveryAddress1" id="deliveryAddress1" datatype="*3-50" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Address1" 
+				name="deliveryContact.deliveryAddress1" id="deliveryAddress1" datatype="*3-50" ignore="ignore">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2"></label>
 			<div class="formControls col-xs-8">
-				<input type="text" class="input-text" placeholder="Delivery Address2" name="deliveryContact.deliveryAddress2" id="deliveryAddress2">
+				<input type="text" class="input-text" placeholder="Delivery Address2" 
+				name="deliveryContact.deliveryAddress2" id="deliveryAddress2">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-2"></label>
 			<div class="formControls col-xs-8">
-				<input type="text" class="input-text" placeholder="Delivery Address3" name="deliveryContact.deliveryAddress3" id="deliveryAddress3">
+				<input type="text" class="input-text" placeholder="Delivery Address3" 
+				name="deliveryContact.deliveryAddress3" id="deliveryAddress3">
 			</div>
 		</div>
 		<div class="row cl">
@@ -137,11 +155,25 @@
 $(function(){
 	$("#form-customer").Validform({
 		tiptype:3,
-		ajaxPost:true,
+		beforeSubmit:function(form) {
+			$.ajax({ 
+		        type: 'post', 
+		        url: $(form).attr("action"), 
+		        data: (form.serializeArray()), //JSON.stringify serializeArray
+		        dataType:"json",
+		        success: function (data) { 
+		            console.log(data.status == 'y', "success log");
+		        },
+		        error: function(data){
+		        	console.log("error,log", data);
+		        }
+		    });
+			return false;
+		},
 		callback:function(data){
 			//form[0].submit(); 直接提交表单
 			//ajaxPost(flag,sync,url); flag = true 跳过验证直接提交表单， sync = true 同步提交
-			layer.msg(data.status);
+			//layer.msg(data.status);
 			/* var index = parent.layer.getFrameIndex(window.name);
 			parent.location.replace(parent.location.href)
 			parent.layer.close(index); */

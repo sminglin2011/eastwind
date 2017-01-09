@@ -25,7 +25,7 @@
 	<div class="page-container">
 		<div class="text-c">
 			<form class="form form-horizontal" action="customerFilterKeyword.htm" id="form-query">
-			<input type="text" name="keyword" id="keyword" placeholder=" 关键字" value="${model.keyword }"
+			<input type="text" name="keyword" id="keyword" placeholder=" 关键字" value="${keyword }"
 				style="width: 250px" class="input-text">
 			<button name="" id="" class="btn btn-success" type="submit">
 				<i class="Hui-iconfont">&#xe665;</i> 查询
@@ -33,7 +33,7 @@
 			</form>
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-			<span class="l"> <a href="javascript:;" onclick="openWind('新建客户','customerDetails.htm')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 新建客户</a></span>
+			<span class="l"> <a href="javascript:;" onclick="openWind('新建客户','newCustomer.htm')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 新建客户</a></span>
 		</div>
 		<div class="mt-20">
 			<table
@@ -47,7 +47,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${model.list}" var="customer" varStatus="status">
+					<c:forEach items="${list}" var="customer" varStatus="status">
 						<tr class="text-c">
 							<td><input type="checkbox" value="" name=""></td>
 							<td>${status.count }</td>

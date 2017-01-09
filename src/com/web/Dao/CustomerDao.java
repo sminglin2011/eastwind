@@ -2,7 +2,9 @@ package com.web.Dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -29,11 +31,32 @@ public class CustomerDao {
 	/***************************** Customer **********************************************/
 	public List fetchCustomerList() {
 		List  list = null;
-		String sql = "select id, name, migrationId from customer where id > 0";
+		String sql = "select distinct c.id, c.name, c.migrationId, c.terms, c.accountCode from customer c"
+				+ " left join customerbillcontact cbc on cbc.customerId = c.id"
+				+ " left join customerdeliverycontact cdc on cdc.customerId = c.id"
+				+ " where c.id > 0";
 		list = jdbcTemplate.queryForList(sql);
 		return list;
 	}
-	
+	public List fetchCustomerListByKeyword(String keyword) {
+		List list = null;
+		String sql = "select distinct c.id, c.name, c.migrationId, c.terms, c.accountCode from customer c"
+				+ " left join customerbillcontact cbc on cbc.customerId = c.id"
+				+ " left join customerdeliverycontact cdc on cdc.customerId = c.id"
+				+ " where c.id > 0 and "
+				+ " ("
+				+ " c.name like '%"+keyword+"%' or"
+				+ " cbc.billAttention like '%"+keyword+"%' or"
+				+ " cdc.deliveryAttention like '%"+keyword+"%' "
+				+ ")";
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("name", keyword + "%");
+		params.put("billAttention", keyword + "%");
+		params.put("deliveryAttention", keyword + "%");
+		
+		list = jdbcTemplate.queryForList(sql);
+		return list;
+	}
 	public Customer fetchCustomerByName(String name) {
 		String sql = "select id, name, migrationId from customer where name = ?";
 		Customer customer = new Customer();
@@ -41,7 +64,7 @@ public class CustomerDao {
 			public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				log.debug("rowNum=" +rowNum);
 				Customer customer = new Customer();
-				customer.setId(rs.getInt("id"));
+				customer.setId(String.valueOf(rs.getInt("id")));
 				customer.setName(rs.getString("name"));
 				customer.setMigrationId(rs.getString("migrationId"));
 				return customer;
@@ -66,7 +89,7 @@ public class CustomerDao {
 		RowMapper<Customer> rowMapper = new RowMapper<Customer>() {
 			public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Customer customer = new Customer();
-				customer.setId(rs.getInt("id"));
+				customer.setId(String.valueOf(rs.getInt("id")));
 				customer.setName(rs.getString("name"));
 				customer.setMigrationId(rs.getString("migrationId"));
 				return customer;
@@ -206,8 +229,8 @@ public class CustomerDao {
 		RowMapper<CustomerDeliveryContact> rowMapper = new RowMapper<CustomerDeliveryContact>() {
 			public CustomerDeliveryContact mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CustomerDeliveryContact deliveryContact = new CustomerDeliveryContact();
-				deliveryContact.setId(rs.getInt("id"));
-				deliveryContact.setCustomerId(rs.getInt("custoemrId"));
+				deliveryContact.setId(String.valueOf(rs.getInt("id")));
+				deliveryContact.setCustomerId(String.valueOf(rs.getInt("custoemrId")));
 				deliveryContact.setDeliveryAttention(rs.getString("deliveryAttention"));
 				deliveryContact.setDeliveryTelephone(rs.getString("deliveryTelephone"));
 				deliveryContact.setDeliverylMobile(rs.getString("deliverylMobile"));
@@ -215,7 +238,7 @@ public class CustomerDao {
 				deliveryContact.setDeliveryAddress1(rs.getString("deliveryAddress1"));
 				deliveryContact.setDeliveryAddress2(rs.getString("deliveryAddress2"));
 				deliveryContact.setDeliveryAddress3(rs.getString("deliveryAddress3"));
-				deliveryContact.setDeliveryPostcode(rs.getInt("deliveryPostcode"));
+				deliveryContact.setDeliveryPostcode(String.valueOf(rs.getInt("deliveryPostcode")));
 				return deliveryContact;
 			}
 		};
@@ -277,7 +300,7 @@ public class CustomerDao {
 		RowMapper<Customer> rowMapper = new RowMapper<Customer>() {
 			public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Customer customer = new Customer();
-				customer.setId(rs.getInt("id"));
+				customer.setId(String.valueOf(rs.getInt("id")));
 				customer.setName(rs.getString("name"));
 				customer.setMigrationId(rs.getString("migrationId"));
 				return customer;

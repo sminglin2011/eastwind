@@ -1,12 +1,18 @@
 package com.web.domain;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class CustomerDeliveryContact {
+public class CustomerDeliveryContact implements Serializable{
 
-	private int id;
-	private int customerId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String id;
+	private String customerId;
 	private String customerName;
 	private String deliveryAttention;
 	private String deliveryTelephone;
@@ -15,5 +21,5 @@ public class CustomerDeliveryContact {
 	private String deliveryAddress1;
 	private String deliveryAddress2;
 	private String deliveryAddress3;
-	private int deliveryPostcode;
+	private String deliveryPostcode;
 }

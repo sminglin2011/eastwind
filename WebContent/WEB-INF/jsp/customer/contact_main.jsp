@@ -74,7 +74,7 @@
 							<td class=""> ${billContact.billPostcode }</td>
 							<td class="f-14 td-manage"><a
 								style="text-decoration: none" class="ml-5"
-								onClick="menuCategory_edit(this,'${menuCategory.id}')"
+								onClick="new_wind('Edit Bill Address','editCustomerBillContact.htm?id=${billContact.id}')"
 								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
 								<!-- 
 								<a style="text-decoration: none" class="ml-5"
