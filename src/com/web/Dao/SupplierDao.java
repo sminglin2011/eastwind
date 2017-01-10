@@ -65,7 +65,7 @@ public class SupplierDao {
 	
 	public Supplier fetchSupplier(int id) {
 		Supplier supplier = new Supplier();
-		String sql = "select id, name, terms, accountCode from customer where id = ?";
+		String sql = "select id, name, terms, accountCode from supplier where id = ?";
 		RowMapper<Supplier> rowMapper = new RowMapper<Supplier>() {
 			public Supplier mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Supplier supplier = new Supplier();

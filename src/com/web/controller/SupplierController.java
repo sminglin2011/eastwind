@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -69,12 +70,13 @@ public class SupplierController {
 	}
 	@RequestMapping(value="/editSupplier.htm")
 	public ModelAndView editSupplier(ModelMap model, String id) {
+		log.debug("supplier id = " + id);
 		Supplier supplier = supplierService.loadSupplier(id);
 		model.put("supplier", supplier);
 		return new ModelAndView("supplier/new_supplier");
 	}
 	@RequestMapping(value="/saveSupplier.htm")
-	public Object saveSupplier(Supplier supplier, HttpServletResponse res) {
+	public Object saveSupplier(@RequestBody Supplier supplier, HttpServletResponse res) {
 		log.debug("save supplier = " + supplier);
 		Map<String, Object> map = new HashMap<>();
 	    map.put("status", "y");
@@ -86,5 +88,17 @@ public class SupplierController {
 			e.printStackTrace();
 		}
 		return com.web.views.JsonView.Render(map, res);
+	}
+	@ResponseBody
+	@RequestMapping(value="deleteSupplier.htm")
+	public String deleteSupplier(ModelMap model, String id) {
+		log.debug("be deleted customer id = " + id);
+		try {
+			supplierService.deleteSupplier(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "e";
+		}
+		return "y";
 	}
 }

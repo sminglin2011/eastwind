@@ -135,18 +135,18 @@
 		location.replace(url)
 	}
 	
-	function customer_del(obj, id) {
+	function supplier_del(obj, id) {
 		layer.confirm('确认要删除吗？',function(index){
 			$.ajax({
 				  method: "POST",
-				  url: "deleteCustomer.htm",
+				  url: "deleteSupplier.htm",
 				  data: { id: id },
 				  success: function(data) {
 					  if(data == 'y') {
 						  layer.msg('删除成功!');
 						  location.replace(location.href);
 					  } else {
-						  layer.msg('ERROR!! There are contact details');
+						  layer.msg('ERROR!! ');
 					  }
 				  }, error: function(data) {
 					  layer.msg('system error, please contact administrator')

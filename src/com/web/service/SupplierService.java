@@ -58,7 +58,7 @@ public class SupplierService {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void saveSupplier(Supplier supplier){
-		if (supplier.getId() == null || supplier.getId() == 0) {
+		if (supplier.getId() == null ||supplier.getId() == 0) {
 			supplierDao.saveSupplier(supplier);
 		} else {
 			supplierDao.updateSupplier(supplier);
