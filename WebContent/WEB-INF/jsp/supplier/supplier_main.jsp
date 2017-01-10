@@ -15,11 +15,12 @@
 </head>
 <body>
 	<nav class="breadcrumb">
-		<i class="Hui-iconfont">&#xe67f;</i> Home <span class="c-gray en">&gt;</span>
-		Supplier Manager <span class="c-gray en">&gt;</span> Supplier Listing <a
+		<i class="Hui-iconfont">&#xe67f;</i> <fmt:message key="home" /> <span class="c-gray en">&gt;</span>
+		<fmt:message key="module.supplier" /> <span class="c-gray en">&gt;</span> 
+		<fmt:message key="module.supplier.listing" /> <a
 			class="btn btn-success radius r btn-refresh"
 			style="line-height: 1.6em; margin-top: 3px"
-			href="javascript:location.replace(location.href);" onclick="javascript:location.replace(location.href);" title="Refresh"><i
+			href="javascript:location.replace(location.href);" onclick="javascript:location.replace(location.href);" title="Reload"><i
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	<div class="page-container">
@@ -28,7 +29,7 @@
 			<input type="text" name="keyword" id="keyword" placeholder="keyword" value="${keyword }"
 				style="width: 250px" class="input-text">
 			<button name="" id="" class="btn btn-success" type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> Search
+				<i class="Hui-iconfont">&#xe665;</i> <fmt:message key="search" />
 			</button>
 			</form>
 		</div>
@@ -40,11 +41,11 @@
 				class="table table-border table-bordered table-bg table-hover table-sort">
 				<thead>
 					<tr class="text-c">
-						<th width="25"><input type="checkbox" name="" value=""></th>
+						<th width="5"><input type="checkbox" name="" value=""></th>
 						<th width="5%">SN</th>
-						<th width="50%">Supplier Name</th>
+						<th width="40%">Supplier Name</th>
 						<th width="10%">Terms</th>
-						<th width="10%">Account Code</th>
+						<th width="15%">Account Code</th>
 						<th width="25%">ACTION</th>
 					</tr>
 				</thead>
@@ -59,8 +60,13 @@
 							<td>${supplier.accountCode }</td>
 							<td class="f-14 td-manage">
 								<a style="text-decoration: none" class="ml-5"
+								onClick="openWind('Edit Supplier','editSupplier.htm?id=${supplier.id}')"
+								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i>
+								</a>
+								<a style="text-decoration: none" class="ml-5"
 								onClick="supplier_del(this,${supplier.id})" href="javascript:;"
-								title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+								title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a>
+							</td>
 						</tr>
 					</c:forEach>
 					
@@ -74,14 +80,39 @@
 	$('.table-sort').dataTable({
 		//"aaSorting" : [ [ 1, "desc" ] ],
 		//默认第几个排序
-		"bStateSave" : false,//状态保存
-		"aoColumnDefs" : [
+		//"bStateSave" : false,//状态保存
+		//"aoColumnDefs" : [
 		//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		{
-			"orderable" : false,
-			"aTargets" : [ 0, 1, 2, 3 ]
-		} // 不参与排序的列
-		]
+		//{
+		//	"orderable" : false,
+		//	"aTargets" : [ 0, 1, 2, 3, 4, 5 ]
+		//} // 不参与排序的列
+		//]
+		"bSort": false, // not sorting
+		"language": {
+		    "decimal":        "",
+		    "emptyTable":     "No data available in table",
+		    "info":           "Showing _START_ to _END_ of _TOTAL_ entries",
+		    "infoEmpty":      "Showing 0 to 0 of 0 entries",
+		    "infoFiltered":   "(filtered from _MAX_ total entries)",
+		    "infoPostFix":    "",
+		    "thousands":      ",",
+		    "lengthMenu":     "Show _MENU_ entries",
+		    "loadingRecords": "Loading...",
+		    "processing":     "Processing...",
+		    "search":         "Search: ",
+		    "zeroRecords":    "No matching records found",
+		    "paginate": {
+		        "first":      "First",
+		        "last":       "Last",
+		        "next":       "Next",
+		        "previous":   "Previous"
+		    },
+		    "aria": {
+		        "sortAscending":  ": activate to sort column ascending",
+		        "sortDescending": ": activate to sort column descending"
+		    }
+		}
 	});
 	/*
 	参数解释：

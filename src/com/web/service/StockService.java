@@ -61,4 +61,10 @@ public class StockService {
 		/*****这里看是否可以过滤点category 通过list*****/
 		return list;
 	}
+	
+	/***************************************** stock item supplier ******************************************************/
+	public List loadStockItemSupplieryListByStockId(String stockId) {
+		return stockDao.fetchStockItemSupplieryListByStockId(Integer.parseInt(stockId));
+	}
+	/***************************************** stock item supplier end ****************************************/
 }

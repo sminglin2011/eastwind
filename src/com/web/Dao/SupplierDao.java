@@ -34,7 +34,7 @@ public class SupplierDao {
 	
 	public List fetchSupplierList() {
 		List  list = null;
-		String sql = "select * from supplier orde by id desc";
+		String sql = "select id, name, terms, accountCode from supplier s order by s.id desc";
 		list = jdbcTemplate.queryForList(sql);
 		return list;
 	}

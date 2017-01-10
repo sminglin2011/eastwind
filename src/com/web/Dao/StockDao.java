@@ -112,4 +112,19 @@ public class StockDao {
 		return list;
 	}
 	
+	
+	/***************************************** stock item supplier ******************************************************/
+	public List fetchStockItemSupplieryListByStockId(int stockId) {
+		List list = null;
+		String sql = "select sis.id, sis.stockId, si.description, si.description1," 
+						+ " sis.supplierid, s.name,"
+						+ " sis.price, sis.isdefault"
+						+ " from stockitemsuppplier sis"
+						+ " left join stockitem si on sis.stockid = si.id"
+						+ " left join supplier s on s.id = sis.supplierId"
+						+ " where sis.stockid = ? order by sis.isdefault";
+		list = jdbcTemplate.queryForList(sql, stockId);
+		return list;
+	}
+	/***************************************** stock item supplier end ****************************************/
 }

@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div class="page-container">
-		<form action="saveCustomer.htm" method="post" class="form form-horizontal responsive" id="form-supplier">
+		<form action="saveSupplier.htm" method="post" class="form form-horizontal responsive" id="form-supplier">
 		<div class="row cl">
 			<label class="form-label col-xs-2">Supplier Name：</label>
 			<div class="formControls col-xs-4">

@@ -11,15 +11,16 @@
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <%@ include file="/WEB-INF/jsp/_meta.jsp"%>
-<title>库存管理</title>
+<title><fmt:message key="module.inventory" /></title>
 </head>
 <body>
 	<nav class="breadcrumb">
-		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-		库存管理 <span class="c-gray en">&gt;</span> 库存项目列表 <a
+		<i class="Hui-iconfont">&#xe67f;</i> <fmt:message key="home" /> <span class="c-gray en">&gt;</span>
+		<fmt:message key="module.inventory" /><span class="c-gray en">&gt;</span> 
+		<fmt:message key="module.inventory.listing" /> <a
 			class="btn btn-success radius r"
 			style="line-height: 1.6em; margin-top: 3px"
-			href="javascript:location.replace(location.href);" onclick="javascript:location.replace(location.href);" title="刷新"><i
+			href="javascript:location.replace(location.href);" onclick="javascript:location.replace(location.href);" title="Reload"><i
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	<div class="page-container">
@@ -33,16 +34,16 @@
 					</c:forEach>
 			</select>
 			</span>
-			<input type="text" name="keyword" id="keyword" placeholder=" 关键字" value="${model.keyword }"
+			<input type="text" name="keyword" id="keyword" placeholder=" <fmt:message key="keyword" />" value="${model.keyword }"
 				style="width: 250px" class="input-text">
 			<button name="" id="" class="btn btn-success" type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> 查询
+				<i class="Hui-iconfont">&#xe665;</i> <fmt:message key="search" />
 			</button>
 			</form>
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
 			<span class="l">
-			<a href="javascript:;" onclick="stock_add('新建项目','newStock.htm','800','520')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 新建项目</a>
+			<a href="javascript:;" onclick="stock_add('新建项目','newStock.htm','800','520')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="new" /></a>
 			</span>
 		</div>
 		<div class="mt-20">
@@ -50,13 +51,13 @@
 				class="table table-border table-bordered table-bg table-hover table-sort">
 				<thead>
 					<tr class="text-c">
-						<th width="5"><input type="checkbox" name="" value=""></th>
-						<th>项目描述</th>
-						<th>项目描述1</th>
-						<th width="100">Category</th>
-						<th width="100">单位</th>
-						<th width="100">平均单价</th>
-						<th width="120">操作</th>
+						<th width="5%"><input type="checkbox" name="" value=""></th>
+						<th width="25%">项目描述</th>
+						<th width="25%">项目描述1</th>
+						<th width="10%">Category</th>
+						<th width="5%">单位</th>
+						<th width="10%">平均单价</th>
+						<th width="20%"><fmt:message key="action" /></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -68,13 +69,19 @@
 							<td> ${stock.category }</td>
 							<td> ${stock.unitMs }</td>
 							<td> ${stock.avgUnitPrice }</td>
-							<td class="f-14 td-manage"><a
-								style="text-decoration: none" class="ml-5"
+							<td class="f-14 td-manage">
+							<a href="javascript:;" class="btn btn-primary radius"
+								onclick="openWind('StockItemSupplier','stockItemSupplier.htm?stockId=${stock.id}')"><fmt:message key="module.supplier" />
+							</a>
+							<a style="text-decoration: none" class="ml-5"
 								onClick="stock_edit('Stock编辑','editStock.htm?id=${stock.id}')"
-								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
-								<a style="text-decoration: none" class="ml-5"
+								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i>
+							</a>
+							<a style="text-decoration: none" class="ml-5"
 								onClick="stock_del(this,${stock.id})" href="javascript:;"
-								title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+								title="删除"><i class="Hui-iconfont">&#xe6e2;</i>
+							</a>
+							</td>
 						</tr>
 					</c:forEach>
 					
@@ -86,15 +93,31 @@
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script type="text/javascript">
 	$('.table-sort').dataTable({
-		"aaSorting" : [ [ 1, "desc" ] ],//默认第几个排序
-		"bStateSave" : true,//状态保存
-		"aoColumnDefs" : [
-		//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		{
-			"orderable" : false,
-			"aTargets" : [ 0, 6 ]
-		} // 不参与排序的列
-		]
+		"bSort": false, // not sorting
+		"language": {
+		    "decimal":        "",
+		    "emptyTable":     "No data available in table",
+		    "info":           "Showing _START_ to _END_ of _TOTAL_ entries",
+		    "infoEmpty":      "Showing 0 to 0 of 0 entries",
+		    "infoFiltered":   "(filtered from _MAX_ total entries)",
+		    "infoPostFix":    "",
+		    "thousands":      ",",
+		    "lengthMenu":     "Show _MENU_ entries",
+		    "loadingRecords": "Loading...",
+		    "processing":     "Processing...",
+		    "search":         "Search: ",
+		    "zeroRecords":    "No matching records found",
+		    "paginate": {
+		        "first":      "First",
+		        "last":       "Last",
+		        "next":       "Next",
+		        "previous":   "Previous"
+		    },
+		    "aria": {
+		        "sortAscending":  ": activate to sort column ascending",
+		        "sortDescending": ": activate to sort column descending"
+		    }
+		}
 	});
 	/*
 	参数解释：
@@ -104,6 +127,14 @@
 	w		弹出层宽度（缺省调默认值）
 	h		弹出层高度（缺省调默认值）
 	*/
+	function openWind(title, url) {
+		var index = layer.open({
+			type : 2,
+			title : title,
+			content : url
+		});
+		layer.full(index);
+	}
 	/*增加*/
 	function stock_add(title,url,w,h){
 		layer_show(title,url,w,h);

@@ -1,5 +1,6 @@
 package com.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,12 +8,15 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.web.domain.StockItem;
+import com.web.domain.StockItemSupplier;
 import com.web.service.StockService;
+import com.web.service.SupplierService;
 
 @Controller
 public class StockController {
@@ -21,6 +25,8 @@ public class StockController {
 	
 	@Autowired
 	private StockService stockService;
+	@Autowired
+	private SupplierService suppliceSvc;
 
 	@RequestMapping(value="/stockMain.htm")
 	public ModelAndView stockMain() {
@@ -95,4 +101,24 @@ public class StockController {
 		model.put("categoryList", categoryList);
 		return new ModelAndView("stock/edit_stock","model",model);
 	}
+	
+	/***************************************** Stock Item Supplier **********************************************/
+	@RequestMapping(value="/stockItemSupplier.htm")
+	public ModelAndView stockItemSupplier(ModelMap model, String stockId) {
+		log.debug("go in to item supplier listing");
+		StockItem stockItem = stockService.loadStock(Integer.parseInt(stockId));
+		List stockItemSupplierList = stockService.loadStockItemSupplieryListByStockId(stockId);
+		List supplierList = suppliceSvc.loadSupplierList();
+		log.debug("???? supplier List = " + supplierList);
+		model.put("stockItem", stockItem);
+		model.put("stockItemSupplierList", stockItemSupplierList);
+		model.put("supplierList", supplierList);
+		return new ModelAndView("stock/stock_item_supplier");
+	}
+	@RequestMapping(value="/addStockItemSupplier.htm")
+	public String addStockItemSupplier(ModelMap model, String stockId, String SupplierId, String price) {
+		
+		return "redirct:stockItemSupplier.htm?stockId=" +stockId;
+	}
+	/***************************************** Stock Item Supplier end *******************************************/
 }
