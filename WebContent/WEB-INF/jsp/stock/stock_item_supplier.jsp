@@ -17,21 +17,18 @@
 	<div class="page-container">
 		<div class="text-l"> Stock Description：
 		${stockItem.description}
-		<div class="text-r">
 		<span class="select-box" style="width:150px;">
-			<select class="select" name="supplierId" size="1">
+			<select class="select" name="supplierId" size="1" datatype="" >
 				<option value="0">Add Supplier</option>
-				<c:forEach items="supplierList" var="supplier">
-				<c:choose>
-				    <c:when test="${supplierList.size() > 0 }">
-				        <option value="${supplier.id}" >${supplier.name}</option>          
-				    </c:when>
-				</c:choose> 
+				<c:forEach items="${supplierList}" var="supplier" varStatus="status">
+				<option value="0">${supplier.name }</option>
 				</c:forEach>
 			</select>
 		</span>
-		<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe600;</i> Add Supplier</button>
-		</div>
+		<input type="text" placeholder="price" id="price" name="price" style="width: 100px" >
+		<input type="text" placeholder="Unit Of Measur" id="uom" name="uom" style="width: 100px" >
+		<span><input type="checkbox" id="isdefault">is default</span>
+		<button type="submit" class="btn btn-success"><i class="Hui-iconfont">&#xe600;</i> Add Supplier</button>
 		</div>
 		
 		<div class="mt-20">
