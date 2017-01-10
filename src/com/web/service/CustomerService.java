@@ -127,7 +127,10 @@ public class CustomerService {
 	public void updateCustomerBillContact(CustomerBillContact billContact) {
 		customerDao.updateCustomerBillContact(billContact);
 	}
-
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void deleteBillContact(String id) {
+		customerDao.deleteCustomerBillContact(Integer.parseInt(id));
+	}
 	/********************************** Customer BillContact *********************************************/
 	
 	/********************************** Customer DeliveryContact *********************************************/
@@ -154,6 +157,10 @@ public class CustomerService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void updateCustomerDeliveryContact(CustomerDeliveryContact deliveryContact) {
 		customerDao.updateCustomerDeliveryContact(deliveryContact);
+	}
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void deleteDeliveryContact(String id) {
+		customerDao.deleteCustomerDeliveryContact(Integer.parseInt(id));
 	}
 	/********************************** Customer DeliveryContact *********************************************/
 	

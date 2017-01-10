@@ -11,17 +11,17 @@
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <%@ include file="/WEB-INF/jsp/_meta.jsp"%>
-<title>Customer Details</title>
+<title></title>
 </head>
 <body>
 	<div class="page-container">
-		<form action="" method="post" class="form form-horizontal responsive" id="form-deliveryContact">
+		<form action="saveCustomerDeliveryContact.htm" method="post" class="form form-horizontal responsive" id="form-deliveryContact">
 		<div class="row cl">
-			<label class="form-label col-xs-6">Customer Name：${model.customer.name}</label>
+			<label class="form-label col-xs-6">Customer Name：${customer.name}</label>
 			<div class="formControls col-xs-1">
 				
-				<input type="hidden" id="id" name="id">
-				<input type="hidden" id="customerId" name="customerId">
+				<input type="hidden" id="id" name="id" value="${deliveryContact.id}">
+				<input type="hidden" id="customerId" name="customerId" value="${customer.id}">
 			</div>
 		</div>
 		<h4>Delivery Information</h4>
@@ -30,45 +30,53 @@
 		<div class="row cl">
 			<label class="form-label col-xs-3">Delivery Attention：</label>
 			<div class="formControls col-xs-3">
-				<input type="text" class="input-text" placeholder="Delivery Attention" name="deliveryContact.deliveryAttention" id="deliveryAttention" datatype="*3-50" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Attention" name="deliveryAttention" 
+				id="deliveryAttention" datatype="*3-50" ignore="ignore" value="${deliveryContact.deliveryAttention}">
 			</div>
 			<label class="form-label col-xs-3">Delivery Email：</label>
 			<div class="formControls col-xs-3">
-				<input type="text" class="input-text" placeholder="Delivery Email" name="deliveryContact.deliveryEmail" id="deliveryEmail" datatype="e" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Email" name="deliveryEmail" 
+				id="deliveryEmail" datatype="e" ignore="ignore" value="${deliveryContact.deliveryEmail}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3">Delivery Mobile：</label>
 			<div class="formControls col-xs-3">
-				<input type="text" class="input-text" placeholder="Delivery Mobile" name="deliveryContact.deliveryMobile" id="deliveryMobile" datatype="n" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Mobile" name="deliveryMobile" 
+				id="deliveryMobile" datatype="n" ignore="ignore" value="${deliveryContact.deliveryMobile}">
 			</div>
 			<label class="form-label col-xs-3">Delivery Telephone：</label>
 			<div class="formControls col-xs-3">
-				<input type="text" class="input-text" placeholder="Delivery Telephone" name="deliveryContact.deliveryTelephone" id="deliveryTelephone" datatype="n" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Telephone" name="deliveryTelephone" 
+				id="deliveryTelephone" datatype="n" ignore="ignore" value="${deliveryContact.deliveryTelephone}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3">Delivery PostCode：</label>
 			<div class="formControls col-xs-3">
-				<input type="text" class="input-text" placeholder="Delivery PostCode" name="deliveryContact.deliveryPostcode" id="deliveryPostcode" datatype="n6-6" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery PostCode" name="deliveryPostcode" 
+				id="deliveryPostcode" datatype="n6-6" ignore="ignore" value="${deliveryContact.deliveryPostcode}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3">Delivery Address：</label>
 			<div class="formControls col-xs-6">
-				<input type="text" class="input-text" placeholder="Delivery Address1" name="deliveryContact.deliveryAddress1" id="deliveryAddress1" datatype="*3-50" ignore="ignore">
+				<input type="text" class="input-text" placeholder="Delivery Address1" name="deliveryAddress1" 
+				id="deliveryAddress1" datatype="*3-50" ignore="ignore" value="${deliveryContact.deliveryAddress1}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3"></label>
 			<div class="formControls col-xs-6">
-				<input type="text" class="input-text" placeholder="Delivery Address2" name="deliveryContact.deliveryAddress2" id="deliveryAddress2">
+				<input type="text" class="input-text" placeholder="Delivery Address2" name="deliveryAddress2" 
+				id="deliveryAddress2" value="${deliveryContact.deliveryAddress2}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3"></label>
 			<div class="formControls col-xs-6">
-				<input type="text" class="input-text" placeholder="Delivery Address3" name="deliveryContact.deliveryAddress3" id="deliveryAddress3">
+				<input type="text" class="input-text" placeholder="Delivery Address3" name="deliveryAddress3" 
+				id="deliveryAddress3" value="${deliveryContact.deliveryAddress3}">
 			</div>
 		</div>
 		<div class="row cl">
@@ -82,22 +90,18 @@
 	</div>
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
-<script type="text/javascript" src="lib/Validform/5.3.2/Validform.min.js"></script>
+<script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#form-customer").Validform({
+	$("#form-deliveryContact").Validform({
 		tiptype:3,
-		ajaxPost:true,
-		callback:function(data){
-			//form[0].submit(); 直接提交表单
-			//ajaxPost(flag,sync,url); flag = true 跳过验证直接提交表单， sync = true 同步提交
-			//layer.msg(data.status);
-			/* var index = parent.layer.getFrameIndex(window.name);
-			parent.location.replace(parent.location.href)
-			parent.layer.close(index); */
+		beforeSubmit: function(form) {
+			$.sndPostAjax(form);
+			return false;
 		}
 	});
 });
+
 
 </script>
 </html>

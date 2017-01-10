@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.web.domain.Customer;
 import com.web.domain.CustomerBillContact;
+import com.web.domain.CustomerDeliveryContact;
 import com.web.exception.ParameterException;
 import com.web.service.CustomerService;
 
@@ -119,8 +120,6 @@ public class CustomerController { //extends BaseController
 		}
 		return "y";
 	}
-	/************************************* customer end *********************************************/
-	
 	@RequestMapping(value="/customerContactMaster.htm")
 	public ModelAndView customerContactMaster(ModelMap model, String customerId) {
 		log.debug("customerContactMaster come " + customerId);
@@ -145,17 +144,7 @@ public class CustomerController { //extends BaseController
 		
 		return new ModelAndView("customer/contact_main");
 	}
-	
-	
-	@RequestMapping(value="/newCustomerDeliveryContact.htm")
-	public ModelAndView newCustomerDeliveryContact(ModelMap model, String customerId) {
-		log.debug("??????????");
-		Customer customer = customerService.loadCustomer(customerId);
-		model.put("customer", customer);
-		return new ModelAndView("customer/new_customerDeliveryContact");
-	}
-	
-	
+	/************************************* customer end *********************************************/
 	
 	/************************************* customer bill contact *********************************************/
 	@RequestMapping(value="/newCustomerBillContact.htm")
@@ -197,7 +186,66 @@ public class CustomerController { //extends BaseController
 	   
 	    return com.web.views.JsonView.Render(map, res);
 	}
-	/************************************* customer bill contact *********************************************/
+	@ResponseBody
+	@RequestMapping(value="deleteBillContact.htm")
+	public String deleteBillContact(ModelMap model, String id) {
+		log.debug("be deleted customer bill contact id = " + id);
+		try {
+			customerService.deleteBillContact(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "e";
+		}
+		return "y";
+	}
+	/************************************* customer bill contact end *********************************************/
 	
+	/************************************* customer delivery contact *********************************************/
 	
+	@RequestMapping(value="/newCustomerDeliveryContact.htm")
+	public ModelAndView newCustomerDeliveryContact(ModelMap model, String customerId) {
+		log.debug("??????????");
+		Customer customer = customerService.loadCustomer(customerId);
+		model.put("customer", customer);
+		return new ModelAndView("customer/new_customerDeliveryContact");
+	}
+	@RequestMapping(value="/editCustomerDeliveryContact.htm")
+	public ModelAndView editCustomerDeliveryContact(ModelMap model, String id) {
+		log.debug("edit Customer delivery contact id = " + id);
+		CustomerDeliveryContact deliveryContact = new CustomerDeliveryContact();
+		deliveryContact = customerService.loadDeliveryContact(Integer.parseInt(id));
+		Customer customer = customerService.loadCustomer(String.valueOf(deliveryContact.getCustomerId()));
+		model.addAttribute("customer", customer);
+		model.addAttribute("deliveryContact", deliveryContact);
+		return new ModelAndView("customer/new_customerDeliveryContact");
+	}
+	@RequestMapping(value="/saveCustomerDeliveryContact.htm")
+	public Object saveCustomerDeliveryContact(ModelMap model, 
+			@RequestBody CustomerDeliveryContact deliveryContact, HttpServletResponse res) {
+		log.debug("model  =" + model);
+		log.debug(" <save deliveryContact contact + ????" + deliveryContact);
+		Map<String, Object> map = new HashMap<>();
+		    map.put("status", "y");
+		try {
+			customerService.saveCustomerDeliveryContact(deliveryContact);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	   
+	    return com.web.views.JsonView.Render(map, res);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="deleteDeliveryContact.htm")
+	public String deleteDeliveryContact(ModelMap model, String id) {
+		log.debug("be deleted customer delivery contact id = " + id);
+		try {
+			customerService.deleteDeliveryContact(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "e";
+		}
+		return "y";
+	}
+	/************************************* customer delivery contact end *********************************************/
 }

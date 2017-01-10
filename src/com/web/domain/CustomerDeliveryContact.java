@@ -16,7 +16,7 @@ public class CustomerDeliveryContact implements Serializable{
 	private String customerName;
 	private String deliveryAttention;
 	private String deliveryTelephone;
-	private String deliverylMobile;
+	private String deliveryMobile;
 	private String deliveryEmail;
 	private String deliveryAddress1;
 	private String deliveryAddress2;

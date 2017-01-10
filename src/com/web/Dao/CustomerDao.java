@@ -163,7 +163,7 @@ public class CustomerDao {
 			public CustomerBillContact mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CustomerBillContact billContact = new CustomerBillContact();
 				billContact.setId(rs.getInt("id"));
-				billContact.setCustomerId(rs.getInt("custoemrId"));
+				billContact.setCustomerId(rs.getInt("customerId"));
 				billContact.setBillAttention(rs.getString("billAttention"));
 				billContact.setBillTelephone(rs.getString("billTelephone"));
 				billContact.setBillMobile(rs.getString("billMobile"));
@@ -220,6 +220,17 @@ public class CustomerDao {
 		}
 		return i;
 	}
+	public void deleteCustomerBillContact(Integer id) {
+		String sql = "delete from customerBillContact where id = ?";
+		log.debug("dao delete customerBillContact sql = " + sql);
+		try {
+			jdbcTemplate.update(sql, id);
+		} catch (DataAccessException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+	}
 	/***************************** billContact **********************************************/
 	
 	/***************************** deliveryContact **********************************************/
@@ -242,10 +253,10 @@ public class CustomerDao {
 			public CustomerDeliveryContact mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CustomerDeliveryContact deliveryContact = new CustomerDeliveryContact();
 				deliveryContact.setId(rs.getInt("id"));
-				deliveryContact.setCustomerId(rs.getInt("custoemrId"));
+				deliveryContact.setCustomerId(rs.getInt("customerId"));
 				deliveryContact.setDeliveryAttention(rs.getString("deliveryAttention"));
 				deliveryContact.setDeliveryTelephone(rs.getString("deliveryTelephone"));
-				deliveryContact.setDeliverylMobile(rs.getString("deliverylMobile"));
+				deliveryContact.setDeliveryMobile(rs.getString("deliveryMobile"));
 				deliveryContact.setDeliveryEmail(rs.getString("deliveryEmail"));
 				deliveryContact.setDeliveryAddress1(rs.getString("deliveryAddress1"));
 				deliveryContact.setDeliveryAddress2(rs.getString("deliveryAddress2"));
@@ -271,7 +282,7 @@ public class CustomerDao {
 		int i = 0;
 		try {
 			jdbcTemplate.update(sql,deliveryContact.getCustomerId(), deliveryContact.getDeliveryAttention(), deliveryContact.getDeliveryTelephone()
-					, deliveryContact.getDeliverylMobile(), deliveryContact.getDeliveryEmail(), deliveryContact.getDeliveryAddress1()
+					, deliveryContact.getDeliveryMobile(), deliveryContact.getDeliveryEmail(), deliveryContact.getDeliveryAddress1()
 					, deliveryContact.getDeliveryAddress2(), deliveryContact.getDeliveryAddress3(), deliveryContact.getDeliveryPostcode());
 		} catch (DataAccessException e) {
 			log.error(e.getMessage());
@@ -289,7 +300,7 @@ public class CustomerDao {
 		int i = 0;
 		try {
 			jdbcTemplate.update(sql, deliveryContact.getCustomerId(), deliveryContact.getDeliveryAttention(), deliveryContact.getDeliveryTelephone()
-					, deliveryContact.getDeliverylMobile(), deliveryContact.getDeliveryEmail(), deliveryContact.getDeliveryAddress1()
+					, deliveryContact.getDeliveryMobile(), deliveryContact.getDeliveryEmail(), deliveryContact.getDeliveryAddress1()
 					, deliveryContact.getDeliveryAddress2(), deliveryContact.getDeliveryAddress3(), deliveryContact.getDeliveryPostcode()
 					, deliveryContact.getId());
 		} catch (DataAccessException e) {
@@ -298,6 +309,18 @@ public class CustomerDao {
 			throw e;
 		}
 		return i;
+	}
+	
+	public void deleteCustomerDeliveryContact(Integer id) {
+		String sql = "delete from customerDeliveryContact where id = ?";
+		log.debug("dao delete customerDeliveryContact sql = " + sql);
+		try {
+			jdbcTemplate.update(sql, id);
+		} catch (DataAccessException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	/***************************** deliveryContact **********************************************/
 	

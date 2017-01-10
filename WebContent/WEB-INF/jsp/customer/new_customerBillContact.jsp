@@ -19,7 +19,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-6">Customer Name：${customer.name}</label>
 			<div class="formControls col-xs-1">
-				<input type="hidden" id="id" name="id" value="0">
+				<input type="hidden" id="id" name="id" value="${billContact.id}">
 				<input type="hidden" id="customerId" name="customerId" value="${customer.id}">
 				<input type="hidden" id="billFax" name="billFax" >
 			</div>
@@ -31,50 +31,50 @@
 			<label class="form-label col-xs-3">Bill Attention：</label>
 			<div class="formControls col-xs-3">
 				<input type="text" class="input-text" placeholder="Bill Attention" name="billAttention" id="billAttention" 
-					datatype="*3-18" nullmsg="Not Empty!" errormsg="3 to 18 Characters!" sucmsg="Success">
+					datatype="*3-18" nullmsg="Not Empty!" errormsg="3 to 18 Characters!" sucmsg="Success" value="${billContact.billAttention}">
 			</div>
 			<label class="form-label col-xs-3">Bill Email：</label>
 			<div class="formControls col-xs-3">
 				<input type="text" class="input-text" placeholder="Bill Email" name="billEmail" id="billEmail" 
-				datatype="e" ignore="ignore" errormsg="Email Address Incorect!" sucmsg="Success">
+				datatype="e" ignore="ignore" errormsg="Email Address Incorect!" sucmsg="Success" value="${billContact.billEmail}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3">Bill Mobile：</label>
 			<div class="formControls col-xs-3">
 				<input type="text" class="input-text" placeholder="Bill Mobile" name="billMobile" id="billMobile" 
-					datatype="n8-8" ignore="ignore" errormsg="eg.66668888" sucmsg="Success">
+					datatype="n8-8" ignore="ignore" errormsg="eg.66668888" sucmsg="Success" value="${billContact.billMobile}">
 			</div>
 			<label class="form-label col-xs-3">Bill Telephone：</label>
 			<div class="formControls col-xs-3">
 				<input type="text" class="input-text" placeholder="Bill Telephone" name="billTelephone" id="billTelephone" 
-					datatype="n8-8" ignore="ignore" errormsg="eg.66668888" sucmsg="Success">
+					datatype="n8-8" ignore="ignore" errormsg="eg.66668888" sucmsg="Success" value="${billContact.billTelephone}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3">Bill PostCode：</label>
 			<div class="formControls col-xs-3">
 				<input type="text" class="input-text" placeholder="Bill PostCode" name="billPostcode" id="billPostcode" 
-					datatype="n6-6" ignore="ignore" nullmsg="Not Empty!" errormsg="eg.600116" sucmsg="Success">
+					datatype="n6-6" ignore="ignore" nullmsg="Not Empty!" errormsg="eg.600116" sucmsg="Success" value="${billContact.billPostcode}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3">Bill Address：</label>
 			<div class="formControls col-xs-6">
 				<input type="text" class="input-text" placeholder="Bill Address1" name="billAddress1" id="billAddress1" 
-					datatype="*3-50" ignore="ignore" errormsg="3 to 50 Characters!" sucmsg="Success">
+					datatype="*3-50" ignore="ignore" errormsg="3 to 50 Characters!" sucmsg="Success" value="${billContact.billAddress1}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3"></label>
 			<div class="formControls col-xs-6">
-				<input type="text" class="input-text" placeholder="Bill Address2" name="billAddress2" id="billAddress2">
+				<input type="text" class="input-text" placeholder="Bill Address2" name="billAddress2" id="billAddress2" value="${billContact.billAddress2}">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3"></label>
 			<div class="formControls col-xs-6">
-				<input type="text" class="input-text" placeholder="Bill Address3" name="billAddress3" id="billAddress3">
+				<input type="text" class="input-text" placeholder="Bill Address3" name="billAddress3" id="billAddress3" value="${billContact.billAddress3}">
 			</div>
 		</div>
 		<div class="row cl">
@@ -91,42 +91,13 @@
 <script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
 <script type="text/javascript" src="lib/Validform/5.3.2/message.js"></script>
 <script type="text/javascript">
-$.fn.serializeObject = function(){
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name]) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || null);
-        } else {
-            o[this.name] = this.value || null;
-        }
-    });
-    return o;
-};
+
 $(function(){
-	
 	//方法一;
 	$("#form-billContact").Validform({
 		tiptype:3,
 		beforeSubmit: function(form) {
-			console.log("JSON.stringify($(form).serializeObject())=",JSON.stringify($(form).serializeObject()));
-			console.log("$(form).serializeObject()=",$(form).serializeObject());
-			$.ajax({ 
-		        type: 'post', 
-		        url: $(form).attr("action"), 
-		        data: JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
-		        dataType:"json",
-		        contentType:"application/json;charset=UTF-8",
-		        success: function (data) { 
-		            console.log(data.status == 'y', "success log");
-		        },
-		        error: function(data){
-		        	console.log("error,log", data);
-		        }
-		    });
+			$.sndPostAjax(form);
 			return false;
 		}
 	});

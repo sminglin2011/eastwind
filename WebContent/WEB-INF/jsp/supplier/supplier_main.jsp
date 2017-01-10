@@ -11,29 +11,29 @@
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <%@ include file="/WEB-INF/jsp/_meta.jsp"%>
-<title>User Manager</title>
+<title>Supplier Manager</title>
 </head>
 <body>
 	<nav class="breadcrumb">
-		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-		客户管理 <span class="c-gray en">&gt;</span> 客户列表 <a
+		<i class="Hui-iconfont">&#xe67f;</i> Home <span class="c-gray en">&gt;</span>
+		Supplier Manager <span class="c-gray en">&gt;</span> Supplier Listing <a
 			class="btn btn-success radius r btn-refresh"
 			style="line-height: 1.6em; margin-top: 3px"
-			href="javascript:location.replace(location.href);" onclick="javascript:location.replace(location.href);" title="刷新"><i
+			href="javascript:location.replace(location.href);" onclick="javascript:location.replace(location.href);" title="Refresh"><i
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
-			<form class="form form-horizontal" action="customerFilterKeyword.htm" id="form-query">
-			<input type="text" name="keyword" id="keyword" placeholder=" 关键字" value="${keyword }"
+			<form class="form form-horizontal" action="supplierFilterKeyword.htm" id="form-query">
+			<input type="text" name="keyword" id="keyword" placeholder="keyword" value="${keyword }"
 				style="width: 250px" class="input-text">
 			<button name="" id="" class="btn btn-success" type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> 查询
+				<i class="Hui-iconfont">&#xe665;</i> Search
 			</button>
 			</form>
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-			<span class="l"> <a href="javascript:;" onclick="openWind('新建客户','newCustomer.htm')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 新建客户</a></span>
+			<span class="l"> <a href="javascript:;" onclick="openWind('New Supplier','newSupplier.htm')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> New Supplier</a></span>
 		</div>
 		<div class="mt-20">
 			<table
@@ -41,22 +41,26 @@
 				<thead>
 					<tr class="text-c">
 						<th width="25"><input type="checkbox" name="" value=""></th>
-						<th width="100">SN</th>
-						<th>客户名</th>
-						<th width="120">操作</th>
+						<th width="5%">SN</th>
+						<th width="50%">Supplier Name</th>
+						<th width="10%">Terms</th>
+						<th width="10%">Account Code</th>
+						<th width="25%">ACTION</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${list}" var="customer" varStatus="status">
+					<c:forEach items="${list}" var="supplier" varStatus="status">
 						<tr class="text-c">
 							<td><input type="checkbox" value="" name=""></td>
 							<td>${status.count }</td>
 							<td><a href="javascript:;" class="btn btn-link radius" 
-								onclick="loadPage('customerContactMaster.htm?customerId=${customer.id}')">${customer.name }</a></td>
+								onclick="loadPage('customerContactMaster.htm?customerId=${supplier.id}')">${supplier.name }</a></td>
+							<td>${supplier.terms }</td>
+							<td>${supplier.accountCode }</td>
 							<td class="f-14 td-manage">
 								<a style="text-decoration: none" class="ml-5"
-								onClick="customer_del(this,${customer.id})" href="javascript:;"
-								title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+								onClick="supplier_del(this,${supplier.id})" href="javascript:;"
+								title="Delete"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 						</tr>
 					</c:forEach>
 					

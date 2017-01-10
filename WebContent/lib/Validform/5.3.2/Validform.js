@@ -1,3 +1,19 @@
+$.fn.serializeObject = function(){
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || null);
+        } else {
+            o[this.name] = this.value || null;
+        }
+    });
+    return o;
+};
+
 /*
     通用表单验证方法
     Validform version 5.3.2
@@ -1021,8 +1037,8 @@
 					var localconfig={
 						type: "POST",
 						async:true,
-						//contentType: 'application/json',
-						data: curform.serializeArray(),
+						contentType:"application/json;charset=UTF-8",
+						data: JSON.stringify(curform.serializeObject()),//curform.serializeArray(),
 						success: function(data){
 							console.log("ajax post success!!!!!");
 							if($.trim(data.status)==="y"){
@@ -1332,5 +1348,27 @@
 		msgobj.hide();
 		msghidden=true;
 	};
-	
+	$.sndPostAjax = function(form){
+		$.ajax({ 
+	        type: 'post', 
+	        url: $(form).attr("action"), 
+	        data: JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
+	        dataType:"json",
+	        contentType:"application/json;charset=UTF-8",
+	        success: function (data) { 
+	            if(data.status == 'y'){
+	            	layer.msg("Success");
+	            	var index = parent.layer.getFrameIndex(window.name);
+	    			parent.location.replace(parent.location.href)
+	    			parent.layer.close(index);
+	            } else {
+	            	layer.msg("save error");
+	            }
+	        },
+	        error: function(data){
+	        	console.log("error,log", data);
+	        	layer.msg("system run ajax error");
+	        }
+	    });
+	}
 })(jQuery,window);

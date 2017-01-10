@@ -76,11 +76,9 @@
 								style="text-decoration: none" class="ml-5"
 								onClick="new_wind('Edit Bill Address','editCustomerBillContact.htm?id=${billContact.id}')"
 								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
-								<!-- 
 								<a style="text-decoration: none" class="ml-5"
-								onClick="stock_del(this,${menuCategory.id})" href="javascript:;"
+								onClick="contact_del(this,'deleteBillContact.htm',${billContact.id})" href="javascript:;"
 								title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
-								 -->
 							</td>
 						</tr>
 					</c:forEach>
@@ -94,7 +92,7 @@
 				<thead>
 					<tr>
 						<th scope="col" colspan="8">Delivery Contact
-						<a href="javascript:;" onclick="new_wind('New Delivery Address','newCustomerDeliveryContact.htm?customerId=${model.customer.id}')" class="btn btn-success radius"><i class="Hui-iconfont">&#xe600;</i> New Delivery Address</a>
+						<a href="javascript:;" onclick="new_wind('New Delivery Address','newCustomerDeliveryContact.htm?customerId=${customer.id}')" class="btn btn-success radius"><i class="Hui-iconfont">&#xe600;</i> New Delivery Address</a>
 						</th>
 					</tr>
 					<tr class="text-c">
@@ -109,7 +107,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${model.deliveryContactList}" var="deliveryContact" varStatus="status">
+					<c:forEach items="${deliveryContactList}" var="deliveryContact" varStatus="status">
 						<tr class="text-c">
 							<td><input type="checkbox" value="" name=""></td>
 							<td class=""> ${deliveryContact.deliveryAttention }</td>
@@ -120,13 +118,11 @@
 							<td class=""> ${deliveryContact.deliveryPostcode }</td>
 							<td class="f-14 td-manage"><a
 								style="text-decoration: none" class="ml-5"
-								onClick="menuCategory_edit(this,'${menuCategory.id}')"
+								onClick="new_wind('Edit Delivery Address','editCustomerDeliveryContact.htm?id=${deliveryContact.id}')"
 								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
-								<!-- 
 								<a style="text-decoration: none" class="ml-5"
-								onClick="stock_del(this,${menuCategory.id})" href="javascript:;"
+								onClick="contact_del(this,'deleteDeliveryContact.htm',${deliveryContact.id})" href="javascript:;"
 								title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
-								 -->
 							</td>
 						</tr>
 					</c:forEach>
@@ -137,7 +133,7 @@
 	</div>
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
-<script type="text/javascript" src="lib/Validform/5.3.2/Validform.min.js"></script>
+<script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
 <script type="text/javascript">
 $(function(){
 	$("#form-menuCategory").Validform({
@@ -164,11 +160,11 @@ $('.table-sort').dataTable({
 		layer_show(title,url,"800","520");
 	}
 	/*删除*/
-	function stock_del(obj,id){
+	function contact_del(obj,url,id){
 		layer.confirm('确认要删除吗？',function(index){
 			$.ajax({
 				  method: "POST",
-				  url: "deleteStock.htm",
+				  url: url,
 				  data: { id: id }
 				}).done(function( msg ) {
 				    layer.msg('删除成功!');
