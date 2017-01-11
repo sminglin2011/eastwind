@@ -19,15 +19,15 @@
 		<div class="text-l"> Stock Description：
 		${stockItem.description}
 		<input type="hidden" id="stockId" name="stockId" value="${stockItem.id}">
-		<input list="supplierList" name="supplierName" class="input-text" style="width: 400px">
+		<input list="supplierList" name="supplierName" class="input-text" style="width: 300px">
 		<datalist id="supplierList">
 		  		<c:forEach items="${supplierList}" var="supplier" varStatus="status">
 				<option value="${supplier.name}">
 				</c:forEach>
 		</datalist>
-		<input type="text" class="input-text" placeholder="price" id="price" name="price" style="width: 100px" datatype="/[0-9]+([.]{1}[0-9]+){0,1}$/"><!-- 只能输入整数或小数 -->
+		<input type="text" class="input-text" placeholder="price eg.:100.10" id="price" name="price" style="width: 100px" datatype="/[0-9]+([.]{1}[0-9]+){0,1}$/"><!-- 只能输入整数或小数 -->
 		<input type="text" class="input-text" placeholder="Unit Of Measur" id="uom" name="uom" style="width: 100px" datatype="/^[A-Za-z]+$/" >
-		<span><input type="checkbox" class="input-checkbox" id="isdefault">is default</span>
+		<label class=""><input type="checkbox" class="input-text" id="isdefault" name="isdefault" value=true style="width: 30px">is default</label>
 		<button type="submit" class="btn btn-success"><i class="Hui-iconfont">&#xe600;</i> Add Supplier</button>
 		</div>
 		</form>
@@ -55,7 +55,20 @@
 							<td class=""> ${stockItemSupplier.price }</td>
 							<td class=""> ${stockItemSupplier.isdefault }</td>
 							<td class="f-14 td-manage">
-							<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
+								<c:choose>
+								    <c:when test="${stockItemSupplier.isdefault}">
+								       <i class="Hui-iconfont">&#xe6a8;</i>
+								    </c:when>
+								    <c:otherwise>
+								       <a style="text-decoration:none" onClick="default_supplier(this,${stockItemSupplier.id })" href="javascript:;" title="Default Supplier">
+								       <i class="Hui-iconfont">&#xe608;</i>
+								       </a>
+								    </c:otherwise>
+								</c:choose>
+								<a style="text-decoration: none" class="ml-5"
+								onClick="removeSupplier(this,${stockItemSupplier.id})" href="javascript:;"
+								title="删除"><i class="Hui-iconfont">&#xe6e2;</i>
+								</a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -75,7 +88,27 @@ $(function(){
 			"f":/[0-9]+([.]{1}[0-9]+){0,1}$/, //只能输入整数或小数
 		},
 		beforeSubmit: function(form) {
-			$.sndPostAjax(form);
+			console.log($(form).serializeObject());
+			console.log("serializeArray",$(form).serializeArray());
+			$.ajax({ 
+		        type: 'post', 
+		        url: $(form).attr("action"), 
+		        data: JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
+		        dataType:"json",
+		        contentType:"application/json;charset=UTF-8",
+		        success: function (data) { 
+		            if(data.status == 'y'){
+		            	layer.msg("Success");
+		            	location.replace(location.href);
+		            } else {
+		            	layer.msg(data.errorMsg);
+		            }
+		        },
+		        error: function(data){
+		        	console.log("error,log", data);
+		        	layer.msg("system run ajax error");
+		        }
+		    });
 			return false;
 		}
 	});
@@ -93,24 +126,49 @@ $('.table-sort').dataTable({
 	w		弹出层宽度（缺省调默认值）
 	h		弹出层高度（缺省调默认值）
 	*/
-	function new_wind(title,url){
-		layer_show(title,url,"800","520");
+	/* default suppllier */
+	function default_supplier(obj,id){
+		$.ajax({ 
+	        type: 'post', 
+	        url: "defaultSupplier.htm", 
+	        data: {id:id}, //JSON.stringify serializeArray
+	        dataType:"json",
+	        //contentType:"application/json;charset=UTF-8", // 不用这个头部，后台就可以获取参数通过@RequestParam
+	        success: function (data) { 
+	            if(data.status == 'y'){
+	            	layer.msg("Success");
+	            	location.replace(location.href);
+	            } else {
+	            	layer.msg(data.errorMsg);
+	            }
+	        },
+	        error: function(data){
+	        	console.log("error,log", data);
+	        	layer.msg("system run ajax error");
+	        }
+	    });
 	}
-	/*删除*/
-	function contact_del(obj,url,id){
-		layer.confirm('确认要删除吗？',function(index){
-			$.ajax({
-				  method: "POST",
-				  url: url,
-				  data: { id: id }
-				}).done(function( msg ) {
-				    layer.msg('删除成功!');
-				    location.replace(location.href);
-				}).fail(function() {
-					layer.msg('删除出错!');
-				 });
-			
-		});
+	/** remove supplier */
+	function removeSupplier(obj,id){
+		$.ajax({ 
+	        type: 'post', 
+	        url: "removeSupplier.htm", 
+	        data: {id:id}, //JSON.stringify serializeArray
+	        dataType:"json",
+	        success: function (data) { 
+	            if(data.status == 'y'){
+	            	layer.msg("Success");
+	            	location.replace(location.href);
+	            } else {
+	            	layer.msg(data.errorMsg);
+	            }
+	        },
+	        error: function(data){
+	        	console.log("error,log", data);
+	        	layer.msg("system run ajax error");
+	        }
+	    });
 	}
+	
 </script>
 </html>

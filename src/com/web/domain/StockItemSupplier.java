@@ -17,6 +17,7 @@ public class StockItemSupplier implements Serializable{
 	private int supplierId;
 	private String supplierName;
 	private double price;
+	private String uom;
 	private boolean isdefault;
 
 }

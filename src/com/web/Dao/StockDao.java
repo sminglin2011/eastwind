@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.web.domain.Category;
 import com.web.domain.StockItem;
+import com.web.domain.StockItemSupplier;
 
 @Repository
 public class StockDao {
@@ -119,12 +120,53 @@ public class StockDao {
 		String sql = "select sis.id, sis.stockId, si.description, si.description1," 
 						+ " sis.supplierid, s.name,"
 						+ " sis.price, sis.isdefault"
-						+ " from stockitemsuppplier sis"
+						+ " from stockitemsupplier sis"
 						+ " left join stockitem si on sis.stockid = si.id"
 						+ " left join supplier s on s.id = sis.supplierId"
-						+ " where sis.stockid = ? order by sis.isdefault";
+						+ " where sis.stockid = ? order by sis.isdefault desc";
 		list = jdbcTemplate.queryForList(sql, stockId);
 		return list;
+	}
+	
+	public void saveStockItemSupplier(StockItemSupplier stockItemSupplier) {
+		String sql = "insert into stockItemSupplier (stockId, supplierId, price, uom, isdefault) values "
+				+ "(?, ?, ?, ?, ?)";
+		jdbcTemplate.update(sql, stockItemSupplier.getStockId(), stockItemSupplier.getSupplierId()
+				, stockItemSupplier.getPrice(), stockItemSupplier.getUom(), stockItemSupplier.isIsdefault());
+	}
+	/**
+	 * return stockId by stockItemSupplier id
+	 * @param id
+	 * @return
+	 */
+	public int returnStockIdFromStockItemSupplier(int id){
+		String sql = "select stockId from stockItemSupplier where id = ?";
+		int stockId = jdbcTemplate.queryForObject(sql, Integer.class, id);
+		return stockId;
+	}
+	/**
+	 * update isDefault = false all stockId = stockId
+	 * @param stockId
+	 */
+	public void updateNonDefaultStockItemSupplier(int stockId) {
+		String update_all_non_default = "update stockItemSupplier set isdefault = false where stockId = ?";
+		jdbcTemplate.update(update_all_non_default, stockId);
+	}
+	/**
+	 * update default stockItemSupplier
+	 * @param id
+	 */
+	public void updateDefaultStockItemSupplier(int id) {
+		String update_default = "update stockItemSupplier set isdefault = true where id = ?";
+		jdbcTemplate.update(update_default, id);
+	}
+	/***
+	 * remove supplier from stockItem
+	 * @param id
+	 */
+	public void deleteStockItemSupplier(int id) {
+		String delte_sql = "delete from stockItemSupplier where id = ?";
+		jdbcTemplate.update(delte_sql, id);
 	}
 	/***************************************** stock item supplier end ****************************************/
 }
