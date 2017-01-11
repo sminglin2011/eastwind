@@ -116,7 +116,7 @@ public class StockController {
 		return new ModelAndView("stock/stock_item_supplier");
 	}
 	@RequestMapping(value="/addStockItemSupplier.htm")
-	public String addStockItemSupplier(ModelMap model, String stockId, String SupplierId, String price) {
+	public String addStockItemSupplier(ModelMap model, String stockId, String SupplierName, String price, String uom) {
 		
 		return "redirct:stockItemSupplier.htm?stockId=" +stockId;
 	}

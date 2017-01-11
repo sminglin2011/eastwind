@@ -15,22 +15,22 @@
 </head>
 <body>
 	<div class="page-container">
+		<form class="form form-horizontal" action="addStockItemSupplier.htm" id="form-addStockItemSupplierForm">
 		<div class="text-l"> Stock Description：
 		${stockItem.description}
-		<span class="select-box" style="width:150px;">
-			<select class="select" name="supplierId" size="1" datatype="" >
-				<option value="0">Add Supplier</option>
-				<c:forEach items="${supplierList}" var="supplier" varStatus="status">
-				<option value="0">${supplier.name }</option>
+		<input type="hidden" id="stockId" name="stockId" value="${stockItem.id}">
+		<input list="supplierList" name="supplierName" class="input-text" style="width: 400px">
+		<datalist id="supplierList">
+		  		<c:forEach items="${supplierList}" var="supplier" varStatus="status">
+				<option value="${supplier.name}">
 				</c:forEach>
-			</select>
-		</span>
-		<input type="text" placeholder="price" id="price" name="price" style="width: 100px" >
-		<input type="text" placeholder="Unit Of Measur" id="uom" name="uom" style="width: 100px" >
-		<span><input type="checkbox" id="isdefault">is default</span>
+		</datalist>
+		<input type="text" class="input-text" placeholder="price" id="price" name="price" style="width: 100px" datatype="/[0-9]+([.]{1}[0-9]+){0,1}$/"><!-- 只能输入整数或小数 -->
+		<input type="text" class="input-text" placeholder="Unit Of Measur" id="uom" name="uom" style="width: 100px" datatype="/^[A-Za-z]+$/" >
+		<span><input type="checkbox" class="input-checkbox" id="isdefault">is default</span>
 		<button type="submit" class="btn btn-success"><i class="Hui-iconfont">&#xe600;</i> Add Supplier</button>
 		</div>
-		
+		</form>
 		<div class="mt-20">
 			<table
 				class="table table-border table-bordered table-bg table-hover table-sort">
@@ -69,10 +69,14 @@
 <script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#form-menuCategory").Validform({
+	$("#form-addStockItemSupplierForm").Validform({
 		tiptype:3,
-		callback:function(form){
-			form[0].submit();
+		datatype:{
+			"f":/[0-9]+([.]{1}[0-9]+){0,1}$/, //只能输入整数或小数
+		},
+		beforeSubmit: function(form) {
+			$.sndPostAjax(form);
+			return false;
 		}
 	});
 });
