@@ -23,6 +23,7 @@ public class MenuService {
 		return menuDao.fetchMenuCategoryList();
 	}
 	
+	
 	public MenuCategory loadMenuCategory(int id) {
 		return menuDao.fetchMenuCategory(id);
 	}

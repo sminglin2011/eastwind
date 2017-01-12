@@ -16,4 +16,5 @@ public class Supplier implements Serializable{
 	private String terms;
 	private Integer accountCode;
 
+	
 }

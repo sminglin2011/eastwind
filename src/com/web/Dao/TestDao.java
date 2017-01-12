@@ -15,6 +15,7 @@ public class TestDao {
 //	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
 	
+	
 	public List fetchList() {
 		List list = null;
 		String sql = "select * from m03staff";

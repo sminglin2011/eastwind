@@ -12,4 +12,5 @@ public class StockItem {
 	private double avgUnitPrice;
 	private int categoryId;
 	
+	
 }

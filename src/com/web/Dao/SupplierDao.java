@@ -24,6 +24,7 @@ public class SupplierDao {
 	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
 	
+	
 	public List fetchSupplierListByKeyword(String keyword) {
 		List list = null;
 		String sql = "select id, name, terms, accountCode from supplier where name like '%"+keyword+"%' or terms like '%"+keyword+"%'"

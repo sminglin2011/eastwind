@@ -18,7 +18,6 @@ public class IndexController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
         return new ModelAndView("main", "index", "index");
     }
 }

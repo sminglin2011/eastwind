@@ -38,6 +38,7 @@ public class StockController {
 	//封装jsonView 格式{status:y, errorMsg:''}
 	private Map<String, Object> map = new HashMap<>();
 
+	
 	@RequestMapping(value="/stockMain.htm")
 	public ModelAndView stockMain() {
 		log.debug("stockMain");

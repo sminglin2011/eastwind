@@ -27,6 +27,7 @@ public class MenuController {
 	@Autowired
 	private StockService stockService;
 	
+	
 	@RequestMapping(value="/menuMain.htm")
 	public ModelAndView menuMain() {
 		log.debug("menuMain");

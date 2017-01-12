@@ -23,6 +23,7 @@ public class MenuDao {
 	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
 	
+	
 	/************************ Menu Category *****************************/
 	public List fetchMenuCategoryList() {
 		List list = null;

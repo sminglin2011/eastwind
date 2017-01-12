@@ -13,6 +13,7 @@
 <%@ include file="/WEB-INF/jsp/_meta.jsp"%>
 <title>New Supplier</title>
 </head>
+
 <body>
 	<div class="page-container">
 		<form action="saveSupplier.htm" method="post" class="form form-horizontal responsive" id="form-supplier">

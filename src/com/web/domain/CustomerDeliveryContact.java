@@ -22,4 +22,5 @@ public class CustomerDeliveryContact implements Serializable{
 	private String deliveryAddress2;
 	private String deliveryAddress3;
 	private Integer deliveryPostcode;
+	
 }

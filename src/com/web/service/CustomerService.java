@@ -24,6 +24,7 @@ public class CustomerService {
 	@Autowired
 	private CustomerDao customerDao;
 
+	
 	/********************************** Customer *********************************************/
 	public List loadCustomerList() {
 		return customerDao.fetchCustomerList();

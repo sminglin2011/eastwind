@@ -138,5 +138,6 @@ public class StockService {
 		}
 		return map;
 	}
+	
 	/***************************************** stock item supplier end ****************************************/
 }

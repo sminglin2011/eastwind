@@ -14,6 +14,7 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 </head>
+
 <body>
 <article class="page-container">
 	<form class="form form-horizontal" id="form-new-stock" action="saveNewStock.htm">

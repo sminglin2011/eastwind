@@ -28,6 +28,7 @@ public class CustomerDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	
+	
 	/***************************** Customer **********************************************/
 	public List fetchCustomerList() {
 		List  list = null;

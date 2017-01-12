@@ -17,4 +17,5 @@ public class Customer implements Serializable{
 	
 	private CustomerBillContact billContact;
 	private CustomerDeliveryContact deliveryContact;
+	
 }

@@ -23,4 +23,5 @@ public class CustomerBillContact implements Serializable{
 	private String billAddress2;
 	private String billAddress3;
 	private Integer billPostcode;
+	
 }

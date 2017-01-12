@@ -20,4 +20,5 @@ public class StockItemSupplier implements Serializable{
 	private String uom;
 	private boolean isdefault;
 
+	
 }

@@ -18,6 +18,7 @@ public class SalesOrderService {
 	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
 	
+	
 	public List fetchSOList() {
 		List list = null;
 		String sql = "select sonumber, soDate, postStatus, billStatus, DeliverStatus,"

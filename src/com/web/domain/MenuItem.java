@@ -12,4 +12,5 @@ public class MenuItem {
 	private String menuItemGroupName;
 	private int stockId;
 	private String onlineName;
+	
 }

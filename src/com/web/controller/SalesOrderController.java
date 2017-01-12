@@ -19,6 +19,7 @@ public class SalesOrderController {
 	@Autowired
 	private SalesOrderService salesOrderService;
 
+	
 	@RequestMapping(value="/order_main.htm")
 	public ModelAndView order_main() {
 		log.debug("order_main");

@@ -128,6 +128,7 @@ public class StockDao {
 		return list;
 	}
 	
+	
 	public void saveStockItemSupplier(StockItemSupplier stockItemSupplier) {
 		String sql = "insert into stockItemSupplier (stockId, supplierId, price, uom, isdefault) values "
 				+ "(?, ?, ?, ?, ?)";

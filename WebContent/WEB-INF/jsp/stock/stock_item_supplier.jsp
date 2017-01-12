@@ -13,6 +13,7 @@
 <%@ include file="/WEB-INF/jsp/_meta.jsp"%>
 <title>Menu Category</title>
 </head>
+
 <body>
 	<div class="page-container">
 		<form class="form form-horizontal" action="addStockItemSupplier.htm" id="form-addStockItemSupplierForm">

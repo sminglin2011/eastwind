@@ -29,6 +29,7 @@ public class SupplierService {
 		return supplierDao.fetchSupplierListByKeyword(keyword);
 	}
 
+	
 	public Supplier loadSupplier(String id) {
 		Supplier supplier = new Supplier();
 		if (id != null && !id.equals("0")) {

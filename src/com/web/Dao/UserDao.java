@@ -23,6 +23,7 @@ Logger log = Logger.getLogger(UserDao.class);
 	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
 	
+	
 	public List fetchUserList() {
 		List list = null;
 		String sql = "select id, username, email, password from user";

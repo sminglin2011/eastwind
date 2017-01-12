@@ -22,6 +22,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	
 	/**
 	 * user_main for test
 	 * @return

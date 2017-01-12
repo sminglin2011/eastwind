@@ -7,4 +7,5 @@ public class MenuItemGroup {
 
 	private int id;
 	private String menuItemGroupName;
+	
 }

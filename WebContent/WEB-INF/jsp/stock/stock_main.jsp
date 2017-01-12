@@ -13,6 +13,7 @@
 <%@ include file="/WEB-INF/jsp/_meta.jsp"%>
 <title><fmt:message key="module.inventory" /></title>
 </head>
+
 <body>
 	<nav class="breadcrumb">
 		<i class="Hui-iconfont">&#xe67f;</i> <fmt:message key="home" /> <span class="c-gray en">&gt;</span>

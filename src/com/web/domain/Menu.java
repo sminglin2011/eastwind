@@ -17,4 +17,5 @@ public class Menu {
 	private int multipleDelivery; // 1 delivery 1 time, 2 delivery 2 time .....
 	private boolean onlineShow;
 
+	
 }
