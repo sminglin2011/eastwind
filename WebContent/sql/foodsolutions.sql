@@ -18,6 +18,7 @@ CREATE DATABASE IF NOT EXISTS `foodsolutions` /*!40100 DEFAULT CHARACTER SET utf
 USE `foodsolutions`;
 
 -- Dumping structure for table foodsolutions.customer
+DROP TABLE IF EXISTS `customer`;
 CREATE TABLE IF NOT EXISTS `customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -48,6 +49,7 @@ REPLACE INTO `customer` (`id`, `name`, `migrationId`, `terms`, `accountCode`) VA
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.customerbillcontact
+DROP TABLE IF EXISTS `customerbillcontact`;
 CREATE TABLE IF NOT EXISTS `customerbillcontact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `customerId` int(11) NOT NULL,
@@ -96,6 +98,7 @@ REPLACE INTO `customerbillcontact` (`id`, `customerId`, `billAttention`, `billTe
 /*!40000 ALTER TABLE `customerbillcontact` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.customerdeliverycontact
+DROP TABLE IF EXISTS `customerdeliverycontact`;
 CREATE TABLE IF NOT EXISTS `customerdeliverycontact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `customerId` int(11) NOT NULL,
@@ -126,6 +129,7 @@ REPLACE INTO `customerdeliverycontact` (`id`, `customerId`, `deliveryAttention`,
 /*!40000 ALTER TABLE `customerdeliverycontact` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.menu
+DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menuCategoryId` int(11) DEFAULT NULL,
@@ -153,6 +157,7 @@ REPLACE INTO `menu` (`id`, `menuCategoryId`, `menuName`, `price`, `minPax`, `kit
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.menucategory
+DROP TABLE IF EXISTS `menucategory`;
 CREATE TABLE IF NOT EXISTS `menucategory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menuCategoryName` varchar(45) DEFAULT NULL,
@@ -173,6 +178,7 @@ REPLACE INTO `menucategory` (`id`, `menuCategoryName`, `onlineShow`) VALUES
 /*!40000 ALTER TABLE `menucategory` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.menuitem
+DROP TABLE IF EXISTS `menuitem`;
 CREATE TABLE IF NOT EXISTS `menuitem` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menuId` int(11) DEFAULT NULL,
@@ -191,6 +197,7 @@ REPLACE INTO `menuitem` (`id`, `menuId`, `stockId`, `onlineName`, `menuItemGroup
 /*!40000 ALTER TABLE `menuitem` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.menuitemgroup
+DROP TABLE IF EXISTS `menuitemgroup`;
 CREATE TABLE IF NOT EXISTS `menuitemgroup` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menuItemGroupName` varchar(45) DEFAULT NULL,
@@ -205,21 +212,72 @@ REPLACE INTO `menuitemgroup` (`id`, `menuItemGroupName`) VALUES
 	(2, ' Appetizer');
 /*!40000 ALTER TABLE `menuitemgroup` ENABLE KEYS */;
 
--- Dumping structure for table foodsolutions.purchaseenquery
-CREATE TABLE IF NOT EXISTS `purchaseenquery` (
+-- Dumping structure for table foodsolutions.purchaseorder
+DROP TABLE IF EXISTS `purchaseorder`;
+CREATE TABLE IF NOT EXISTS `purchaseorder` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `stockId` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `uom` int(11) NOT NULL COMMENT 'unit of measure',
+  `ponumber` varchar(11) NOT NULL,
+  `date` date NOT NULL,
+  `preparedBy` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `ponumber` (`ponumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.purchaseenquery: ~0 rows (approximately)
-/*!40000 ALTER TABLE `purchaseenquery` DISABLE KEYS */;
-/*!40000 ALTER TABLE `purchaseenquery` ENABLE KEYS */;
+-- Dumping data for table foodsolutions.purchaseorder: ~0 rows (approximately)
+/*!40000 ALTER TABLE `purchaseorder` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchaseorder` ENABLE KEYS */;
+
+-- Dumping structure for table foodsolutions.purchaseorderitems
+DROP TABLE IF EXISTS `purchaseorderitems`;
+CREATE TABLE IF NOT EXISTS `purchaseorderitems` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poId` int(11) NOT NULL,
+  `stockId` int(11) DEFAULT NULL,
+  `itemdescription` varchar(200) NOT NULL,
+  `prId` int(11) DEFAULT NULL,
+  `purchaseQty` int(11) NOT NULL,
+  `purchaseUom` varchar(6) NOT NULL,
+  `requestQty` int(11) NOT NULL,
+  `requestUom` varchar(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_purchaseorderitems_purchaseorder` (`poId`),
+  KEY `FK_purchaseorderitems_stockitem` (`stockId`),
+  KEY `FK_purchaseorderitems_purchaserequest` (`prId`),
+  CONSTRAINT `FK_purchaseorderitems_purchaseorder` FOREIGN KEY (`poId`) REFERENCES `purchaseorder` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_purchaseorderitems_purchaserequest` FOREIGN KEY (`prId`) REFERENCES `purchaserequest` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_purchaseorderitems_stockitem` FOREIGN KEY (`stockId`) REFERENCES `stockitem` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.purchaseorderitems: ~0 rows (approximately)
+/*!40000 ALTER TABLE `purchaseorderitems` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchaseorderitems` ENABLE KEYS */;
+
+-- Dumping structure for table foodsolutions.purchaserequest
+DROP TABLE IF EXISTS `purchaserequest`;
+CREATE TABLE IF NOT EXISTS `purchaserequest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stockId` int(11) NOT NULL,
+  `requestQty` decimal(10,2) NOT NULL,
+  `requestUom` varchar(6) NOT NULL,
+  `requestBy` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.purchaserequest: ~2 rows (approximately)
+/*!40000 ALTER TABLE `purchaserequest` DISABLE KEYS */;
+REPLACE INTO `purchaserequest` (`id`, `stockId`, `requestQty`, `requestUom`, `requestBy`) VALUES
+	(1, 1, 322.00, 'kg', 0),
+	(2, 1, 444.00, 'kg', 0),
+	(3, 1, 2.00, 'kg', 0),
+	(4, 1, 444.00, 'kg', 0),
+	(5, 1, 4.00, 'kg', 0),
+	(6, 2, 322.00, 'kg', 0),
+	(7, 1, 4.00, 'kg', 0),
+	(8, 1, 4343.00, 'kg', 0);
+/*!40000 ALTER TABLE `purchaserequest` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.stockcategory
+DROP TABLE IF EXISTS `stockcategory`;
 CREATE TABLE IF NOT EXISTS `stockcategory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
@@ -234,6 +292,7 @@ REPLACE INTO `stockcategory` (`id`, `name`) VALUES
 /*!40000 ALTER TABLE `stockcategory` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.stockitem
+DROP TABLE IF EXISTS `stockitem`;
 CREATE TABLE IF NOT EXISTS `stockitem` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(45) NOT NULL,
@@ -253,12 +312,14 @@ REPLACE INTO `stockitem` (`id`, `description`, `description1`, `unitMs`, `avgUni
 	(2, 'fooditem1', 'fooditem1', '', 0, 1);
 /*!40000 ALTER TABLE `stockitem` ENABLE KEYS */;
 
--- Dumping structure for table foodsolutions.stockitemsuppplier
-CREATE TABLE IF NOT EXISTS `stockitemsuppplier` (
+-- Dumping structure for table foodsolutions.stockitemsupplier
+DROP TABLE IF EXISTS `stockitemsupplier`;
+CREATE TABLE IF NOT EXISTS `stockitemsupplier` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stockId` int(11) DEFAULT NULL,
   `supplierId` int(11) DEFAULT NULL,
   `price` decimal(4,2) DEFAULT NULL,
+  `uom` varchar(6) DEFAULT NULL,
   `isdefault` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -266,13 +327,17 @@ CREATE TABLE IF NOT EXISTS `stockitemsuppplier` (
   KEY `supplierId_idx` (`supplierId`),
   CONSTRAINT `stockId` FOREIGN KEY (`stockId`) REFERENCES `stockitem` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `supplierId` FOREIGN KEY (`supplierId`) REFERENCES `supplier` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.stockitemsuppplier: ~0 rows (approximately)
-/*!40000 ALTER TABLE `stockitemsuppplier` DISABLE KEYS */;
-/*!40000 ALTER TABLE `stockitemsuppplier` ENABLE KEYS */;
+-- Dumping data for table foodsolutions.stockitemsupplier: ~1 rows (approximately)
+/*!40000 ALTER TABLE `stockitemsupplier` DISABLE KEYS */;
+REPLACE INTO `stockitemsupplier` (`id`, `stockId`, `supplierId`, `price`, `uom`, `isdefault`) VALUES
+	(1, 1, 5, 32.00, 'kg', 1),
+	(2, 2, 4, 32.00, 'kg', 1);
+/*!40000 ALTER TABLE `stockitemsupplier` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.supplier
+DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE IF NOT EXISTS `supplier` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -294,23 +359,26 @@ REPLACE INTO `supplier` (`id`, `name`, `accountCode`, `terms`, `remarks`) VALUES
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.uom
+DROP TABLE IF EXISTS `uom`;
 CREATE TABLE IF NOT EXISTS `uom` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `UOM` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `UOM` (`UOM`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table foodsolutions.uom: ~4 rows (approximately)
 /*!40000 ALTER TABLE `uom` DISABLE KEYS */;
 REPLACE INTO `uom` (`id`, `UOM`) VALUES
-	(1, 'KG'),
 	(2, 'G'),
-	(3, 'PCS'),
-	(4, 'PACK');
+	(1, 'KG'),
+	(4, 'PACK'),
+	(3, 'PCS');
 /*!40000 ALTER TABLE `uom` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.user
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) DEFAULT NULL,
