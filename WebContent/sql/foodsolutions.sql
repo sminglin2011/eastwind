@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
 
 -- Dumping data for table foodsolutions.customer: ~12 rows (approximately)
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-REPLACE INTO `customer` (`id`, `name`, `migrationId`, `terms`, `accountCode`) VALUES
+INSERT INTO `customer` (`id`, `name`, `migrationId`, `terms`, `accountCode`) VALUES
 	(0, '', NULL, NULL, NULL),
 	(11, 'NTUC1', NULL, NULL, NULL),
 	(13, 'NTUC2', NULL, NULL, NULL),
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `customerbillcontact` (
 
 -- Dumping data for table foodsolutions.customerbillcontact: ~24 rows (approximately)
 /*!40000 ALTER TABLE `customerbillcontact` DISABLE KEYS */;
-REPLACE INTO `customerbillcontact` (`id`, `customerId`, `billAttention`, `billTelephone`, `billMobile`, `billEmail`, `billFax`, `billAddress1`, `billAddress2`, `billAddress3`, `billPostcode`) VALUES
+INSERT INTO `customerbillcontact` (`id`, `customerId`, `billAttention`, `billTelephone`, `billMobile`, `billEmail`, `billFax`, `billAddress1`, `billAddress2`, `billAddress3`, `billPostcode`) VALUES
 	(13, 15, 'ray', '98789878', '98789878', '1@q.com', '98789878', 'jurong east', '', '', '999999'),
 	(14, 16, 'ation', '22', '2222', 't@q.com', '22', 'jurong east 21', '', '', '222222'),
 	(15, 17, 'ooo', '9999', '9999999', 'o@qq.com', '999', '9999999', '', '', '999999'),
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `customerdeliverycontact` (
 
 -- Dumping data for table foodsolutions.customerdeliverycontact: ~7 rows (approximately)
 /*!40000 ALTER TABLE `customerdeliverycontact` DISABLE KEYS */;
-REPLACE INTO `customerdeliverycontact` (`id`, `customerId`, `deliveryAttention`, `deliveryTelephone`, `deliveryMobile`, `deliveryEmail`, `deliveryAddress1`, `deliveryAddress2`, `deliveryAddress3`, `deliveryPostcode`) VALUES
+INSERT INTO `customerdeliverycontact` (`id`, `customerId`, `deliveryAttention`, `deliveryTelephone`, `deliveryMobile`, `deliveryEmail`, `deliveryAddress1`, `deliveryAddress2`, `deliveryAddress3`, `deliveryPostcode`) VALUES
 	(7, 15, 'ray', '98789878', NULL, '1@q.com', 'jurong east', '', '', '999999'),
 	(8, 16, 'ation', '22', NULL, 't@q.com', 'jurong east 21', '', '', '222222'),
 	(9, 17, 'ooo', '9999', NULL, 'o@qq.com', '9999999', '', '', '999999'),
@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
 
 -- Dumping data for table foodsolutions.menu: ~6 rows (approximately)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-REPLACE INTO `menu` (`id`, `menuCategoryId`, `menuName`, `price`, `minPax`, `kitchenTime`, `deliveryTime`, `collectionTime`, `multipleDelivery`, `onlineShow`) VALUES
+INSERT INTO `menu` (`id`, `menuCategoryId`, `menuName`, `price`, `minPax`, `kitchenTime`, `deliveryTime`, `collectionTime`, `multipleDelivery`, `onlineShow`) VALUES
 	(1, 1, 'menu1', 5, 34, NULL, NULL, NULL, 3, 0),
 	(2, 2, 'Bento $9/per', 6, 32, NULL, NULL, NULL, 3, 0),
 	(3, 1, 'buffet $12/per', 90, 56, NULL, NULL, NULL, 2, 0),
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `menucategory` (
 
 -- Dumping data for table foodsolutions.menucategory: ~6 rows (approximately)
 /*!40000 ALTER TABLE `menucategory` DISABLE KEYS */;
-REPLACE INTO `menucategory` (`id`, `menuCategoryName`, `onlineShow`) VALUES
+INSERT INTO `menucategory` (`id`, `menuCategoryName`, `onlineShow`) VALUES
 	(1, '   buffet', 1),
 	(2, ' bento', 1),
 	(3, ' Chinese New Year 2017', 1),
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `menuitem` (
 
 -- Dumping data for table foodsolutions.menuitem: ~2 rows (approximately)
 /*!40000 ALTER TABLE `menuitem` DISABLE KEYS */;
-REPLACE INTO `menuitem` (`id`, `menuId`, `stockId`, `onlineName`, `menuItemGroupId`) VALUES
+INSERT INTO `menuitem` (`id`, `menuId`, `stockId`, `onlineName`, `menuItemGroupId`) VALUES
 	(4, 6, 2, 'BBQ FoodItem A', 2),
 	(5, 3, 2, 'foodItem Tea', 1);
 /*!40000 ALTER TABLE `menuitem` ENABLE KEYS */;
@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `menuitemgroup` (
 
 -- Dumping data for table foodsolutions.menuitemgroup: ~2 rows (approximately)
 /*!40000 ALTER TABLE `menuitemgroup` DISABLE KEYS */;
-REPLACE INTO `menuitemgroup` (`id`, `menuItemGroupName`) VALUES
+INSERT INTO `menuitemgroup` (`id`, `menuItemGroupName`) VALUES
 	(1, 'Rice'),
 	(2, ' Appetizer');
 /*!40000 ALTER TABLE `menuitemgroup` ENABLE KEYS */;
@@ -259,13 +259,13 @@ CREATE TABLE IF NOT EXISTS `purchaserequest` (
   `stockId` int(11) NOT NULL,
   `requestQty` decimal(10,2) NOT NULL,
   `requestUom` varchar(6) NOT NULL,
-  `requestBy` int(11) DEFAULT NULL,
+  `requestBy` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.purchaserequest: ~2 rows (approximately)
+-- Dumping data for table foodsolutions.purchaserequest: ~8 rows (approximately)
 /*!40000 ALTER TABLE `purchaserequest` DISABLE KEYS */;
-REPLACE INTO `purchaserequest` (`id`, `stockId`, `requestQty`, `requestUom`, `requestBy`) VALUES
+INSERT INTO `purchaserequest` (`id`, `stockId`, `requestQty`, `requestUom`, `requestBy`) VALUES
 	(1, 1, 322.00, 'kg', 0),
 	(2, 1, 444.00, 'kg', 0),
 	(3, 1, 2.00, 'kg', 0),
@@ -286,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `stockcategory` (
 
 -- Dumping data for table foodsolutions.stockcategory: ~2 rows (approximately)
 /*!40000 ALTER TABLE `stockcategory` DISABLE KEYS */;
-REPLACE INTO `stockcategory` (`id`, `name`) VALUES
+INSERT INTO `stockcategory` (`id`, `name`) VALUES
 	(1, 'FOODITEM'),
 	(2, 'EQUIPMENT');
 /*!40000 ALTER TABLE `stockcategory` ENABLE KEYS */;
@@ -297,8 +297,8 @@ CREATE TABLE IF NOT EXISTS `stockitem` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(45) NOT NULL,
   `description1` varchar(45) DEFAULT NULL,
-  `unitMs` varchar(10) DEFAULT NULL,
-  `avgUnitPrice` decimal(2,0) DEFAULT NULL,
+  `unitMs` varchar(6) DEFAULT NULL,
+  `avgUnitPrice` decimal(5,2) DEFAULT NULL,
   `categoryId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -307,9 +307,9 @@ CREATE TABLE IF NOT EXISTS `stockitem` (
 
 -- Dumping data for table foodsolutions.stockitem: ~2 rows (approximately)
 /*!40000 ALTER TABLE `stockitem` DISABLE KEYS */;
-REPLACE INTO `stockitem` (`id`, `description`, `description1`, `unitMs`, `avgUnitPrice`, `categoryId`) VALUES
-	(1, 'equipment1', 'equipment1', '', 0, 2),
-	(2, 'fooditem1', 'fooditem1', '', 0, 1);
+INSERT INTO `stockitem` (`id`, `description`, `description1`, `unitMs`, `avgUnitPrice`, `categoryId`) VALUES
+	(1, 'equipment1', 'equipment1', '', 12.00, 2),
+	(2, 'fooditem1', 'fooditem1', '', 0.00, 1);
 /*!40000 ALTER TABLE `stockitem` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.stockitemsupplier
@@ -323,15 +323,16 @@ CREATE TABLE IF NOT EXISTS `stockitemsupplier` (
   `isdefault` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `stockId_supplierId_uom` (`stockId`,`supplierId`,`uom`),
   KEY `stockId_idx` (`stockId`),
   KEY `supplierId_idx` (`supplierId`),
   CONSTRAINT `stockId` FOREIGN KEY (`stockId`) REFERENCES `stockitem` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `supplierId` FOREIGN KEY (`supplierId`) REFERENCES `supplier` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.stockitemsupplier: ~1 rows (approximately)
+-- Dumping data for table foodsolutions.stockitemsupplier: ~2 rows (approximately)
 /*!40000 ALTER TABLE `stockitemsupplier` DISABLE KEYS */;
-REPLACE INTO `stockitemsupplier` (`id`, `stockId`, `supplierId`, `price`, `uom`, `isdefault`) VALUES
+INSERT INTO `stockitemsupplier` (`id`, `stockId`, `supplierId`, `price`, `uom`, `isdefault`) VALUES
 	(1, 1, 5, 32.00, 'kg', 1),
 	(2, 2, 4, 32.00, 'kg', 1);
 /*!40000 ALTER TABLE `stockitemsupplier` ENABLE KEYS */;
@@ -351,7 +352,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
 
 -- Dumping data for table foodsolutions.supplier: ~4 rows (approximately)
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
-REPLACE INTO `supplier` (`id`, `name`, `accountCode`, `terms`, `remarks`) VALUES
+INSERT INTO `supplier` (`id`, `name`, `accountCode`, `terms`, `remarks`) VALUES
 	(2, 'supplier name', NULL, 'C.O.D', NULL),
 	(3, 'test', NULL, 'C.O.D', NULL),
 	(4, 'NTUC12', NULL, 'C.O.D', NULL),
@@ -362,7 +363,7 @@ REPLACE INTO `supplier` (`id`, `name`, `accountCode`, `terms`, `remarks`) VALUES
 DROP TABLE IF EXISTS `uom`;
 CREATE TABLE IF NOT EXISTS `uom` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `UOM` varchar(45) DEFAULT NULL,
+  `UOM` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `UOM` (`UOM`)
@@ -370,7 +371,7 @@ CREATE TABLE IF NOT EXISTS `uom` (
 
 -- Dumping data for table foodsolutions.uom: ~4 rows (approximately)
 /*!40000 ALTER TABLE `uom` DISABLE KEYS */;
-REPLACE INTO `uom` (`id`, `UOM`) VALUES
+INSERT INTO `uom` (`id`, `UOM`) VALUES
 	(2, 'G'),
 	(1, 'KG'),
 	(4, 'PACK'),
@@ -390,7 +391,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Dumping data for table foodsolutions.user: ~2 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-REPLACE INTO `user` (`id`, `username`, `email`, `password`) VALUES
+INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES
 	(1, 'ming', '11111@qq', '1'),
 	(2, 'carrie', 'fff@qqq.ll', '1');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
