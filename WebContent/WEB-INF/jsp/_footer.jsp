@@ -18,5 +18,37 @@
 <link rel="stylesheet" type="text/css" href="lib/webuploader/0.1.5/webuploader.css">
 
 <!--引入JS-->
-<script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.js"></script> 
+<script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.js"></script>
+<script type="text/javascript">
+/*** open full window ***/
+function openWind(title, url) {
+	var index = layer.open({
+		type : 2,
+		title : title,
+		content : url
+	});
+	layer.full(index);
+}
+/********** prom window  ***********/
+function popUpWind(title,url){
+	layer_show(title,url,800,520);
+}
+
+/************* ajax delete by id, then reload page ***************/
+function ajax_del_reload(url, id){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			  method: "POST",
+			  url: url,
+			  data: { id: id }
+			}).done(function( msg ) {
+			    layer.msg('删除成功!');
+			    location.replace(location.href);
+			}).fail(function() {
+				layer.msg('删除出错!');
+			 });
+		
+	});
+}
+</script> 
 <!--/_footer /作为公共模版分离出去--> 

@@ -1358,11 +1358,8 @@ $.fn.serializeObject = function(){
 	        success: function (data) { 
 	            if(data.status == 'y'){
 	            	layer.msg("Success");
-	            	var index = parent.layer.getFrameIndex(window.name);
-	    			parent.location.replace(parent.location.href)
-	    			parent.layer.close(index);
 	            } else {
-	            	layer.msg("save error");
+	            	layer.msg("save error "+ data.errorMsg);
 	            }
 	        },
 	        error: function(data){

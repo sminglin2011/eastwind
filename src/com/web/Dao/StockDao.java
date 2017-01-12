@@ -1,11 +1,14 @@
 package com.web.Dao;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,9 +16,17 @@ import org.springframework.stereotype.Repository;
 import com.web.domain.Category;
 import com.web.domain.StockItem;
 import com.web.domain.StockItemSupplier;
+import com.web.domain.UomEntity;
 
 @Repository
-public class StockDao {
+public class StockDao implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	Logger log = Logger.getLogger(StockDao.class);
 
 	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
@@ -125,6 +136,7 @@ public class StockDao {
 						+ " left join supplier s on s.id = sis.supplierId"
 						+ " where sis.stockid = ? order by sis.isdefault desc";
 		list = jdbcTemplate.queryForList(sql, stockId);
+		log.debug("dao list = ??????===" + list);
 		return list;
 	}
 	
@@ -168,6 +180,13 @@ public class StockDao {
 	public void deleteStockItemSupplier(int id) {
 		String delte_sql = "delete from stockItemSupplier where id = ?";
 		jdbcTemplate.update(delte_sql, id);
+	}
+	
+	public List fetchUOMFromStockItemSupplierByStockId(int stockId) {
+		List uomList = null;
+		String sql = "select uom from stockItemSupplier where stockId = ?";
+		uomList = jdbcTemplate.queryForList(sql, stockId);
+		return uomList;
 	}
 	/***************************************** stock item supplier end ****************************************/
 }

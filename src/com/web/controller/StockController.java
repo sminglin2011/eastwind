@@ -40,14 +40,9 @@ public class StockController {
 
 	
 	@RequestMapping(value="/stockMain.htm")
-	public ModelAndView stockMain() {
+	public ModelAndView stockMain(ModelMap model) {
 		log.debug("stockMain");
-		List categoryList = stockService.loadCategoryList();
-		List list = stockService.loadStockList();
-		log.debug("list = " + list);
-		Map model = new HashMap();
-		model.put("categoryList", categoryList);
-		model.put("list", list);
+		model = stockService.goToStockMain(model);
 		return new ModelAndView("stock/stock_main", "model", model);
 	}
 	

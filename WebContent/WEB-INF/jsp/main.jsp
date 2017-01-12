@@ -41,7 +41,7 @@
 	<input runat="server" id="divScrollValue" type="hidden" value="" />
 	<div class="menu_dropdown bk_2">
 		<dl id="menu-admin">
-			<dt><i class="Hui-iconfont">&#xe62d;</i> <fmt:message key="module.userManager"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe62c;</i> <fmt:message key="module.userManager"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
 					<li><a data-href="userMain.htm" data-title="<fmt:message key="module.userManager.listing"/>" href="javascript:void(0)"><fmt:message key="module.userManager.listing"/></a></li>
@@ -49,7 +49,7 @@
 			</dd>
 		</dl>
 		<dl id="menu-picture">
-			<dt><i class="Hui-iconfont">&#xe613;</i> <fmt:message key="module.salesOrder"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe627;</i> <fmt:message key="module.salesOrder"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
 					<li><a data-href="order_main.htm" data-title="<fmt:message key="module.salesOrder.listing"/>" href="javascript:void(0)"><fmt:message key="module.salesOrder.listing"/></a></li>
@@ -57,7 +57,7 @@
 			</dd>
 		</dl>
 		<dl id="menu-product">
-			<dt><i class="Hui-iconfont">&#xe620;</i> <fmt:message key="module.inventory"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe67f;</i> <fmt:message key="module.inventory"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
 					<li><a data-href="stockMain.htm" data-title="<fmt:message key="module.inventory.listing"/>" href="javascript:void(0)"><fmt:message key="module.inventory.listing"/></a></li>
@@ -67,7 +67,7 @@
 			</dd>
 		</dl>
 		<dl id="menu-member">
-			<dt><i class="Hui-iconfont">&#xe60d;</i> <fmt:message key="module.customer"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe62b;</i> <fmt:message key="module.customer"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
 					<li><a data-href="customerMain.htm" data-title="<fmt:message key="module.customer.listing"/>" href="javascript:;"><fmt:message key="module.customer.listing"/></a></li>
@@ -75,7 +75,7 @@
 			</dd>
 		</dl>
 		<dl id="menu-member">
-			<dt><i class="Hui-iconfont">&#xe60d;</i> <fmt:message key="module.supplier"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe611;</i> <fmt:message key="module.supplier"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
 					<li><a data-href="supplierMain.htm" data-title="<fmt:message key="module.supplier"/>" href="javascript:;"><fmt:message key="module.supplier.listing"/></a></li>

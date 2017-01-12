@@ -20,7 +20,7 @@
 		<div class="text-l"> Stock Description：
 		${stockItem.description}
 		<input type="hidden" id="stockId" name="stockId" value="${stockItem.id}">
-		<input list="supplierList" name="supplierName" class="input-text" style="width: 300px">
+		<input list="supplierList" name="supplierName" class="input-text" style="width: 300px" datatype="*1-50">
 		<datalist id="supplierList">
 		  		<c:forEach items="${supplierList}" var="supplier" varStatus="status">
 				<option value="${supplier.name}">

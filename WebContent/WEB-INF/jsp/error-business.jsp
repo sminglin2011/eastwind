@@ -22,9 +22,9 @@
 </head>
 <body>
 <section class="container-fluid page-404 minWP text-c">
-  <p class="error-title"><i class="Hui-iconfont va-m" style="font-size:80px">&#xe688;</i><span class="va-m"></span></p>
-  <p class="error-description">Business Error</p>
-  <p class="error-info"></p>
+  <p class="error-title"><i class="Hui-iconfont va-m" style="font-size:80px">&#xe688;</i><span class="va-m">Business Error</span></p>
+  <p class="error-description">Error Code:${exception.code}</p>
+  <p class="error-info">${exception.message}</p>
 </section>
 </body>
 </html>

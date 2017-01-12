@@ -44,7 +44,7 @@
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
 			<span class="l">
-			<a href="javascript:;" onclick="stock_add('新建项目','newStock.htm','800','520')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="new" /></a>
+			<a href="javascript:;" onclick="popUpWind('新建项目','newStock.htm')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="new" /></a>
 			</span>
 		</div>
 		<div class="mt-20">
@@ -71,15 +71,20 @@
 							<td> ${stock.unitMs }</td>
 							<td> ${stock.avgUnitPrice }</td>
 							<td class="f-14 td-manage">
-							<a href="javascript:;" class="btn btn-primary radius"
-								onclick="openWind('StockItemSupplier','stockItemSupplier.htm?stockId=${stock.id}')"><fmt:message key="module.supplier" />
+							<a style="text-decoration: none" class="ml-5"
+								onClick="openWind('StockItemSupplier','stockItemSupplier.htm?stockId=${stock.id}')"
+								href="javascript:;" title="<fmt:message key="module.inventory.supplier" />"><i class="Hui-iconfont">&#xe611;</i>
 							</a>
 							<a style="text-decoration: none" class="ml-5"
-								onClick="stock_edit('Stock编辑','editStock.htm?id=${stock.id}')"
+								onClick="popUpWind('Purchase Request','purchaseRequest.htm?stockId=${stock.id}')"
+								href="javascript:;" title="<fmt:message key="module.inventory.purchase_request" />"><i class="Hui-iconfont">&#xe6b9;</i>
+							</a>
+							<a style="text-decoration: none" class="ml-5"
+								onClick="popUpWind('Stock编辑','editStock.htm?id=${stock.id}')"
 								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i>
 							</a>
 							<a style="text-decoration: none" class="ml-5"
-								onClick="stock_del(this,${stock.id})" href="javascript:;"
+								onClick="ajax_del_reload('deleteStock.htm',${stock.id})" href="javascript:;"
 								title="删除"><i class="Hui-iconfont">&#xe6e2;</i>
 							</a>
 							</td>
@@ -120,45 +125,6 @@
 		    }
 		}
 	});
-	/*
-	参数解释：
-	title	标题
-	url		请求的url
-	id		需要操作的数据id
-	w		弹出层宽度（缺省调默认值）
-	h		弹出层高度（缺省调默认值）
-	*/
-	function openWind(title, url) {
-		var index = layer.open({
-			type : 2,
-			title : title,
-			content : url
-		});
-		layer.full(index);
-	}
-	/*增加*/
-	function stock_add(title,url,w,h){
-		layer_show(title,url,w,h);
-	}
-	/*编辑*/
-	function stock_edit(title,url){
-		layer_show(title,url);
-	}
-	/*删除*/
-	function stock_del(obj,id){
-		layer.confirm('确认要删除吗？',function(index){
-			$.ajax({
-				  method: "POST",
-				  url: "deleteStock.htm",
-				  data: { id: id }
-				}).done(function( msg ) {
-				    layer.msg('删除成功!');
-				    location.replace(location.href);
-				}).fail(function() {
-					layer.msg('删除出错!');
-				 });
-			
-		});
-	}
+	
 </script>
 </html>

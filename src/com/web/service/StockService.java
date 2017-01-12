@@ -14,6 +14,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 
 import com.web.Dao.StockDao;
 import com.web.Dao.SupplierDao;
@@ -34,6 +35,14 @@ public class StockService {
 	private StockDao stockDao;
 	@Autowired
 	private SupplierDao supplierDao;
+	
+	public ModelMap goToStockMain(ModelMap model) {
+		List categoryList = stockDao.fetchCategoryList();
+		List list = stockDao.fetchStockList();
+		model.put("categoryList", categoryList);
+		model.put("list", list);
+		return model;
+	}
 	
 	public List loadCategoryList() {
 		return stockDao.fetchCategoryList();
