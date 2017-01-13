@@ -260,20 +260,21 @@ CREATE TABLE IF NOT EXISTS `purchaserequest` (
   `requestQty` decimal(10,2) NOT NULL,
   `requestUom` varchar(6) NOT NULL,
   `requestBy` int(11) NOT NULL,
+  `prStatus` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table foodsolutions.purchaserequest: ~8 rows (approximately)
 /*!40000 ALTER TABLE `purchaserequest` DISABLE KEYS */;
-INSERT INTO `purchaserequest` (`id`, `stockId`, `requestQty`, `requestUom`, `requestBy`) VALUES
-	(1, 1, 322.00, 'kg', 0),
-	(2, 1, 444.00, 'kg', 0),
-	(3, 1, 2.00, 'kg', 0),
-	(4, 1, 444.00, 'kg', 0),
-	(5, 1, 4.00, 'kg', 0),
-	(6, 2, 322.00, 'kg', 0),
-	(7, 1, 4.00, 'kg', 0),
-	(8, 1, 4343.00, 'kg', 0);
+INSERT INTO `purchaserequest` (`id`, `stockId`, `requestQty`, `requestUom`, `requestBy`, `prStatus`) VALUES
+	(1, 1, 322.00, 'kg', 0, NULL),
+	(2, 1, 444.00, 'kg', 0, NULL),
+	(3, 1, 2.00, 'kg', 0, NULL),
+	(4, 1, 444.00, 'kg', 0, NULL),
+	(5, 1, 4.00, 'kg', 0, NULL),
+	(6, 2, 322.00, 'kg', 0, NULL),
+	(7, 1, 4.00, 'kg', 0, 'reject'),
+	(8, 1, 4343.00, 'kg', 0, 'reject');
 /*!40000 ALTER TABLE `purchaserequest` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.stockcategory
@@ -328,13 +329,14 @@ CREATE TABLE IF NOT EXISTS `stockitemsupplier` (
   KEY `supplierId_idx` (`supplierId`),
   CONSTRAINT `stockId` FOREIGN KEY (`stockId`) REFERENCES `stockitem` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `supplierId` FOREIGN KEY (`supplierId`) REFERENCES `supplier` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.stockitemsupplier: ~2 rows (approximately)
+-- Dumping data for table foodsolutions.stockitemsupplier: ~3 rows (approximately)
 /*!40000 ALTER TABLE `stockitemsupplier` DISABLE KEYS */;
 INSERT INTO `stockitemsupplier` (`id`, `stockId`, `supplierId`, `price`, `uom`, `isdefault`) VALUES
 	(1, 1, 5, 32.00, 'kg', 1),
-	(2, 2, 4, 32.00, 'kg', 1);
+	(2, 2, 4, 32.00, 'kg', 1),
+	(3, 1, 5, 11.00, 'pack', 0);
 /*!40000 ALTER TABLE `stockitemsupplier` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.supplier
