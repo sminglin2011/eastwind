@@ -34,8 +34,24 @@ public class PurchaseRequestService implements Serializable{
 	private PurchaseRequestDao prDao;
 	@Autowired
 	private StockDao stockDao;
-		
-	public ModelMap loadPurchaseRequestList(ModelMap model) {
+	
+	
+	/**
+	 * load all purchase request include all status
+	 * @param model
+	 * @return
+	 */
+	public ModelMap loadAllPurchaseRequestList(ModelMap model) throws Exception{
+		List list = prDao.fetchAllPurchaseRequestList();
+		model.put("list", list);
+		return model;
+	}
+	/**
+	 * load purchase request waiting purchasing
+	 * @param model
+	 * @return
+	 */
+	public ModelMap loadPurchaseRequestList(ModelMap model) throws Exception {
 		List list = prDao.fetchPurchaseRequestList();
 		model.put("list", list);
 		return model;
@@ -86,6 +102,11 @@ public class PurchaseRequestService implements Serializable{
 		
 		return map;
 	}
+	/**
+	 * reject purchase request
+	 * @param ids
+	 * @return
+	 */
 	@Transactional
 	public Map<String, Object> rejectPurchaseRequest(String ids) {
 		Map<String, Object> map = new HashMap<>();
@@ -101,6 +122,36 @@ public class PurchaseRequestService implements Serializable{
 		
 		return map;
 	}
+	
+	public ModelMap goToBachtPurchasing(ModelMap model, String ids) throws Exception {
+		List prList = null;
+		try {
+			prList = prDao.fetchPurchaseRequestListByIds(ids);
+			model.put("list", prList);
+		} catch(BusinessException be){
+			throw be;
+		} catch (Exception e) {
+			throw e;
+		}
+		return model;
+	}
+	@Transactional
+	public Map<String, Object> saveBatchPurchase(List<PurchaseRequest> prList) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", "y");
+		log.debug("batch purchasing service ......................." + prList);
+		try {
+			//prDao.rejectPurchaseRequestByIds(ids);
+			
+		} catch (Exception e) {
+			map.put("status", "n");
+			map.put("errorMsg", "Batch Reject Purchase Request Error");
+			e.printStackTrace();
+		}
+		
+		return map;
+	}
+	
 	@Transactional
 	public void deletePurchaseRequest(String id) {
 		prDao.deletePurchaseRequest(Integer.parseInt(id));

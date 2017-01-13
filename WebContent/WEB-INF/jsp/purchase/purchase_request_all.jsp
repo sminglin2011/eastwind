@@ -26,6 +26,7 @@
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
+			<!-- ******************* not show query form  ********
 			<form class="form form-horizontal" action="stockFilterKeyword.htm" id="form-query">
 			<input type="text" name="keyword" id="keyword" placeholder=" <fmt:message key="keyword" />" value="${model.keyword }"
 				style="width: 250px" class="input-text">
@@ -33,19 +34,12 @@
 				<i class="Hui-iconfont">&#xe665;</i> <fmt:message key="search" />
 			</button>
 			</form>
+			 -->
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-			<span class="l">
-			<a href="javascript:;" onclick="batchPurchase()" class="btn btn-primary radius">
-			<i class="Hui-iconfont">&#xe6b8;</i> <fmt:message key="action.batchPurchase" />
-			</a>
-			<a href="javascript:;" onclick="batchProcess('rejectPurchaseRequest.htm')" class="btn btn-danger radius">
-			<i class="Hui-iconfont">&#xe6dd;</i> <fmt:message key="action.batchReject" />
-			</a>
-			</span>
 			<span class="r">
-			<a href="javascript:;" onclick="replaceHref('viewAllPurchaseRequest.htm')" class="btn btn-success radius">
-			<i class="Hui-iconfont">&#xe667;</i> <fmt:message key="action.viewAll" />
+			<a href="javascript:;" onclick="history.go(-1)" class="btn btn-success radius">
+			<i class="Hui-iconfont">&#xe66b;</i> <fmt:message key="action.goBack" />
 			</a>
 			</span>
 		</div>
@@ -56,6 +50,7 @@
 					<tr class="text-c">
 						<th width="5%"><input type="checkbox" name="" value=""></th>
 						<th width="5%">SN</th>
+						<th width="5%">Status</th>
 						<th width="30%">Item Description</th>
 						<th width="15%">Request Quantity</th>
 						<th width="10%">UOM</th>
@@ -67,17 +62,18 @@
 						<tr class="text-c">
 							<td><input type="checkbox" value="${purchaseRequest.id}" name="purchaseRequestId"></td>
 							<td>${status.count }</td>
+							<td> ${purchaseRequest.prStatus}</td>
 							<td> ${purchaseRequest.itemDescription}</td>
 							<td> ${purchaseRequest.requestQty }</td>
 							<td> ${purchaseRequest.requestUom }</td>
 							<td class="f-14 td-manage">
 							<a style="text-decoration: none" class="ml-5"
-								onClick="rowProcess('rejectPurchaseRequest.htm', ${purchaseRequest.id }, 'reject')"
+								onClick=""
 								href="javascript:;" title="<fmt:message key="action.reject" />">
 								<i class="Hui-iconfont">&#xe6dd;</i>
 							</a>
 							<a style="text-decoration: none" class="ml-5"
-								onClick="popUpWind('','agreePurchaseRequest.htm?ids=${purchaseRequest.id }')"
+								onClick=""
 								href="javascript:;" title="<fmt:message key="action.purchase" />">
 								<i class="Hui-iconfont">&#xe670;</i>
 							</a>
@@ -119,17 +115,10 @@
 		    }
 		}
 	});
-	function batchProcess(url) {
+	function batchPurchase(url) {
 		var selectId = getSelectIds("purchaseRequestId");
 		//layer.msg(selectId);
 		ajax_post_reload(url, selectId, "Are you sure reject all selected?")
-	}
-	function batchPurchase(){
-		var selectId = getSelectIds("purchaseRequestId");
-		popUpWind('','agreePurchaseRequest.htm?ids=' + selectId)
-	}
-	function rowProcess(url, id, action) {
-		ajax_post_reload(url, id, "Are you sure "+action+" all selected?")
 	}
 	
 </script>

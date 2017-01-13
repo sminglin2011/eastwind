@@ -1,6 +1,7 @@
 package com.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,9 +34,15 @@ public class PurchaseRequestController extends BaseController{
 	
 	//封装jsonView 格式{status:y, errorMsg:''}
 	private Map<String, Object> map = new HashMap<>();
+	
+	@RequestMapping(value="/viewAllPurchaseRequest.htm")
+	public ModelAndView viewAllPurchaseRequest(ModelMap model) throws Exception {
+		prSvc.loadAllPurchaseRequestList(model);
+		return new ModelAndView("purchase/purchase_request_all");
+	}
    
 	@RequestMapping(value="/purchaseRequestMain.htm")
-	public ModelAndView purchaseRequestMain(ModelMap model) {
+	public ModelAndView purchaseRequestMain(ModelMap model) throws Exception {
 		prSvc.loadPurchaseRequestList(model);
 		return new ModelAndView("purchase/purchase_request_main");
 	}
@@ -62,4 +69,18 @@ public class PurchaseRequestController extends BaseController{
 		return com.web.views.JsonView.Render(map, res);
 	}
 	
+	@RequestMapping(value="/agreePurchaseRequest.htm")
+	public ModelAndView agreePurchaseRequest (ModelMap model, HttpServletResponse res
+			, String ids) throws Exception {
+		log.debug("come in here controller agreePurchaseRequest");
+		model = prSvc.goToBachtPurchasing(model, ids);
+		return new ModelAndView("purchase/batch_purchasing");
+	}
+	@RequestMapping(value="/batchPurchase.htm")
+	public Object batchPurchase(ModelMap model, HttpServletResponse res
+			, @RequestBody List<PurchaseRequest> prList) {
+		log.debug("come in here controller batchPurchase" + prList);
+//		map = prSvc.rejectPurchaseRequest(param);
+		return com.web.views.JsonView.Render(map, res);
+	}
 }

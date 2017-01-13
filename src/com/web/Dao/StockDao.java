@@ -184,7 +184,7 @@ public class StockDao implements Serializable{
 	
 	public List fetchUOMFromStockItemSupplierByStockId(int stockId) {
 		List uomList = null;
-		String sql = "select uom from stockItemSupplier where stockId = ?";
+		String sql = "select distinct(uom) from stockItemSupplier where stockId = ?";
 		uomList = jdbcTemplate.queryForList(sql, stockId);
 		return uomList;
 	}

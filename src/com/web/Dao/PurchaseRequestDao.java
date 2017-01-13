@@ -3,17 +3,15 @@ package com.web.Dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import com.web.constant.AppConstant;
 import com.web.domain.PurchaseRequest;
 
 @Repository
@@ -25,16 +23,46 @@ public class PurchaseRequestDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	/**
+	 * fetch all purchase request, include all status
+	 * @return
+	 */
+	public List fetchAllPurchaseRequestList() {
+		List list = null;
+		String sql = "select id, stockId, requestQty, requestUom, requestBy, prStatus"
+				+ ", (select description from stockItem where id = stockId) as itemDescription"
+				+ " from purchaserequest p "
+				+ " order by id desc";
+		list = jdbcTemplate.queryForList(sql);
+		return list;
+	}
+	
+	/**
 	 * fetch all purchase request, haven't fully purchase
 	 * @return
 	 */
 	public List fetchPurchaseRequestList() {
 		List list = null;
-		String sql = "select id, stockId, requestQty, requestUom, requestBy"
+		String sql = "select id, stockId, requestQty, requestUom, requestBy, prStatus"
 				+ ", (select description from stockItem where id = stockId) as itemDescription"
 				+ " from purchaserequest p "
-				+ " where (p.status != 'reject' or p.status is null) and p.requestqty <>  (select COALESCE(SUM(purchaseqty),0) "
+				+ " where (p.prStatus != '"+AppConstant.PRSTATUS_REJECT+"' or p.prStatus is null) "
+				+ "and p.requestqty <>  (select COALESCE(SUM(purchaseqty),0) "
 				+ " from purchaseorderItems where prid =  p.id)"
+				+ " order by id desc";
+		list = jdbcTemplate.queryForList(sql);
+		return list;
+	}
+	
+	public List fetchPurchaseRequestListByIds(String ids) {
+		List list = null;
+		String sql = "select pr.id, pr.stockId, requestQty, requestUom, requestBy, prStatus"
+				+ ", si.description as _itemDescription"
+//				+ ", GROUP_CONCAT(distinct(sis.uom)) AS _uomList"
+				+ " from purchaserequest pr left join "
+				+ " stockItem si on si.id = pr.stockId"
+//				+ " left join"
+//				+ " stockitemsupplier sis on sis.stockId = pr.stockId"
+				+ " where pr.id in ("+ids+")"
 				+ " order by id desc";
 		list = jdbcTemplate.queryForList(sql);
 		return list;
@@ -53,7 +81,7 @@ public class PurchaseRequestDao {
 				return purchaseRequest;
 			}
 		};
-		String sql = "select id, stockId, requestQty, requestUom, requestBy from purchaseRequest where id = ?";
+		String sql = "select id, stockId, requestQty, requestUom, requestBy, prStatus from purchaseRequest where id = ?";
 		purchaseRequest = jdbcTemplate.queryForObject(sql, rowMapper, id);
 		return purchaseRequest;
 	}
@@ -72,7 +100,7 @@ public class PurchaseRequestDao {
 	}
 	
 	public void rejectPurchaseRequestByIds(String ids) {
-		String sql = "update purchaseRequest set status = 'reject' where id in ("+ids+")";
+		String sql = "update purchaseRequest set prStatus = '"+AppConstant.PRSTATUS_REJECT+"' where id in ("+ids+")";
 //		List ids = Arrays.asList(new Integer[]{ids});
 //		Map<String, List> paramMap = Collections.singletonMap("goodsid", ids);
 //		MapSqlParameterSource parameters = new MapSqlParameterSource();
