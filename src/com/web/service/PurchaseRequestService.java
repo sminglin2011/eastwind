@@ -35,8 +35,10 @@ public class PurchaseRequestService implements Serializable{
 	@Autowired
 	private StockDao stockDao;
 		
-	public List loadPurchaseRequestList() {
-		return prDao.fetchPurchaseRequestList();
+	public ModelMap loadPurchaseRequestList(ModelMap model) {
+		List list = prDao.fetchPurchaseRequestList();
+		model.put("list", list);
+		return model;
 	}
 	
 	public PurchaseRequest loadPurchaseRequest(String id) {
@@ -79,6 +81,21 @@ public class PurchaseRequestService implements Serializable{
 		} catch (Exception e) {
 			map.put("status", "n");
 			map.put("errorMsg", "Save Purchase Request Error");
+			e.printStackTrace();
+		}
+		
+		return map;
+	}
+	@Transactional
+	public Map<String, Object> rejectPurchaseRequest(String ids) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", "y");
+		
+		try {
+			prDao.rejectPurchaseRequestByIds(ids);
+		} catch (Exception e) {
+			map.put("status", "n");
+			map.put("errorMsg", "Batch Reject Purchase Request Error");
 			e.printStackTrace();
 		}
 		

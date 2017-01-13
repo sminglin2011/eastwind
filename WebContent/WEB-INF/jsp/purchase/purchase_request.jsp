@@ -38,6 +38,7 @@
 		<div class="formControls col-xs-8 col-sm-6">
 			<span class="select-box" style="width:250px;">
 			<select class="select" name="requestUom" size="1" datatype="/^[A-Za-z]+$/">
+				<option value="">Select Unit Of Measure</option>
 				<c:forEach items="${uomList}" var="uom">
 					<option value="${uom.uom}">${uom.uom}</option>
 				</c:forEach>
@@ -66,29 +67,7 @@ $(function(){
 	$("#form-purchase-request").Validform({
 		tiptype:3,
 		beforeSubmit: function(form) {
-			$.ajax({ 
-		        type: 'post', 
-		        url: $(form).attr("action"), 
-		        data: JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
-		        dataType:"json",
-		        contentType:"application/json;charset=UTF-8",
-		        success: function (data) { 
-		            if(data.status == 'y'){
-		            	layer.msg("Sent Successful");
-		            	setTimeout(function(){
-							$.Hidemsg(); //公用方法关闭信息提示框;显示方法是$.Showmsg("message goes here.");
-							var index = parent.layer.getFrameIndex(window.name);
-			    			parent.layer.close(index);
-						},2000);
-		            } else {
-		            	layer.msg(data.errorMsg);
-		            }
-		        },
-		        error: function(data){
-		        	console.log("error,log", data);
-		        	layer.msg("system run ajax error");
-		        }
-		    });
+			ajax_save_parent_reload(form);
 			return false;
 		}
 	});

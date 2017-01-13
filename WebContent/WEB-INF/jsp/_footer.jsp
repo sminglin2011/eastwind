@@ -50,5 +50,99 @@ function ajax_del_reload(url, id){
 		
 	});
 }
+
+function ajax_post_reload(url, paramValue, promMsg){
+	layer.confirm(promMsg,function(index){
+		$.ajax({
+			  method: "POST",
+			  url: url,
+			  data: { param: paramValue },
+			  dataType:"json",
+		      success: function (data) {
+		    	  if(data.status == 'y'){
+		    		  layer.msg(data.msg, {icon: 5,time:2000});
+					  location.replace(location.href);
+		    	  } else {
+		    		  layer.msg("返回错误");
+		    	  }
+		      }, 
+		      error: function(data) {
+		    	  layer.msg('system run ajax error', {icon: 6,time:2000});
+		      }
+		});
+		
+	});
+}
+
+/****** submit form by ajax reload parent location ******/
+function ajax_save_parent_reload(form){
+	$.ajax({ 
+        type: 'post', 
+        url: $(form).attr("action"), 
+        data: JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
+        dataType:"json",
+        contentType:"application/json;charset=UTF-8",
+        success: function (data) { 
+            if(data.status == 'y'){
+            	layer.msg("Sent Successful", {icon: 6,time:1000});
+            	setTimeout(function(){
+					//$.Hidemsg(); //公用方法关闭信息提示框;显示方法是$.Showmsg("message goes here.");
+					var index = parent.layer.getFrameIndex(window.name);
+	    			parent.layer.close(index);
+				},1000);
+            } else {
+            	layer.msg(data.errorMsg, {icon: 1,time:1000});
+            }
+        },
+        error: function(data){
+        	console.log("error,log", data);
+        	layer.msg("system run ajax error", {icon: 1,time:1000});
+        }
+    });
+}
+/****** submit form by ajax reload location ******/
+function ajax_save_reload(form){
+	$.ajax({ 
+        type: 'post', 
+        url: $(form).attr("action"), 
+        data: JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
+        dataType:"json",
+        contentType:"application/json;charset=UTF-8",
+        success: function (data) { 
+            if(data.status == 'y'){
+            	layer.msg("Sent Successful", {icon: 6,time:1000});
+            	setTimeout(function(){
+					//$.Hidemsg(); //公用方法关闭信息提示框;显示方法是$.Showmsg("message goes here.");
+            		location.replace(location.href);
+				},1000);
+            } else {
+            	layer.msg(data.errorMsg);
+            }
+        },
+        error: function(data){
+        	console.log("error,log", data);
+        	layer.msg("system run ajax error", {icon: 1,time:1000});
+        	//layer.msg('已发布!',{icon: 6,time:1000});
+        }
+    });
+}
+/** 获取表格选中行 id 集合 ***/
+function getSelectIds(checkBoxName){  
+    /* var nTrs = table.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
+    console.log("come in 11111111111!!!!!", nTrs.length);
+    for(var i = 0; i < nTrs.length; i++){ 
+    	if($(nTrs[i]).find()){ 
+    		console.log('[获取数据]' + table.fnGetData(nTrs[i]));//fnGetData获取一行的数据 
+    	}
+    }   */
+	var selectId = "";
+	$("input[name='"+checkBoxName+"']:checked").each(function () {
+        selectId += this.value + ",";
+    });
+	selectId = selectId.substring(0,selectId.length-1);
+	//layer.msg(selectId);
+	return selectId;
+}  
 </script> 
+
 <!--/_footer /作为公共模版分离出去--> 

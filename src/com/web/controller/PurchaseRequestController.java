@@ -34,6 +34,11 @@ public class PurchaseRequestController extends BaseController{
 	//封装jsonView 格式{status:y, errorMsg:''}
 	private Map<String, Object> map = new HashMap<>();
    
+	@RequestMapping(value="/purchaseRequestMain.htm")
+	public ModelAndView purchaseRequestMain(ModelMap model) {
+		prSvc.loadPurchaseRequestList(model);
+		return new ModelAndView("purchase/purchase_request_main");
+	}
 	
 	@RequestMapping(value="/purchaseRequest.htm")
 	public ModelAndView purchaseRequest(ModelMap model, String stockId) throws Exception{
@@ -47,6 +52,13 @@ public class PurchaseRequestController extends BaseController{
 			, @RequestBody PurchaseRequest pr) {
 		log.debug("save purchase request------------" + pr);
 		map = prSvc.savePurchaseRequest(pr);
+		return com.web.views.JsonView.Render(map, res);
+	}
+	@RequestMapping(value="/rejectPurchaseRequest.htm")
+	public Object rejectPurchaseRequest (ModelMap model, HttpServletResponse res
+			, String param) {
+		log.debug("come in here controller rejectPurchaseRequest");
+		map = prSvc.rejectPurchaseRequest(param);
 		return com.web.views.JsonView.Render(map, res);
 	}
 	

@@ -63,6 +63,8 @@
 					<li><a data-href="stockMain.htm" data-title="<fmt:message key="module.inventory.listing"/>" href="javascript:void(0)"><fmt:message key="module.inventory.listing"/></a></li>
 					<li><a data-href="product-category.html" data-title="库存分类管理" href="javascript:void(0)">库存分类管理</a></li>
 					<li><a data-href="menuMain.htm" data-title="菜单管理" href="javascript:void(0)">菜单管理</a></li>
+					<li><a data-href="purchaseRequestMain.htm" data-title="采购请求" href="javascript:void(0)">采购请求</a></li>
+					<li><a data-href="menuMain.htm" data-title="采购订单" href="javascript:void(0)">采购订单</a></li>
 				</ul>
 			</dd>
 		</dl>
@@ -78,7 +80,7 @@
 			<dt><i class="Hui-iconfont">&#xe611;</i> <fmt:message key="module.supplier"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="supplierMain.htm" data-title="<fmt:message key="module.supplier"/>" href="javascript:;"><fmt:message key="module.supplier.listing"/></a></li>
+					<li><a data-href="supplierMain.htm" data-title="<fmt:message key="module.supplier.listing"/>" href="javascript:;"><fmt:message key="module.supplier.listing"/></a></li>
 				</ul>
 			</dd>
 		</dl>
