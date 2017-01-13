@@ -77,7 +77,7 @@
 								<i class="Hui-iconfont">&#xe6dd;</i>
 							</a>
 							<a style="text-decoration: none" class="ml-5"
-								onClick="popUpWind('','agreePurchaseRequest.htm?ids=${purchaseRequest.id }')"
+								onClick="popUpWind('Batch Purchasing','agreePurchaseRequest.htm?ids=${purchaseRequest.id }')"
 								href="javascript:;" title="<fmt:message key="action.purchase" />">
 								<i class="Hui-iconfont">&#xe670;</i>
 							</a>
@@ -121,12 +121,19 @@
 	});
 	function batchProcess(url) {
 		var selectId = getSelectIds("purchaseRequestId");
-		//layer.msg(selectId);
+		if (selectId == "") {
+			layer.msg("Not Selcted Row", { icon: 5, time: 2000})
+			return;
+		}
 		ajax_post_reload(url, selectId, "Are you sure reject all selected?")
 	}
 	function batchPurchase(){
 		var selectId = getSelectIds("purchaseRequestId");
-		popUpWind('','agreePurchaseRequest.htm?ids=' + selectId)
+		if (selectId == "") {
+			layer.msg("Not Selcted Row", { icon: 5, time: 2000})
+			return;
+		}
+		popUpWind('Batch Purchasing','agreePurchaseRequest.htm?ids=' + selectId)
 	}
 	function rowProcess(url, id, action) {
 		ajax_post_reload(url, id, "Are you sure "+action+" all selected?")

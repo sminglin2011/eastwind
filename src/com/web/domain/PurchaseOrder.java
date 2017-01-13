@@ -2,6 +2,7 @@ package com.web.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -15,5 +16,8 @@ public class PurchaseOrder implements Serializable{/**
 	private String poNumber;
 	private Date date;
 	private int preparedby;
+	private int supplierId;
+	
+	public List<PurchaseOrderItems> poItemList;
 
 }

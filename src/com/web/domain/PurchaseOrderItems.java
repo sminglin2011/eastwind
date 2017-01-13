@@ -11,7 +11,7 @@ public class PurchaseOrderItems implements Serializable{/**
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
-	private int poId;
+	private String _poNumber;
 	private int stockId;
 	private String itemDescription;
 	private int prId;
@@ -19,6 +19,7 @@ public class PurchaseOrderItems implements Serializable{/**
 	private String purchaseUom;
 	private double requestQty;
 	private String requestUom;
-	
+	private int supplierId;
+	private double price;
 
 }

@@ -67,16 +67,7 @@
 							<td> ${purchaseRequest.requestQty }</td>
 							<td> ${purchaseRequest.requestUom }</td>
 							<td class="f-14 td-manage">
-							<a style="text-decoration: none" class="ml-5"
-								onClick=""
-								href="javascript:;" title="<fmt:message key="action.reject" />">
-								<i class="Hui-iconfont">&#xe6dd;</i>
-							</a>
-							<a style="text-decoration: none" class="ml-5"
-								onClick=""
-								href="javascript:;" title="<fmt:message key="action.purchase" />">
-								<i class="Hui-iconfont">&#xe670;</i>
-							</a>
+							
 							</td>
 						</tr>
 					</c:forEach>

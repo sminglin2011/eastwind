@@ -28,7 +28,7 @@
 		</datalist>
 		<input type="text" class="input-text" placeholder="price eg.:100.10" id="price" name="price" style="width: 100px" datatype="/[0-9]+([.]{1}[0-9]+){0,1}$/"><!-- 只能输入整数或小数 -->
 		<input type="text" class="input-text" placeholder="Unit Of Measur" id="uom" name="uom" style="width: 100px" datatype="/^[A-Za-z]+$/" >
-		<label class=""><input type="checkbox" class="input-text" id="isdefault" name="isdefault" value=true style="width: 30px">is default</label>
+		<!-- 这里不能有default，设置default只能在下面列表设置，为了确保一个stock只有一个default <label class=""><input type="checkbox" class="input-text" id="isdefault" name="isdefault" value=true style="width: 30px">is default</label> -->
 		<button type="submit" class="btn btn-success"><i class="Hui-iconfont">&#xe600;</i> Add Supplier</button>
 		</div>
 		</form>
@@ -89,12 +89,11 @@ $(function(){
 			"f":/[0-9]+([.]{1}[0-9]+){0,1}$/, //只能输入整数或小数
 		},
 		beforeSubmit: function(form) {
-			console.log($(form).serializeObject());
-			console.log("serializeArray",$(form).serializeArray());
+			
 			$.ajax({ 
 		        type: 'post', 
 		        url: $(form).attr("action"), 
-		        data: JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
+		        data: JSON.stringify($(form).serializeJson()), 
 		        dataType:"json",
 		        contentType:"application/json;charset=UTF-8",
 		        success: function (data) { 

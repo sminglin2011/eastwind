@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.web.domain.PurchaseOrderItems;
 import com.web.domain.PurchaseRequest;
 import com.web.domain.StockItem;
 import com.web.service.PurchaseRequestService;
@@ -78,9 +79,9 @@ public class PurchaseRequestController extends BaseController{
 	}
 	@RequestMapping(value="/batchPurchase.htm")
 	public Object batchPurchase(ModelMap model, HttpServletResponse res
-			, @RequestBody List<PurchaseRequest> prList) {
-		log.debug("come in here controller batchPurchase" + prList);
-//		map = prSvc.rejectPurchaseRequest(param);
+			, @RequestBody List<PurchaseOrderItems> poItemList) throws Exception {
+		log.debug("come in here controller batchPurchase" + poItemList);
+		map = prSvc.saveBatchPurchase(poItemList);
 		return com.web.views.JsonView.Render(map, res);
 	}
 }

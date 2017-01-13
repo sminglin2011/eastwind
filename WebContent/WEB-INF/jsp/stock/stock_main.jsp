@@ -46,6 +46,9 @@
 			<span class="l">
 			<a href="javascript:;" onclick="popUpWind('新建项目','newStock.htm')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="new" /></a>
 			</span>
+			<span class="r">
+			<a href="javascript:;" onclick="replaceHref('purchaseRequestMain.htm')" class="btn btn-success radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="module.inventory.purchaseRequest.listing" /></a>
+			</span>
 		</div>
 		<div class="mt-20">
 			<table
@@ -77,7 +80,7 @@
 							</a>
 							<a style="text-decoration: none" class="ml-5"
 								onClick="popUpWind('Purchase Request','purchaseRequest.htm?stockId=${stock.id}')"
-								href="javascript:;" title="<fmt:message key="module.inventory.purchase_request" />"><i class="Hui-iconfont">&#xe6b9;</i>
+								href="javascript:;" title="<fmt:message key="module.inventory.purchaseRequest" />"><i class="Hui-iconfont">&#xe6b9;</i>
 							</a>
 							<a style="text-decoration: none" class="ml-5"
 								onClick="popUpWind('Stock编辑','editStock.htm?id=${stock.id}')"

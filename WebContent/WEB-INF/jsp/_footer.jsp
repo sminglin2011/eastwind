@@ -155,7 +155,7 @@
 		$.ajax({
 			type : 'post',
 			url : $(form).attr("action"),
-			data : JSON.stringify($(form).serializeObject()), //JSON.stringify serializeArray
+			data : JSON.stringify($(form).serializeJson()), //JSON.stringify serializeArray
 			dataType : "json",
 			contentType : "application/json;charset=UTF-8",
 			success : function(data) {

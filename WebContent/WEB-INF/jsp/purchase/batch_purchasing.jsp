@@ -32,18 +32,22 @@
 					<c:forEach items="${list}" var="purchaseRequest" varStatus="status">
 						<tr class="text-c">
 							<td>
-								<input type="hidden" id="id" name="pr[id]" value="${purchaseRequest.id }"> 
+								<input type="hidden" id="prId" name="prId" value="${purchaseRequest.id }"> 
+								<input type="hidden" id="stockId" name="stockId" value="${purchaseRequest.stockId }"> 
 								${purchaseRequest._itemDescription}</td>
-							<td> <input type="text" class="input-text" placeholder="" id="requestQty" name="pr[requestQty]"
+							<td> <input type="text" class="input-text" placeholder="" id="purchaseQty" name="purchaseQty"
 								value="${purchaseRequest.requestQty }">
+								<input type="hidden" id="requestQty" name="requestQty" value="${purchaseRequest.requestQty }"> 
 							</td>
 							<td>
 								<span class="select-box" style="width:250px;">
-								<select class="select" name="pr[requestUom]" size="1" >
+								<input type="hidden" id="requestUom" name="requestUom" value="${purchaseRequest.requestUom }">
+								<select class="select" name="purchaseUom" size="1" >
 									<option value="${purchaseRequest.requestUom }">${purchaseRequest.requestUom }</option>
 									<c:forEach items="${purchaseRequest._uomList }" var="uom">
 										<option value="${uom}">${uom}</option>
 									</c:forEach>
+									<option value="pc">pc</option>
 								</select>
 								</span>
 							</td>
@@ -63,6 +67,7 @@
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
 <script type="text/javascript" src="lib/Validform/5.3.2/message.js"></script>
+<script type="text/javascript" src="lib/snd.js"></script>
 <!--请在下方写此页面业务相关的脚本--> 
 <script type="text/javascript">
 $(function(){
@@ -71,7 +76,29 @@ $(function(){
 		tiptype:3,
 		beforeSubmit:function(form) {
 			console.log("a2",JSON.stringify($(form).serializeArray()));
-			console.log("a1",JSON.stringify($(form).serializeJson()));
+			console.log("a1",JSON.stringify($(form).serializeJsonArray()));
+			$.ajax({
+				type : 'post',
+				url : $(form).attr("action"),
+				data : $(form).serializeJsonArray(), //JSON.stringify serializeArray
+				dataType : "json",
+				contentType : "application/json;charset=UTF-8",
+				success : function(data) {
+					if (data.status == 'y') {
+						layer.msg("Sent Successful", { icon : 6, time : 1000 });
+						setTimeout(function() {
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						}, 1000);
+					} else {
+						layer.msg(data.errorMsg, { icon : 5, time : 5000 });
+					}
+				},
+				error : function(data) {
+					console.log("error,log", data);
+					layer.msg("system run ajax error", { icon : 5, time : 5000 });
+				}
+			});
 			return false;
 		}
 	});

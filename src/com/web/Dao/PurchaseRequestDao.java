@@ -87,7 +87,6 @@ public class PurchaseRequestDao {
 	}
 	
 	public void savePurchaseRequest(PurchaseRequest purchaseRequest) {
-		//String sql = "inset into purchaseRequest set stockId = ?, requestQty = ?, requestUom = ?, requestBy ? from  where id = ?";
 		String sql = "insert into purchaseRequest (stockId, requestQty, requestUom, requestBy ) values (?, ?, ?, ?)";
 		jdbcTemplate.update(sql,  purchaseRequest.getStockId(), purchaseRequest.getRequestQty()
 				, purchaseRequest.getRequestUom(), purchaseRequest.getRequestBy());

@@ -79,7 +79,6 @@ $(function(){
 			console.log("ajax submit");
 			var result  = $(form).ajaxSubmit();
 			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
 			parent.location.replace(parent.location.href)
 			parent.layer.close(index);
 		}

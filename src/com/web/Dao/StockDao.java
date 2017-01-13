@@ -188,5 +188,27 @@ public class StockDao implements Serializable{
 		uomList = jdbcTemplate.queryForList(sql, stockId);
 		return uomList;
 	}
+	
+	public StockItemSupplier fetchStockItemDefaultSupplier(int stockId) {
+		String sql = "select sis.id, sis.stockId, si.description as stockDescription"
+				+ ", sis.supplierId, sis.price, sis.uom, sis.isdefault"
+				+ " from stockItemSupplier sis left join stockItem si"
+				+ " on si.id = sis.stockId where isdefault = true and stockId = ?";
+		RowMapper<StockItemSupplier> rowMapper = new RowMapper<StockItemSupplier>() {
+			@Override
+			public StockItemSupplier mapRow(ResultSet rs, int sowNum) throws SQLException {
+				StockItemSupplier sis = new StockItemSupplier();
+				sis.setId(rs.getInt("id"));
+				sis.setIsdefault(rs.getBoolean("isdefault"));
+				sis.setPrice(rs.getDouble("price"));
+				sis.setStockId(rs.getInt("stockId"));
+				sis.setSupplierId(rs.getInt("supplierId"));
+				sis.setUom(rs.getString("uom"));
+				sis.setStockDescription(rs.getString("stockDescription"));
+				return sis;
+			};
+		};
+		return jdbcTemplate.queryForObject(sql, rowMapper, stockId);
+	}
 	/***************************************** stock item supplier end ****************************************/
 }

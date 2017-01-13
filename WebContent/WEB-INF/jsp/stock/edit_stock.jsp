@@ -56,7 +56,8 @@
 	</div>
 	</form>
 </article>
-
+</body>
+<%@ include file="/WEB-INF/jsp/_footer.jsp" %>
 <!--请在下方写此页面业务相关的脚本--> 
 <script type="text/javascript">
 $(function(){
@@ -89,6 +90,5 @@ $(function(){
 });
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->
-</body>
-<%@ include file="/WEB-INF/jsp/_footer.jsp" %>
+
 </html>
