@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <%@ include file="/WEB-INF/jsp/_meta.jsp" %>
-<title>New User</title>
+<title><fmt:message key="module.userManager"/></title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 </head>
@@ -18,39 +18,63 @@
 <article class="page-container">
 	<form class="form form-horizontal" id="form-new-user" action="saveNewUser.htm">
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
+		<label class="form-label col-xs-4 col-sm-3">
+		<span class="c-red">*</span><fmt:message key="module.userManager.label.username"/>：
+		</label>
 		<div class="formControls col-xs-8 col-sm-6">
-			<input type="text" class="input-text" placeholder="" id="username" name="username">
+			<input type="hidden" id="id" name="id" value="0">
+			<input type="text" class="input-text" placeholder="<fmt:message key="module.userManager.label.username"/>" 
+				id="username" name="username", datatype="*3-20">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
+		<label class="form-label col-xs-4 col-sm-3">
+		<span class="c-red">*</span><fmt:message key="module.userManager.label.password"/>：
+		</label>
 		<div class="formControls col-xs-8 col-sm-6">
-			<input type="password" class="input-text" autocomplete="off" placeholder="密码" id="password" name="password">
+			<input type="password" class="input-text" autocomplete="off" placeholder="<fmt:message key="module.userManager.label.password"/>" 
+				id="password" name="password">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
+		<label class="form-label col-xs-4 col-sm-3">
+		<span class="c-red">*</span><fmt:message key="module.userManager.label.confirmPassword"/>：
+		</label>
 		<div class="formControls col-xs-8 col-sm-6">
-			<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password2">
+			<input type="password" class="input-text" autocomplete="off"  placeholder="<fmt:message key="module.userManager.label.confirmPassword"/>" 
+				id="password2" name="password2">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
+		<label class="form-label col-xs-4 col-sm-3">
+		<span class="c-red">*</span><fmt:message key="module.userManager.label.email"/>：
+		</label>
 		<div class="formControls col-xs-8 col-sm-6">
 			<input type="text" class="input-text" placeholder="@" name="email" id="email">
 		</div>
 	</div>
 	<div class="row cl">
 		<div class="col-xs-8 col-sm-6 col-xs-offset-4 col-sm-offset-3">
-			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			<input class="btn btn-success radius" type="submit" value="<fmt:message key="action.save" />">
 		</div>
 	</div>
 	</form>
 </article>
-
+</body>
+<%@ include file="/WEB-INF/jsp/_footer.jsp" %>
 <!--请在下方写此页面业务相关的脚本--> 
 <script type="text/javascript">
+$(function(){
+	$("#form-new-user").Validform({
+		tiptype:3,
+		beforeSubmit: function(form) {
+			ajax_save_reload(form);
+			return false;
+		}
+	});
+	
+});
+/**
 $(function(){
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
@@ -91,8 +115,7 @@ $(function(){
 		}
 	});
 });
+*/
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->
-</body>
-<%@ include file="/WEB-INF/jsp/_footer.jsp" %>
 </html>

@@ -58,7 +58,7 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
-	<!-- index -->
-    <bean name="/index.php" class="com.web.controller.IndexController"></bean>
+	<!-- index 
+    <bean name="/index.php" class="com.web.controller.IndexController"></bean>-->
 
 </beans>

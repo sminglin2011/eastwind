@@ -65,9 +65,7 @@
 </article>
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
-<script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
-<script type="text/javascript" src="lib/Validform/5.3.2/message.js"></script>
-<script type="text/javascript" src="lib/snd.js"></script>
+
 <!--请在下方写此页面业务相关的脚本--> 
 <script type="text/javascript">
 $(function(){

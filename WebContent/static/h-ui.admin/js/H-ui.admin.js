@@ -1,8 +1,8 @@
 /* -----------H-ui前端框架-------------
-* H-ui.admin.js v2.4
+* H-ui.admin.js v2.5
 * http://www.h-ui.net/
 * Created & Modified by guojunhui
-* Date modified 15:42 2016.03.14
+* Date modified 2016.10.09
 *
 * Copyright 2013-2016 北京颖杰联创科技有限公司 All rights reserved.
 * Licensed under MIT license.
@@ -20,7 +20,7 @@ function tabNavallwidth(){
 		$tabNavmore =hide_nav.find(".Hui-tabNav-more");
 	if (!$tabNav[0]){return}
 	$tabNavitem.each(function(index, element) {
-        taballwidth+=Number(parseFloat($(this).width()+60))
+        taballwidth += Number(parseFloat($(this).width()+60))
     });
 	$tabNav.width(taballwidth+25);
 	var w = $tabNavWp.width();
@@ -38,6 +38,7 @@ function Huiasidedisplay(){
 		$(".Hui-aside").show()
 	} 
 }
+/*获取皮肤cookie*/
 function getskincookie(){
 	var v = getCookie("Huiskin");
 	var hrefStr=$("#skin").attr("href");
@@ -49,49 +50,53 @@ function getskincookie(){
 		$("#skin").attr("href",hrefRes);
 	}
 }
+/*菜单导航*/
 function Hui_admin_tab(obj){
-	if($(obj).attr('_href')){
-		var bStop=false;
-		var bStopIndex=0;
-		var _href=$(obj).attr('_href');
-		var _titleName=$(obj).attr("data-title");
-		var topWindow=$(window.parent.document);
-		var show_navLi=topWindow.find("#min_title_list li");
+	if($(obj).attr('data-href')){
+		var bStop = false,
+			bStopIndex = 0,
+			href = $(obj).attr('data-href'),
+			title = $(obj).attr("data-title"),
+			topWindow = $(window.parent.document),
+			show_navLi = topWindow.find("#min_title_list li"),
+			iframe_box = topWindow.find("#iframe_box");
+			
 		show_navLi.each(function() {
-			if($(this).find('span').attr("data-href")==_href){
+			if($(this).find('span').attr("data-href")==href){
 				bStop=true;
 				bStopIndex=show_navLi.index($(this));
 				return false;
 			}
 		});
 		if(!bStop){
-			creatIframe(_href,_titleName);
+			creatIframe(href,title);
 			min_titleList();
 		}
 		else{
-			show_navLi.removeClass("active").eq(bStopIndex).addClass("active");
-			var iframe_box=topWindow.find("#iframe_box");
-			iframe_box.find(".show_iframe").hide().eq(bStopIndex).show().find("iframe").attr("src",_href);
+			show_navLi.removeClass("active").eq(bStopIndex).addClass("active");			
+			iframe_box.find(".show_iframe").hide().eq(bStopIndex).show().find("iframe").attr("src",href);
 		}
 	}
-
 }
+
 function min_titleList(){
-	var topWindow=$(window.parent.document);
-	var show_nav=topWindow.find("#min_title_list");
-	var aLi=show_nav.find("li");
+	var topWindow = $(window.parent.document),
+		show_nav = topWindow.find("#min_title_list"),
+		aLi = show_nav.find("li");
 };
 function creatIframe(href,titleName){
-	var topWindow=$(window.parent.document);
-	var show_nav=topWindow.find('#min_title_list');
-	show_nav.find('li').removeClass("active");
-	var iframe_box=topWindow.find('#iframe_box');
-	show_nav.append('<li class="active"><span data-href="'+href+'">'+titleName+'</span><i></i><em></em></li>');
-	var taballwidth=0,
+	var topWindow=$(window.parent.document),
+		show_nav=topWindow.find('#min_title_list'),
+		iframe_box=topWindow.find('#iframe_box'),
+		iframeBox=iframe_box.find('.show_iframe'),
 		$tabNav = topWindow.find(".acrossTab"),
 		$tabNavWp = topWindow.find(".Hui-tabNav-wp"),
-		$tabNavitem = topWindow.find(".acrossTab li"),
 		$tabNavmore =topWindow.find(".Hui-tabNav-more");
+	var taballwidth=0;
+		
+	show_nav.find('li').removeClass("active");	
+	show_nav.append('<li class="active"><span data-href="'+href+'">'+titleName+'</span><i></i><em></em></li>');	
+	var $tabNavitem = topWindow.find(".acrossTab li");
 	if (!$tabNav[0]){return}
 	$tabNavitem.each(function(index, element) {
         taballwidth+=Number(parseFloat($(this).width()+60))
@@ -104,7 +109,7 @@ function creatIframe(href,titleName){
 		$tabNavmore.hide();
 		$tabNav.css({left:0})
 	}
-	var iframeBox=iframe_box.find('.show_iframe');
+	
 	iframeBox.hide();
 	iframe_box.append('<div class="show_iframe"><div class="loading"></div><iframe frameborder="0" src='+href+'></iframe></div>');
 	var showBox=iframe_box.find('.show_iframe:visible');
@@ -113,15 +118,15 @@ function creatIframe(href,titleName){
 	});
 }
 function removeIframe(){
-	var topWindow = $(window.parent.document);
-	var iframe = topWindow.find('#iframe_box .show_iframe');
-	var tab = topWindow.find(".acrossTab li");
-	var showTab = topWindow.find(".acrossTab li.active");
-	var showBox=topWindow.find('.show_iframe:visible');
-	var i = showTab.index();
+	var topWindow = $(window.parent.document),
+		iframe = topWindow.find('#iframe_box .show_iframe'),
+		tab = topWindow.find(".acrossTab li"),
+		showTab = topWindow.find(".acrossTab li.active"),
+		showBox=topWindow.find('.show_iframe:visible'),
+		i = showTab.index();
 	tab.eq(i-1).addClass("active");
-	iframe.eq(i-1).show();
 	tab.eq(i).remove();
+	iframe.eq(i-1).show();	
 	iframe.eq(i).remove();
 }
 /*弹出层*/
@@ -161,7 +166,30 @@ function layer_close(){
 	var index = parent.layer.getFrameIndex(window.name);
 	parent.layer.close(index);
 }
+
+/*时间*/
+function getHTMLDate(obj) {
+    var d = new Date();
+    var weekday = new Array(7);
+    var _mm = "";
+    var _dd = "";
+    var _ww = "";
+    weekday[0] = "星期日";
+    weekday[1] = "星期一";
+    weekday[2] = "星期二";
+    weekday[3] = "星期三";
+    weekday[4] = "星期四";
+    weekday[5] = "星期五";
+    weekday[6] = "星期六";
+    _yy = d.getFullYear();
+    _mm = d.getMonth() + 1;
+    _dd = d.getDate();
+    _ww = weekday[d.getDay()];
+    obj.html(_yy + "年" + _mm + "月" + _dd + "日 " + _ww);
+};
+
 $(function(){
+	getHTMLDate($("#top_time"));
 	getskincookie();
 	//layer.config({extend: 'extend/layer.ext.js'});
 	Huiasidedisplay();
@@ -183,8 +211,8 @@ $(function(){
 	});
 	/*左侧菜单*/
 	$.Huifold(".menu_dropdown dl dt",".menu_dropdown dl dd","fast",1,"click");
+	
 	/*选项卡导航*/
-
 	$(".Hui-aside").on("click",".menu_dropdown a",function(){
 		Hui_admin_tab(this);
 	});

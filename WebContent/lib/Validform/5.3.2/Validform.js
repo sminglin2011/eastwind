@@ -100,7 +100,7 @@ $.fn.serializeObject = function(){
 		reck : "The content entered twice is inconsistent！",
 		r : "Through information validation！",
 		c : "Detecting information......",
-		s : "Please {FILL IN | SELECT} {0 | INFORMATION}！",
+		s : "Please {FILL IN|SELECT} {0|INFORMATION}！",
 		v : "The information has not been verified, please wait ...",
 		p : "Submitting data ..."
 	}

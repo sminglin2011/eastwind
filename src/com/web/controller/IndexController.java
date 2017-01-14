@@ -8,16 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
-public class IndexController implements Controller {
+@Controller
+public class IndexController {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value="index.php")
+    public ModelAndView index(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        return new ModelAndView("main", "index", "index");
+        return new ModelAndView("main");
     }
 }

@@ -11,29 +11,36 @@
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <%@ include file="/WEB-INF/jsp/_meta.jsp"%>
-<title>User Manager</title>
+<title><fmt:message key="module.userManager" /></title>
 </head>
 <body>
 	<nav class="breadcrumb">
-		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-		用户管理 <span class="c-gray en">&gt;</span> 用户列表 <a
-			class="btn btn-success radius r btn-refresh"
+		<i class="Hui-iconfont">&#xe67f;</i> <fmt:message key="home" /> 
+		<span class="c-gray en">&gt;</span> <fmt:message key="module.userManager" />
+		<span class="c-gray en">&gt;</span> <fmt:message key="module.userManager.listing" /> 
+		<a class="btn btn-success radius r btn-refresh"
 			style="line-height: 1.6em; margin-top: 3px"
-			href="javascript:location.replace(location.href);" onclick="javascript:location.replace(location.href);" title="刷新"><i
-			class="Hui-iconfont">&#xe68f;</i></a>
+			href="javascript:;" 
+			onclick="replaceHref(location.href);" title="<fmt:message key="action.reload" />">
+			<i class="Hui-iconfont">&#xe68f;</i>
+		</a>
 	</nav>
 	<div class="page-container">
 		<div class="text-c">
 			<form class="form form-horizontal" action="userFilterKeyword.htm" id="form-query">
-			<input type="text" name="keyword" id="keyword" placeholder=" 关键字" value="${model.keyword }"
+			<input type="text" name="keyword" id="keyword" placeholder=" <fmt:message key="keyword" />" value="${model.keyword }"
 				style="width: 250px" class="input-text">
 			<button name="" id="" class="btn btn-success" type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> 查询
+				<i class="Hui-iconfont">&#xe665;</i> <fmt:message key="action.search" />
 			</button>
 			</form>
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-			<span class="l"> <a href="javascript:;" onclick="user_add('新建用户','newUser.htm','800','520')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 新建用户</a></span>
+			<span class="l"> 
+			<a href="javascript:;" onclick="popUpWind('<fmt:message key="action.new" />','newUser.htm')" 
+				class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="action.new" />
+			</a>
+			</span>
 		</div>
 		<div class="mt-20">
 			<table
@@ -44,22 +51,26 @@
 						<th width="100">SN</th>
 						<th>USERNAME</th>
 						<th>EMAIL</th>
-						<th width="120">操作</th>
+						<th width="120"><fmt:message key="action" /></th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${model.list}" var="user" varStatus="status">
+					<c:forEach items="${list}" var="user" varStatus="status">
 						<tr class="text-c">
 							<td><input type="checkbox" value="" name=""></td>
 							<td>${status.count }</td>
 							<td>${user.username }</td>
 							<td>${user.email }</td>
-							<td class="f-14 td-manage"><a style="text-decoration: none" class="ml-5"
-								onClick="user_edit('用户编辑','editUser.htm?id=${user.id}','800','520')"
-								href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
+							<td class="f-14 td-manage">
 								<a style="text-decoration: none" class="ml-5"
-								onClick="user_del(this,${user.id})" href="javascript:;"
-								title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+									onClick="popUpWind('<fmt:message key="action.edit" />', 'editUser.htm?id=${user.id}')"
+									href="javascript:;" title="<fmt:message key="action.edit" />"><i class="Hui-iconfont">&#xe6df;</i>
+								</a>
+								<a style="text-decoration: none" class="ml-5"
+								onClick="ajax_post_reload('deleteUser.htm', ${user.id})" href="javascript:;"
+								title="<fmt:message key="action.delete" />"><i class="Hui-iconfont">&#xe6e2;</i>
+								</a>
+							</td>
 						</tr>
 					</c:forEach>
 					
@@ -70,6 +81,8 @@
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script type="text/javascript">
+	
+	/*
 	$('.table-sort').dataTable({
 		"aaSorting" : [ [ 1, "desc" ] ],//默认第几个排序
 		"bStateSave" : true,//状态保存
@@ -81,6 +94,7 @@
 		} // 不参与排序的列
 		]
 	});
+	*/
 	/*
 	参数解释：
 	title	标题
@@ -89,11 +103,11 @@
 	w		弹出层宽度（缺省调默认值）
 	h		弹出层高度（缺省调默认值）
 	*/
-	/*用户-增加*/
+	/*用户-增加
 	function user_add(title,url,w,h){
 		layer_show(title,url,w,h);
-	}
-	/*用户-删除*/
+	}*/
+	/*用户-删除
 	function user_del(obj,id){
 		layer.confirm('确认要删除吗？',function(index){
 			$.ajax({
@@ -111,9 +125,9 @@
 				 });
 			
 		});
-	}
+	}*/
 	
-	/*用户-编辑*/
+	/*用户-编辑
 	function user_edit(title,url,w,h){
 		layer_show(title,url,w,h);
 	}
@@ -121,6 +135,6 @@
 	function reloadPage(){
 		console.log("reload!!!!!!!!!");
 		location.replace(location.href)
-	}
+	}*/
 </script>
 </html>
