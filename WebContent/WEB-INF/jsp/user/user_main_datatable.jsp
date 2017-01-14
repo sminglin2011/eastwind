@@ -49,8 +49,8 @@
 					<tr class="text-c">
 						<th width="25"><input type="checkbox" name="" value=""></th>
 						<th width="100">SN</th>
-						<th>USERNAME</th>
-						<th>EMAIL</th>
+						<th><fmt:message key="module.userManager.label.username" /></th>
+						<th><fmt:message key="module.userManager.label.email" /></th>
 						<th width="120"><fmt:message key="action" /></th>
 					</tr>
 				</thead>
@@ -67,7 +67,7 @@
 									href="javascript:;" title="<fmt:message key="action.edit" />"><i class="Hui-iconfont">&#xe6df;</i>
 								</a>
 								<a style="text-decoration: none" class="ml-5"
-								onClick="ajax_post_reload('deleteUser.htm', ${user.id})" href="javascript:;"
+								onClick="ajax_del_reload('deleteUser.htm', ${user.id})" href="javascript:;"
 								title="<fmt:message key="action.delete" />"><i class="Hui-iconfont">&#xe6e2;</i>
 								</a>
 							</td>

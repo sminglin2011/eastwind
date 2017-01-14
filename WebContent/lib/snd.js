@@ -84,71 +84,34 @@ function replaceHref(url) {
 }
 /** *********** ajax delete by id, then reload page ************** will be replace, not use */
 function ajax_del_reload(url, id) {
-	layer.confirm('Sure Delete ?', function(index) {
-		$.ajax({
-			method : "POST",
-			url : url,
-			data : {
-				id : id
-			}
-		}).done(function(msg) {
-			layer.msg('删除成功!');
-			location.replace(location.href);
-		}).fail(function() {
-			layer.msg('删除出错!');
-		});
-
+	layer.confirm('Are You Sure Delete ?', function(index) {
+		ajax_post_reload(url, id);
 	});
 }
 /** 
  *  Ajax post param then reload location
  *  param: url
  *  paramValue
- *  promMsg (option for confirm popUp)
  */
-function ajax_post_reload(url, paramValue, promMsg) {
-	if (promMsg !== 'undefined') { //don't had promMsg, means direct using Ajax (typeof)
-		$.ajax({
-			method : "POST",
-			url : url,
-			data : {
-				param : paramValue
-			},
-			dataType : "json",
-			success : function(data) {
-				if (data.status == 'y') {
-					layer.msg(data.msg, { icon : 1, time : 2000 });
-					location.replace(location.href);
-				} else {
-					layer.msg("返回错误", { icon : 5, time : 2000 });
-				}
-			},
-			error : function(data) {
-				layer.msg('system run ajax error', { icon : 5, time : 2000 });
+function ajax_post_reload(url, paramValue) {
+	$.ajax({
+		method : "POST",
+		url : url,
+		data : {
+			param : paramValue
+		},
+		dataType : "json",
+		success : function(data) {
+			if (data.status == 'y') {
+				layer.msg(data.msg, { icon : 1, time : 2000 });
+				location.replace(location.href);
+			} else {
+				layer.msg("返回错误", { icon : 5, time : 2000 });
 			}
-		});
-		return;
-	}
-	layer.confirm(promMsg, function(index) {
-		$.ajax({
-			method : "POST",
-			url : url,
-			data : {
-				param : paramValue
-			},
-			dataType : "json",
-			success : function(data) {
-				if (data.status == 'y') {
-					layer.msg(data.msg, { icon : 1, time : 2000 });
-					location.replace(location.href);
-				} else {
-					layer.msg("返回错误", { icon : 5, time : 2000 });
-				}
-			},
-			error : function(data) {
-				layer.msg('system run ajax error', { icon : 5, time : 2000 });
-			}
-		});
+		},
+		error : function(data) {
+			layer.msg('system run ajax error', { icon : 5, time : 2000 });
+		}
 	});
 }
 

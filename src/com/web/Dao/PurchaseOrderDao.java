@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.web.domain.Customer;
 import com.web.domain.PurchaseOrder;
 import com.web.domain.PurchaseOrderItems;
 import com.web.domain.PurchaseRequest;
@@ -25,9 +26,44 @@ public class PurchaseOrderDao {
 	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
 	
+	public List fetchPurchaseOrderList() throws Exception{
+		String sql = "select po.id, poNumber, date, supplierId, s.name as _supplierName, preparedby from PurchaseOrder po"
+				+ " left join supplier s on s.id = po.supplierId "
+				+ " order by po.id desc";
+		return jdbcTemplate.queryForList(sql);
+	}
+	
+	public PurchaseOrder fetchPurchaseOrder(int id) {
+		String sql = "select id poNumber, date, supplierId, preparedby from PurchaseOrder where id = ?";
+		RowMapper<PurchaseOrder> rowMapper = new RowMapper<PurchaseOrder>() {
+			public PurchaseOrder mapRow(ResultSet rs, int rowNum) throws SQLException {
+				PurchaseOrder po = new PurchaseOrder();
+				po.setDate(rs.getDate("date"));
+				po.setId(rs.getInt("id"));
+				po.setPoNumber(rs.getString("poNumber"));
+				po.setPreparedby(rs.getInt("preparedby"));
+				po.setSupplierId(rs.getInt("supplierId"));
+				return po;
+			}
+		};
+		return jdbcTemplate.queryForObject(sql, rowMapper, id);
+	}
+	
+	public void deletePurchaseOrder(int id) throws Exception {
+		String sql = "delete from PurchaseOrder where id = ?";
+		jdbcTemplate.update(sql);
+	}
+	
 	public void savePurchaseOrder (PurchaseOrder po) throws Exception {
 		String sql = "insert into PurchaseOrder (poNumber, date, supplierId, preparedby ) values (?, ?, ?, ?)";
 		jdbcTemplate.update(sql, po.getPoNumber(), po.getDate(), po.getSupplierId(), po.getPreparedby());
+	}
+	
+	public void updatePurchaseOrder(PurchaseOrder po) throws Exception {
+		String sql = "update PurchaseOrder set poNumber = ?, date = ?, supplierId = ?, preparedby = ?"
+				+ " where id = ?";
+		jdbcTemplate.update(sql, po.getPoNumber(), po.getDate(), po.getSupplierId(), po.getPreparedby()
+				, po.getId());
 	}
 	
 	public void batchInsertPO(List<PurchaseOrder> poList) throws Exception {

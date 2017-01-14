@@ -64,6 +64,7 @@ public class UserService {
 	
 	public Map<String, Object> saveUser(ModelMap model, User user) throws Exception {
 		map.put("status", "y");
+		map.put("msg", "success");
 		try {
 			if (user.getId() == 0) {
 				saveUser(user);
@@ -80,6 +81,7 @@ public class UserService {
 	
 	public Map<String, Object> deleteUser(ModelMap model, String id) throws Exception {
 		map.put("status", "y");
+		map.put("msg", "success");
 		try {
 			deleteUser(Integer.parseInt(id));
 		} catch (DataAccessException e) {

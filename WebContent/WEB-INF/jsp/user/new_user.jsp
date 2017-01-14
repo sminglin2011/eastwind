@@ -24,7 +24,7 @@
 		<div class="formControls col-xs-8 col-sm-6">
 			<input type="hidden" id="id" name="id" value="0">
 			<input type="text" class="input-text" placeholder="<fmt:message key="module.userManager.label.username"/>" 
-				id="username" name="username", datatype="*3-20">
+				id="username" name="username" datatype="/^[\w\u4E00-\u9FA5\uF900-\uFA2D]*$/" nullmsg="Not Empty">
 		</div>
 	</div>
 	<div class="row cl">
@@ -42,7 +42,7 @@
 		</label>
 		<div class="formControls col-xs-8 col-sm-6">
 			<input type="password" class="input-text" autocomplete="off"  placeholder="<fmt:message key="module.userManager.label.confirmPassword"/>" 
-				id="password2" name="password2">
+				id="password2" name="password2" recheck="password" errormsg="您两次输入的账号密码不一致！">
 		</div>
 	</div>
 	<div class="row cl">

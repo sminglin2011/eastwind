@@ -50,7 +50,7 @@
 					<tr class="text-c">
 						<th width="5%"><input type="checkbox" name="" value=""></th>
 						<th width="5%">SN</th>
-						<th width="5%">Status</th>
+						<th width="10%">Status</th>
 						<th width="30%">Item Description</th>
 						<th width="15%">Request Quantity</th>
 						<th width="10%">UOM</th>
@@ -79,38 +79,6 @@
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script type="text/javascript">
-	var table = $('.table-sort').dataTable({
-		"bSort": false, // not sorting
-		"language": {
-		    "decimal":        "",
-		    "emptyTable":     "No data available in table",
-		    "info":           "Showing _START_ to _END_ of _TOTAL_ entries",
-		    "infoEmpty":      "Showing 0 to 0 of 0 entries",
-		    "infoFiltered":   "(filtered from _MAX_ total entries)",
-		    "infoPostFix":    "",
-		    "thousands":      ",",
-		    "lengthMenu":     "Show _MENU_ entries",
-		    "loadingRecords": "Loading...",
-		    "processing":     "Processing...",
-		    "search":         "Search: ",
-		    "zeroRecords":    "No matching records found",
-		    "paginate": {
-		        "first":      "First",
-		        "last":       "Last",
-		        "next":       "Next",
-		        "previous":   "Previous"
-		    },
-		    "aria": {
-		        "sortAscending":  ": activate to sort column ascending",
-		        "sortDescending": ": activate to sort column descending"
-		    }
-		}
-	});
-	function batchPurchase(url) {
-		var selectId = getSelectIds("purchaseRequestId");
-		//layer.msg(selectId);
-		ajax_post_reload(url, selectId, "Are you sure reject all selected?")
-	}
 	
 </script>
 </html>
