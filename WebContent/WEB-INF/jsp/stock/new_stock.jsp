@@ -79,7 +79,7 @@ $(function(){
 			console.log("ajax submit");
 			var result  = $(form).ajaxSubmit();
 			var index = parent.layer.getFrameIndex(window.name);
-			parent.location.replace(parent.location.href)
+			parent.location.reload();
 			parent.layer.close(index);
 		}
 	});

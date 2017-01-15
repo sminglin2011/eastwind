@@ -78,6 +78,7 @@
 					<li><a data-href="menuMain.htm" data-title="菜单管理" href="javascript:void(0)">菜单管理</a></li>
 					<li><a data-href="purchaseRequestMain.htm" data-title="<fmt:message key="module.inventory.purchaseRequest"/>" href="javascript:void(0)"><fmt:message key="module.inventory.purchaseRequest"/></a></li>
 					<li><a data-href="purchaseOrderMain.htm" data-title="<fmt:message key="module.inventory.purchaseOrder"/>" href="javascript:void(0)"><fmt:message key="module.inventory.purchaseOrder"/></a></li>
+					<li><a data-href="goodsReceivedMain.htm" data-title="<fmt:message key="module.inventory.goodsReceived"/>" href="javascript:void(0)"><fmt:message key="module.inventory.goodsReceived"/></a></li>
 				</ul>
 			</dd>
 		</dl>

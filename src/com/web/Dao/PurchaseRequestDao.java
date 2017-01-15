@@ -42,12 +42,20 @@ public class PurchaseRequestDao {
 	 */
 	public List fetchPurchaseRequestList() {
 		List list = null;
+		//采购数量<>请求数量
+//		String sql = "select id, stockId, requestQty, requestUom, requestBy, prStatus"
+//				+ ", (select description from stockItem where id = stockId) as itemDescription"
+//				+ " from purchaserequest p "
+//				+ " where (p.prStatus != '"+AppConstant.PRSTATUS_REJECT+"' or p.prStatus is null) "
+//				+ "and p.requestqty <>  (select COALESCE(SUM(purchaseqty),0) "
+//				+ " from purchaseorderItems where prid =  p.id)"
+//				+ " order by id desc";
+		// 采购请求Id 不在采购单里
 		String sql = "select id, stockId, requestQty, requestUom, requestBy, prStatus"
 				+ ", (select description from stockItem where id = stockId) as itemDescription"
 				+ " from purchaserequest p "
 				+ " where (p.prStatus != '"+AppConstant.PRSTATUS_REJECT+"' or p.prStatus is null) "
-				+ "and p.requestqty <>  (select COALESCE(SUM(purchaseqty),0) "
-				+ " from purchaseorderItems where prid =  p.id)"
+				+ "and p.id not in  (select prid from purchaseorderItems)"
 				+ " order by id desc";
 		list = jdbcTemplate.queryForList(sql);
 		return list;
@@ -100,11 +108,11 @@ public class PurchaseRequestDao {
 	
 	public void rejectPurchaseRequestByIds(String ids) {
 		String sql = "update purchaseRequest set prStatus = '"+AppConstant.PRSTATUS_REJECT+"' where id in ("+ids+")";
-//		List ids = Arrays.asList(new Integer[]{ids});
-//		Map<String, List> paramMap = Collections.singletonMap("goodsid", ids);
-//		MapSqlParameterSource parameters = new MapSqlParameterSource();
-//		parameters.addValue("ids", ids.split(","));
-//		String sql = "select * from purchaseRequest  where id in ("+ids+")";
+		jdbcTemplate.update(sql);
+	}
+	
+	public void approvePurchaseRequestByIds(String ids, String status) {
+		String sql = "update purchaseRequest set prStatus = '"+ status +"' where id in ("+ids+")";
 		jdbcTemplate.update(sql);
 	}
 	

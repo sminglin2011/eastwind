@@ -89,26 +89,31 @@ public class StockService {
 	}
 	@Transactional
 	public Map<String, Object> addStockItemSupplier(StockItemSupplier stockItemSupplier) {
-		// check supplier name if existing? yes return supplier id, no throw exception
+		// check supplier name if existing? yes, return supplier id, no, throw exception
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", "y");
 		try {
 			Supplier supplier = supplierDao.fetchSupplierByName(stockItemSupplier.getSupplierName());
 			stockItemSupplier.setSupplierId(supplier.getId());
+			//这里如果是第一次添加供应商，设置为默认，避免用户忘记做默认设置，导致采购时出错
+			List stockItemSupplierList = stockDao.fetchStockItemSupplieryListByStockId(stockItemSupplier.getStockId());
+			if (stockItemSupplierList.size() < 1) {
+				stockItemSupplier.setIsdefault(true);
+			}
 			stockDao.saveStockItemSupplier(stockItemSupplier);
 		} catch (EmptyResultDataAccessException e) {
 			log.info("supplier name not exist, please create first");
 			map.put("status", "n");
 			map.put("errorMsg", "Supplier not exist!");
 			e.printStackTrace();
-			throw e;
 		} catch (DuplicateKeyException e) {
 			log.info("duplicate supplier and uom");
 			map.put("status", "n");
 			map.put("errorMsg", "duplicate supplier and UOM");
 			e.printStackTrace();
-			throw e;
 		} catch(Exception e) {
+			map.put("status", "n");
+			map.put("errorMsg", "Add stock item supplier error");
 			e.printStackTrace();
 		}
 		return map;

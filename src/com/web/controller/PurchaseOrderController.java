@@ -12,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.web.domain.GoodsReceived;
+import com.web.domain.ParamMap;
 import com.web.domain.PurchaseOrderItems;
 import com.web.domain.PurchaseRequest;
 import com.web.domain.StockItem;
@@ -51,11 +54,43 @@ public class PurchaseOrderController extends BaseController{
 	}
 	
 	@RequestMapping(value="/editPurchaseOrder.htm")
-	public ModelAndView editPurchaseOrder(ModelMap model) throws Exception {
-		
+	public ModelAndView editPurchaseOrder(ModelMap model, String id) throws Exception {
+		log.debug("edit purchase order id = " + id);
+		model = poSvc.editPo(model, id);
 		return new ModelAndView("purchase/edit_purchase_order");
 	}
 	
+	@RequestMapping(value="/approvePurchaseOrder.htm")
+	public Object approvePurchaseOrder(ModelMap model, HttpServletResponse res
+			, @RequestParam(value="id")String id, @RequestParam(value="approve")String approve) throws Exception {
+		log.debug("edit purchase order id = " + approve);
+		map = poSvc.approvePo(model, id, approve);
+		return com.web.views.JsonView.Render(map, res);
+	}
 	
+	@RequestMapping(value="/savePurchase.htm")
+	public Object savePurchase(ModelMap model, HttpServletResponse res
+			, @RequestBody List<PurchaseOrderItems> poItemList) throws Exception {
+		log.debug("come in here controller savePurchase" + poItemList);
+		map = poSvc.saveEditPoItems(model, poItemList);
+		return com.web.views.JsonView.Render(map, res);
+	}
+	
+	@RequestMapping(value="/goToPoConvertToGR.htm")
+	public ModelAndView goToPoConvertToGR(ModelMap model, HttpServletResponse res
+			, String poNumber) throws Exception {
+		log.debug("come in here controller goToPoConvertToGR" + poNumber);
+		model = poSvc.goToPoConvertToGR(model, poNumber);
+		log.debug("come in here controller goToPoConvertToGR" + model.get("poItems") );
+		return new ModelAndView("purchase/goodsReceived");
+	}
+	
+	@RequestMapping(value="/poConvertToGR.htm")
+	public Object poConvertToGR(ModelMap model, HttpServletResponse res
+			, @RequestBody List<GoodsReceived> list) throws Exception {
+		log.debug("come in here controller poConvertToGR" + list);
+		map = poSvc.poConvertToGR(model, list);
+		return com.web.views.JsonView.Render(map, res);
+	}
 	
 }

@@ -42,6 +42,12 @@ public class PurchaseRequestController extends BaseController{
 		return new ModelAndView("purchase/purchase_request_all");
 	}
    
+	/**
+	 * 显示提交的采购请求，一旦有采购单就意味这通过审批，不能再做二次请求。
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/purchaseRequestMain.htm")
 	public ModelAndView purchaseRequestMain(ModelMap model) throws Exception {
 		prSvc.loadPurchaseRequestList(model);

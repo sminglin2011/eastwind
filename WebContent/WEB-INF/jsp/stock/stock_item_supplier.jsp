@@ -44,6 +44,7 @@
 						<th width="5%">SN</th>
 						<th width="45%">Supplier</th>
 						<th width="10%">Price</th>
+						<th width="10%">UOM</th>
 						<th width="10%">IsDefault</th>
 						<th width="25%"><fmt:message key="action" /></th>
 					</tr>
@@ -54,6 +55,7 @@
 							<td>${status.count }</td>
 							<td class=""> ${stockItemSupplier.name }</td>
 							<td class=""> ${stockItemSupplier.price }</td>
+							<td class=""> ${stockItemSupplier.uom }</td>
 							<td class=""> ${stockItemSupplier.isdefault }</td>
 							<td class="f-14 td-manage">
 								<c:choose>
@@ -112,11 +114,6 @@ $(function(){
 			return false;
 		}
 	});
-});
-$('.table-sort').dataTable({
-	"paging" : false,
-	"searching" : false,
-    "ordering" :  false
 });
 	/*
 	参数解释：

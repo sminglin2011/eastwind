@@ -38,13 +38,13 @@
 			<input type="text" name="keyword" id="keyword" placeholder=" <fmt:message key="keyword" />" value="${model.keyword }"
 				style="width: 250px" class="input-text">
 			<button name="" id="" class="btn btn-success" type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> <fmt:message key="search" />
+				<i class="Hui-iconfont">&#xe665;</i> <fmt:message key="action.search" />
 			</button>
 			</form>
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
 			<span class="l">
-			<a href="javascript:;" onclick="popUpWind('新建项目','newStock.htm')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="new" /></a>
+			<a href="javascript:;" onclick="popUpWind('新建项目','newStock.htm')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="action.new" /></a>
 			</span>
 			<span class="r">
 			<a href="javascript:;" onclick="replaceHref('purchaseRequestMain.htm')" class="btn btn-success radius"><i class="Hui-iconfont">&#xe600;</i> <fmt:message key="module.inventory.purchaseRequest.listing" /></a>
@@ -101,33 +101,5 @@
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script type="text/javascript">
-	$('.table-sort').dataTable({
-		"bSort": false, // not sorting
-		"language": {
-		    "decimal":        "",
-		    "emptyTable":     "No data available in table",
-		    "info":           "Showing _START_ to _END_ of _TOTAL_ entries",
-		    "infoEmpty":      "Showing 0 to 0 of 0 entries",
-		    "infoFiltered":   "(filtered from _MAX_ total entries)",
-		    "infoPostFix":    "",
-		    "thousands":      ",",
-		    "lengthMenu":     "Show _MENU_ entries",
-		    "loadingRecords": "Loading...",
-		    "processing":     "Processing...",
-		    "search":         "Search: ",
-		    "zeroRecords":    "No matching records found",
-		    "paginate": {
-		        "first":      "First",
-		        "last":       "Last",
-		        "next":       "Next",
-		        "previous":   "Previous"
-		    },
-		    "aria": {
-		        "sortAscending":  ": activate to sort column ascending",
-		        "sortDescending": ": activate to sort column descending"
-		    }
-		}
-	});
-	
 </script>
 </html>

@@ -88,6 +88,11 @@ function ajax_del_reload(url, id) {
 		ajax_post_reload(url, id);
 	});
 }
+function ajax_prompt_reload(url, id, promMsg) {
+	layer.confirm(promMsg, function(index) {
+		ajax_post_reload(url, id);
+	});
+}
 /** 
  *  Ajax post param then reload location
  *  param: url
@@ -152,8 +157,7 @@ function ajax_save1_reload(form) {
 	$.ajax({
 		type : 'post',
 		url : $(form).attr("action"),
-		data : JSON.stringify($(form).serializeJson()), // JSON.stringify
-														// serializeArray
+		data : JSON.stringify($(form).serializeJson()), // JSON.stringify serializeArray
 		dataType : "json",
 		contentType : "application/json;charset=UTF-8",
 		success : function(data) {

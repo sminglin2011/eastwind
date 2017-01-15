@@ -118,16 +118,6 @@ $(function(){
 		}
 	});
 });
-$('.table-sort').dataTable({
-	//"aaSorting" : [ [ 1, "desc" ] ],//默认第几个排序
-	"bStateSave" : false,//状态保存
-	"aoColumnDefs" : [
-	{
-		"orderable" : false,
-		"aTargets" : [ 0, 1, 2, 3, 4 ]
-	} // 不参与排序的列
-	]
-});
 	/*
 	参数解释：
 	title	标题

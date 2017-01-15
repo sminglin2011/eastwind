@@ -130,7 +130,7 @@ public class StockDao implements Serializable{
 		List list = null;
 		String sql = "select sis.id, sis.stockId, si.description, si.description1," 
 						+ " sis.supplierid, s.name,"
-						+ " sis.price, sis.isdefault"
+						+ " sis.price, sis.uom, sis.isdefault"
 						+ " from stockitemsupplier sis"
 						+ " left join stockitem si on sis.stockid = si.id"
 						+ " left join supplier s on s.id = sis.supplierId"

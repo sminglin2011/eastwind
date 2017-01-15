@@ -46,37 +46,64 @@
 				class="table table-border table-bordered table-bg table-hover table-sort">
 				<thead>
 					<tr class="text-c">
-						<th width="5%"><input type="checkbox" name="" value=""></th>
+						<th width="10%">Status</th>
 						<th width="5%">SN</th>
 						<th width="10%">PO Number</th>
 						<th width="15%">Date</th>
 						<th width="30%">Supplier Name</th>
+						<th width="10%">Amount</th>
 						<th width="20%"><fmt:message key="action" /></th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${list}" var="po" varStatus="status">
 						<tr class="text-c">
-							<td><input type="checkbox" value="${po.id}" name="poId"></td>
+							<td>${po.status }</td>
 							<td>${status.count }</td>
-							<td> ${po.poNumber}</td>
+							<td> <a class="btn btn-link" onclick="popUpWind('Edit Purchase Order', 'editPurchaseOrder.htm?id=${po.id}')">${po.poNumber}</a></td>
 							<td> ${po.date }</td>
 							<td> ${po._supplierName }</td>
+							<td> ${po.total }</td>
 							<td class="f-14 td-manage">
+							<c:choose>
+							<c:when test="${po.status.equals('approve')}">
+							<!-- 审批后可以看到收获按钮 -->
+							<a style="text-decoration: none" class="btn btn-success"
+								onClick="popUpWind('Goods Receipt', 'goToPoConvertToGR.htm?poNumber=${po.poNumber}')"
+								href="javascript:;" title="<fmt:message key="action.goodsReceived" />">
+								<i class="Hui-iconfont">&#xe640;</i>Goods Received
+							</a>
+							</c:when>
+							<c:when test="${po.status.equals('open')}">
 							<a style="text-decoration: none" class="ml-5"
-								onClick=""
+								onClick="popUpWind('Edit Purchase Order', 'editPurchaseOrder.htm?id=${po.id}')"
+								href="javascript:;" title="<fmt:message key="action.edit" />">
+								<i class="Hui-iconfont">&#xe6df;</i>
+							</a>
+							<a style="text-decoration: none" class="ml-5"
+								onClick="approveProcess('approvePurchaseOrder.htm', '{id:${po.id}, approve:&quot;approve&quot;}', 'Are you sure')"
+								href="javascript:;" title="<fmt:message key="action.approve" />">
+								<i class="Hui-iconfont">&#xe6e1;</i>
+							</a>
+							<a style="text-decoration: none" class="ml-5"
+								onClick="approveProcess('approvePurchaseOrder.htm', '{id:${po.id}, approve:&quot;reject&quot;}', 'Are you sure')"
 								href="javascript:;" title="<fmt:message key="action.reject" />">
 								<i class="Hui-iconfont">&#xe6dd;</i>
 							</a>
+							</c:when>
+							<c:when test="${po.status.equals('reject')}">
 							<a style="text-decoration: none" class="ml-5"
-								onClick=""
-								href="javascript:;" title="<fmt:message key="action.purchase" />">
-								<i class="Hui-iconfont">&#xe670;</i>
+								onClick="popUpWind('Edit Purchase Order', 'editPurchaseOrder.htm?id=${po.id}')"
+								href="javascript:;" title="<fmt:message key="action.edit" />">
+								<i class="Hui-iconfont">&#xe6df;</i>
 							</a>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+							</c:choose>
 							</td>
 						</tr>
 					</c:forEach>
-					
 				</tbody>
 			</table>
 		</div>
@@ -84,25 +111,34 @@
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script type="text/javascript">
-	
-	function batchProcess(url) {
-		var selectId = getSelectIds("purchaseRequestId");
-		if (selectId == "") {
-			layer.msg("Not Selcted Row", { icon: 5, time: 2000})
-			return;
-		}
-		ajax_post_reload(url, selectId, "Are you sure reject all selected?")
-	}
-	function batchPurchase(){
-		var selectId = getSelectIds("purchaseRequestId");
-		if (selectId == "") {
-			layer.msg("Not Selcted Row", { icon: 5, time: 2000})
-			return;
-		}
-		popUpWind('Batch Purchasing','agreePurchaseRequest.htm?ids=' + selectId)
-	}
-	function rowProcess(url, id, action) {
-		ajax_post_reload(url, id, "Are you sure "+action+" all selected?")
+//String Convert To Object function
+//字符串强制转换成对象类型
+//string转换成object类型
+//参数json为json格式的字符串，需要经过转换后才能正确处理json数据
+var stringToObject = function(json) {
+  return eval("(" + json + ")"); 
+}
+	function approveProcess(url, params, promMsg) {
+		var jsonObj = stringToObject(params);
+		layer.confirm(promMsg, function(index) {
+			$.ajax({
+				method : "POST",
+				url : url,
+				data : jsonObj,
+				dataType : "json",
+				success : function(data) {
+					if (data.status == 'y') {
+						layer.msg(data.msg, { icon : 1, time : 2000 });
+						location.reload();
+					} else {
+						layer.msg("返回错误", { icon : 5, time : 2000 });
+					}
+				},
+				error : function(data) {
+					layer.msg('system run ajax error', { icon : 5, time : 2000 });
+				}
+			});
+		})
 	}
 	
 </script>

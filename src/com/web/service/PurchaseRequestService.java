@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -16,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import com.web.Dao.PurchaseOrderDao;
 import com.web.Dao.PurchaseRequestDao;
 import com.web.Dao.StockDao;
+import com.web.constant.AppConstant;
 import com.web.domain.PurchaseOrder;
 import com.web.domain.PurchaseOrderItems;
 import com.web.domain.PurchaseRequest;
@@ -156,6 +158,7 @@ public class PurchaseRequestService implements Serializable{
 			for (int i = 0; i < poItemList.size(); i++) {
 				PurchaseOrderItems poItem = poItemList.get(i);
 				StockItemSupplier sis = stockDao.fetchStockItemDefaultSupplier(poItem.getStockId());
+				log.debug("sis.getStockDescription=" + sis.getStockDescription());
 				/***
 				 * 如果采购的单位与默认供应商设置单位不一致，返回 BusinessException 
 				 */
@@ -176,11 +179,22 @@ public class PurchaseRequestService implements Serializable{
 				poItem.set_poNumber(poNumber);
 				poItem.setSupplierId(default_supplier);
 				orderItemList.add(poItem);
+				
+				//如果同意采购就要更新采购请求单单状态，根据采购数量与请求数量的对比，赋值对应的状态
+				if(poItem.getPurchaseQty() != poItem.getRequestQty()) {
+					prDao.approvePurchaseRequestByIds(String.valueOf(poItem.getPrId()), AppConstant.PRSTATUS_PARTICULAR);
+				} else {
+					prDao.approvePurchaseRequestByIds(String.valueOf(poItem.getPrId()), AppConstant.PRSTATUS_FULL);
+				}
 			}
 			poDao.batchInsertPO(poList);
 			poDao.batchInsertPOItem(orderItemList);
 			
-		} catch (BusinessException e) {
+		} catch (EmptyResultDataAccessException e) {
+			map.put("status", "n");
+			map.put("errorMsg", "Please setup default suspplier");
+		}
+		catch (BusinessException e) {
 			map.put("status", "n");
 			map.put("errorMsg", "Purchase UOM (Unit Of Measure) havn't for default supplier");
 		} catch (Exception e) {

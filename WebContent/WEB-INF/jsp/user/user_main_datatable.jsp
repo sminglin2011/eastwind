@@ -67,7 +67,7 @@
 									href="javascript:;" title="<fmt:message key="action.edit" />"><i class="Hui-iconfont">&#xe6df;</i>
 								</a>
 								<a style="text-decoration: none" class="ml-5"
-								onClick="ajax_del_reload('deleteUser.htm', ${user.id})" href="javascript:;"
+								onClick="ajax_prompt_reload('deleteUser.htm', ${user.id}, 'Are you sure delete?')" href="javascript:;"
 								title="<fmt:message key="action.delete" />"><i class="Hui-iconfont">&#xe6e2;</i>
 								</a>
 							</td>

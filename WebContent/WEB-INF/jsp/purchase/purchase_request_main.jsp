@@ -99,7 +99,7 @@
 			layer.msg("Not Selcted Row", { icon: 5, time: 2000})
 			return;
 		}
-		ajax_post_reload(url, selectId, "Are you sure reject all selected?")
+		ajax_prompt_reload(url, selectId, "Are you sure reject all selected?")
 	}
 	function batchPurchase(){
 		var selectId = getSelectIds("purchaseRequestId");
@@ -110,7 +110,7 @@
 		popUpWind('Batch Purchasing','agreePurchaseRequest.htm?ids=' + selectId)
 	}
 	function rowProcess(url, id, action) {
-		ajax_post_reload(url, id, "Are you sure "+action+" all selected?")
+		ajax_prompt_reload(url, id, "Are you sure "+action+" all selected?")
 	}
 	
 </script>

@@ -18,6 +18,7 @@ public class PurchaseOrder implements Serializable{/**
 	private int preparedby;
 	private int supplierId;
 	private String _supplierName;
+	private String status;
 	
 	public List<PurchaseOrderItems> poItemList;
 

@@ -58,8 +58,6 @@
 </article>
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
-<script type="text/javascript" src="lib/Validform/5.3.2/Validform.js"></script>
-<script type="text/javascript" src="lib/Validform/5.3.2/message.js"></script>
 <!--请在下方写此页面业务相关的脚本--> 
 <script type="text/javascript">
 $(function(){
@@ -67,7 +65,7 @@ $(function(){
 	$("#form-purchase-request").Validform({
 		tiptype:3,
 		beforeSubmit: function(form) {
-			ajax_save_parent_reload(form);
+			ajax_save_reload(form);
 			return false;
 		}
 	});

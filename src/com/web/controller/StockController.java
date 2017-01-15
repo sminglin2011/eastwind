@@ -110,7 +110,7 @@ public class StockController {
 	
 	/***************************************** Stock Item Supplier **********************************************/
 	@RequestMapping(value="/stockItemSupplier.htm")
-	public ModelAndView stockItemSupplier(ModelMap model, String stockId) {
+	public ModelAndView stockItemSupplier(ModelMap model, String stockId) throws Exception {
 		log.debug("go in to item supplier listing");
 		StockItem stockItem = stockService.loadStock(Integer.parseInt(stockId));
 		List stockItemSupplierList = stockService.loadStockItemSupplieryListByStockId(stockId);
