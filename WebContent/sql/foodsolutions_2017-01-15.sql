@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.17)
 # Database: foodsolutions
-# Generation Time: 2017-01-15 08:58:16 +0000
+# Generation Time: 2017-01-15 14:28:55 +0000
 # ************************************************************
 
 
@@ -556,6 +556,70 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table sysChartOfAccounts
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `sysChartOfAccounts`;
+
+CREATE TABLE `sysChartOfAccounts` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `description` varchar(50) DEFAULT NULL,
+  `accountCode` int(11) DEFAULT NULL,
+  `ledgerType` varchar(11) DEFAULT NULL,
+  `ledgerGroup` varchar(50) DEFAULT NULL,
+  `opening` double(20,2) DEFAULT NULL,
+  `gstType` varchar(11) DEFAULT NULL,
+  `gstRate` double(4,2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table sysGeneralLedger
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `sysGeneralLedger`;
+
+CREATE TABLE `sysGeneralLedger` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `accountType` varchar(20) DEFAULT '',
+  `accountCode` int(11) DEFAULT NULL,
+  `endCode` int(11) DEFAULT NULL,
+  `ledgerType` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `accountType` (`accountType`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `sysGeneralLedger` WRITE;
+/*!40000 ALTER TABLE `sysGeneralLedger` DISABLE KEYS */;
+
+INSERT INTO `sysGeneralLedger` (`id`, `accountType`, `accountCode`, `endCode`, `ledgerType`)
+VALUES
+	(1,'Asset',1000,1999,'Asset'),
+	(2,'Liabilities',2000,2999,'Liabilities'),
+	(3,'Equity',3000,3999,'Equity'),
+	(4,'Revenues',5000,5999,'Revenues'),
+	(5,'Expenses',6000,6999,'Expenses'),
+	(6,'Cost Of Goods Sold',7000,7999,'COG');
+
+/*!40000 ALTER TABLE `sysGeneralLedger` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table sysLedgerGroup
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `sysLedgerGroup`;
+
+CREATE TABLE `sysLedgerGroup` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ledgerType` varchar(11) DEFAULT NULL,
+  `ledgerGroup` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table uom
 # ------------------------------------------------------------
 
@@ -602,7 +666,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`)
 VALUES
-	(6,'sming','1@1.com','1'),
+	(6,'sming','1@1.com',''),
 	(7,'carrie','1@1.com','1');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;

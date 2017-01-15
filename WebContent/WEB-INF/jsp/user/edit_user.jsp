@@ -21,7 +21,8 @@
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
 		<div class="formControls col-xs-8 col-sm-6">
 			<input type="hidden" id="id" name="id" value="${user.id }">
-			<input type="text" class="input-text" placeholder="" id="username" name="username" value="${user.username}">
+			<input type="text" class="input-text" placeholder="" id="username" name="username" 
+				value="${user.username}" datatype="/^[\w\u4E00-\u9FA5\uF900-\uFA2D]*$/" nullmsg="Not Empty">
 		</div>
 	</div>
 	<div class="row cl">
@@ -58,8 +59,18 @@ $(function(){
 		radioClass: 'iradio-blue',
 		increaseArea: '20%'
 	});
+	$(function(){
+		$("#form-new-user").Validform({
+			tiptype:3,
+			beforeSubmit: function(form) {
+				ajax_save_reload(form);
+				return false;
+			}
+		});
+		
+	});
 	
-	$("#form-new-user").validate({
+	/* $("#form-new-user").validate({
 		rules:{
 			username:{
 				required:true,
@@ -86,10 +97,10 @@ $(function(){
 			var result  = $(form).ajaxSubmit();
 			var index = parent.layer.getFrameIndex(window.name);
 			//parent.$('.btn-refresh').click();
-			parent.location.replace(parent.location.href)
+			parent.location.reload();
 			parent.layer.close(index);
 		}
-	});
+	}); */
 });
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->

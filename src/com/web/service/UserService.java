@@ -74,7 +74,6 @@ public class UserService {
 		} catch (DataAccessException e) {
 			map.put("status", "n");
 			map.put("msg", e.getMessage());
-			throw e;
 		}
 		return map;
 	}

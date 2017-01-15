@@ -98,6 +98,16 @@
 				</ul>
 			</dd>
 		</dl>
+		<dl id="menu-member">
+			<dt><i class="Hui-iconfont">&#xe63a;</i> <fmt:message key="module.account"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="generalLedger.htm" data-title="<fmt:message key="module.account.generalLedger"/>" href="javascript:;"><fmt:message key="module.account.generalLedger"/></a></li>
+					<li><a data-href="#" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup"/></a></li>
+					<li><a data-href="#" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup.COA"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup.COA"/></a></li>
+				</ul>
+			</dd>
+		</dl>
 		
 		<dl id="menu-tongji">
 			<dt><i class="Hui-iconfont">&#xe61a;</i> <fmt:message key="module.report"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
