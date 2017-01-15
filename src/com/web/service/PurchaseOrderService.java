@@ -62,6 +62,14 @@ public class PurchaseOrderService {
 	public List loadPoItems (String poNumber) {
 		return poDao.fetchPurchaseOrderItemsByPoNumber(poNumber);
 	}
+	@Transactional
+	public void savePoItem(PurchaseOrderItems poItem) throws Exception{
+		poDao.savePurchaseOrderItem(poItem);
+	}
+	@Transactional
+	public void updatePoItem(PurchaseOrderItems poItem) throws Exception{
+		poDao.updatePurchaseOrderItem(poItem);
+	}
 	
 	/*************************** Business function for controller *****************************************/
 	public ModelMap goToPurchaseOrderMain(ModelMap model) throws Exception {
@@ -102,9 +110,9 @@ public class PurchaseOrderService {
 			for (int i = 0; i < list.size(); i++) {
 				PurchaseOrderItems item = list.get(i);
 				if(item.getId() == 0) {
-					poDao.savePurchaseOrderItem(item);
+					savePoItem(item);
 				} else {
-					poDao.updatePurchaseOrderItem(item);
+					updatePoItem(item);
 				}
 			}
 			
@@ -122,7 +130,7 @@ public class PurchaseOrderService {
 		model.put("poItems", list);
 		return model;
 	}
-	
+	@Transactional
 	public Map<String, Object> poConvertToGR(ModelMap model, List<GoodsReceived> grList) throws Exception {
 		map.put("status", "y");
 		map.put("msg", "success");
