@@ -91,4 +91,16 @@ public class AccountsService {
 		}
 		return map;
 	}
+	
+	public Map<String, Object> saveCOA(ModelMap model, ChartOfAccounts coa) {
+		map.put("status", "y");
+		map.put("msg", "success");
+		try {
+			saveCOA(coa);
+		} catch (Exception e) {
+			map.put("status", "n");
+			map.put("msg", "save error");
+		}
+		return map;
+	}
 }

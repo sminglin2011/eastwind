@@ -26,7 +26,7 @@
 	</nav>
 	<div class="page-container">
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-			<form class="form form-horizontal" action="saveLedgerGroup.htm" id="form-ledger-group">
+			<form class="form form-horizontal" action="saveCOA.htm" id="form-ledger-group">
 			<div class="row cl">
 				<label class="form-label col-xs-1">Ledger Type</label>
 				<div class="formControls col-xs-3">
@@ -69,7 +69,7 @@
 				</div>
 				<label class="form-label col-xs-1">GST Rate</label>
 				<div class="formControls col-xs-1">
-					<input type="text" datatype="s2-9" name="gstRate" ng-model="model.gstRate"
+					<input type="text" datatype="n1-3" name="gstRate" ng-model="model.gstRate"
 						style="width: 50px" class="input-text">
 				</div>
 				
@@ -147,8 +147,6 @@ $(function(){
 	$("#form-ledger-group").Validform({
 		tiptype:3,
 		beforeSubmit: function(form) {
-			console.log($(form).serializeJsonArray());
-			return false;
 			ajax_save_reload(form, 'y');
 			return false;
 		}

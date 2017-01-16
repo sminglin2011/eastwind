@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.web.domain.ChartOfAccounts;
 import com.web.domain.LedgerGroup;
 import com.web.service.AccountsService;
 
@@ -43,6 +44,11 @@ public class AccountsController {
 	@RequestMapping(value="saveLedgerGroup.htm")
 	public Object saveLedgerGroup(ModelMap model, HttpServletResponse res, @RequestBody LedgerGroup ledgerGroup) throws Exception {
 		map = accountsSvc.saveLedgerGroup(model, ledgerGroup);
+		return com.web.views.JsonView.Render(map, res);
+	}
+	@RequestMapping(value="saveCOA.htm")
+	public Object saveCOA(ModelMap model, HttpServletResponse res, @RequestBody ChartOfAccounts coa) throws Exception {
+		map = accountsSvc.saveCOA(model, coa);
 		return com.web.views.JsonView.Render(map, res);
 	}
 	@RequestMapping(value="deleteLedgerGroup.htm")
