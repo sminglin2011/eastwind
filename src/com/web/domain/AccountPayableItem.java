@@ -1,12 +1,11 @@
 package com.web.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import lombok.Data;
 
 @Data
-public class AccountPayable implements Serializable{
+public class AccountPayableItem implements Serializable{
 	/**
 	 * 
 	 */
@@ -14,10 +13,15 @@ public class AccountPayable implements Serializable{
 	
 	private int id;
 	private String apNumber;
-	private Date date;
-	private String payType;
-	private String terms;
 	private Supplier supplier;
+	private StockItem stockItem;
+	private double quantity;
+	private String uom;
+	private double unitPrice;
 	private GoodsReceived goodsReceived;
+	private String gstType;
+	private double gstRate;
+	private PurchaseOrder purchaseOrder;
+	
 	
 }

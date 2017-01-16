@@ -16,10 +16,12 @@ public class GoodsReceived implements Serializable{
 	private String vendorInvoice;
 	private String receivedDate;
 	private String poNumber;
+	private PurchaseOrder purchaseOrder;
 	private int stockId;
 	private double receivedQty;
 	private String receivedUom;
 	private int supplierId;
+	private Supplier supplier;
 	private String apNumber;
 	
 	//虚拟字段

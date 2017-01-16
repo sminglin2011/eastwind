@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import com.web.Dao.GoodsReceivedDao;
+import com.web.domain.AccountPayable;
+import com.web.domain.AccountPayableItem;
 import com.web.domain.GoodsReceived;
 
 @Service
@@ -31,4 +33,16 @@ public class GoodsReceivedService {
 	}
 	
 	/**************************** Business function ***************************************/
+	public void batchInsertGR(List<GoodsReceived> grList) throws Exception {
+		grDao.batchInsertGR(grList);
+	}
+	public void grConvertToAP(List<GoodsReceived> grList) {
+		log.debug("!!!!!!!!!!!! come in to convert to AP !!!!!!!!!!!!!!!!! ");
+		AccountPayable ap = new AccountPayable();
+		AccountPayableItem apItem = new AccountPayableItem();
+		for (int i = 0; i < grList.size(); i++) {
+			GoodsReceived gr = grList.get(i);
+			apItem.setGoodsReceived(gr);
+		}
+	}
 }

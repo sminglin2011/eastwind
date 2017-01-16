@@ -50,7 +50,7 @@
 				<div class="formControls col-xs-3">
 					<span class="select-box">
 					<select class="select" name="ledgerGroup" ng-model="model.ledgerGroup"
-					 ng-options="lg.ledgerGroup for lg in lgList | filter:{ledgerType: model.ledgerType}:true">
+					 ng-options="model.ledgerGroup as model.ledgerGroup for model in lgList | filter:{ledgerType: model.ledgerType}:true">
 						<option value=""> Select Ledger Group</option>
 					</select>
 					<!-- 
@@ -121,8 +121,10 @@
 						<td>{{coa.gstType}}</td>
 						<td>{{coa.gstRate}}</td>
 						<td class="f-14 td-manage">
+						<a ng-click="editCOA(coa.id)"><i class="Hui-iconfont">&#xe6df;</i>
+						</a>
 						<a><i class="Hui-iconfont">&#xe6e2;</i>
-							</a>
+						</a>
 						</td>
 					</tr>
 					
@@ -153,12 +155,22 @@ app.controller('coaCtrl', function($scope, $http) {
     $http.get("generalLedgerService.htm").then(function (response) {$scope.glList = response.data;});
     $http.get("ledgerGroupService.htm").then(function (response) {$scope.lgList = response.data;});
     
+    $scope.editCOA = function(id) {
+    	$scope.models = $scope.coaList.filter(function(coa){ //forEach
+    		if(coa.id == id){
+    			console.log("what is it coa= " , coa);
+    			return coa;
+    		}
+    	});
+    	$scope.model = $scope.models[0];
+    	console.log($scope.model,"edit..........", id );
+    };
     // process the form
     $scope.processForm = function() {
-    	console.log("111111111111111111===="+validForm.check());
+    	console.log($scope.model,"111111111111111111===="+validForm.check());
     	if(validForm.check()) {
     		console.log(JSON.stringify($scope.model));
-    		$http({
+    		$http({ // default headerType json/application
                 url:'saveCOA.htm',
                 method: 'POST',            
                 data: $scope.model      
@@ -167,7 +179,7 @@ app.controller('coaCtrl', function($scope, $http) {
 					layer.msg(data.msg, { icon : 1, time : 2000 });
 					location.reload();//replace(location.href)
 				} else {
-					layer.msg("返回错误", { icon : 5, time : 2000 });
+					layer.msg(data.msg, { icon : 5, time : 2000 });
 				}
             }).error(function(){
             	layer.msg('system run ajax error', { icon : 5, time : 2000 });

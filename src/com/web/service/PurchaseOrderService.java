@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import com.web.Dao.GoodsReceivedDao;
 import com.web.Dao.PurchaseOrderDao;
 import com.web.constant.AppConstant;
+import com.web.domain.AccountPayable;
 import com.web.domain.GoodsReceived;
 import com.web.domain.PurchaseOrder;
 import com.web.domain.PurchaseOrderItems;
@@ -32,7 +33,7 @@ public class PurchaseOrderService {
 	@Autowired
 	private PurchaseOrderDao poDao;
 	@Autowired
-	private GoodsReceivedDao grDao;
+	private GoodsReceivedService grSvc;
 	
 	private Map<String, Object> map = new HashMap<>();
 	
@@ -135,20 +136,25 @@ public class PurchaseOrderService {
 		map.put("status", "y");
 		map.put("msg", "success");
 		try {
-			grDao.batchInsertGR(grList);
+			grSvc.batchInsertGR(grList);
 			boolean isFull = true; // 针对是否整张PO都有收货，如果有收到po的全部货物，po状态修改为full
+			boolean postAccount = false;
 			String poNumber = "";
 			for (int i = 0; i < grList.size(); i++) {
 				poNumber = grList.get(i).getPoNumber();
 				if(grList.get(i).getReceivedQty() + grList.get(i).get_laterReceivedQty() != grList.get(i).get_purchaseQty()){
 					isFull = false;
+					postAccount = grList.get(i).isPostAccount();
 					break;
 				}
 			}
-			if(isFull) {
+			if(isFull) { //update PO status
 				PurchaseOrder po = loadPo(poNumber);
 				po.setStatus(AppConstant.POSTATUS_FULL);
 				updatePo(po);
+			}
+			if (postAccount) { // if auto post account
+				grSvc.grConvertToAP(grList);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
