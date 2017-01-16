@@ -31,7 +31,10 @@
 				<label class="form-label col-xs-1">Ledger Type</label>
 				<div class="formControls col-xs-3">
 					<span class="select-box">
-					<select ng-model="selectedName" ng-options="gl.accountType for gl in glList"></select>
+					<select class="select" datatype="*" name="ledgerType"
+						ng-model="model.ledgerType" ng-options="model.ledgerType as model.ledgerType for model in glList">
+						<option value=""> Select Ledger Group</option>
+					</select>
 					<!-- 
 					<select class="select" size="1" id="ledgerType" name="ledgerType" datatype="*"
 						 nullmsg="Please Select Ledger Type">
@@ -46,38 +49,48 @@
 				<label class="form-label col-xs-1">Ledger Group</label>
 				<div class="formControls col-xs-3">
 					<span class="select-box">
+					<select class="select" name="ledgerGroup" ng-model="model.ledgerGroup"
+					 ng-options="lg.ledgerGroup for lg in lgList | filter:{ledgerType: model.ledgerType}:true">
+						<option value=""> Select Ledger Group</option>
+					</select>
+					<!-- 
 					<select class="select" size="1" id="ledgerGroup" name="ledgerGroup">
 						<option value=""></option>
 						<c:forEach items="${lgList }" var="lg">
 						<option value="${lg.ledgerGroup}">${lg.ledgerGroup}</option>
 						</c:forEach>
-					</select>
+					</select> -->
 					</span>
 				</div>
-				
-				<label class="form-label col-xs-1"></label>
-				<div class="formControls col-xs-2">
-					<button name="" id="" class="btn btn-success" type="submit">
-					<i class="Hui-iconfont">&#xe632;</i> <fmt:message key="action.save" />
-				</button>
+				<label class="form-label col-xs-1">GST Type</label>
+				<div class="formControls col-xs-1">
+					<input type="text" datatype="s2-9" name="gstType" ng-model="model.gstType"
+						style="width: 50px" class="input-text">
 				</div>
+				<label class="form-label col-xs-1">GST Rate</label>
+				<div class="formControls col-xs-1">
+					<input type="text" datatype="s2-9" name="gstRate" ng-model="model.gstRate"
+						style="width: 50px" class="input-text">
+				</div>
+				
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-1">Description</label>
 				<div class="formControls col-xs-3">
 					<input type="hidden" id="id" name="id" value="0">
-					<input type="text" name="description" id="description" datatype="s4-50"
+					<input type="text" datatype="s4-50" name="description" ng-model="model.description"
 					style="width: 250px" class="input-text">
 				</div>
 				<label class="form-label col-xs-1">Account Code</label>
 				<div class="formControls col-xs-3">
-					<input type="text" name="accountCode" id="accountCode" datatype="n4-4"
+					<input type="text" datatype="n4-4" name="accountCode" ng-model="model.accountCode"
 					style="width: 250px" class="input-text">
 				</div>
-				<label class="form-label col-xs-1">GST Type</label>
-				<div class="formControls col-xs-3">
-					<input type="text" name="gstType" id="gstType" datatype="s2-9"
-					style="width: 50px" class="input-text">
+				<label class="form-label col-xs-1"></label>
+				<div class="formControls col-xs-2">
+					<button class="btn btn-success" type="submit">
+					<i class="Hui-iconfont">&#xe632;</i> <fmt:message key="action.save" />
+				</button>
 				</div>
 			</div>
 			
@@ -134,6 +147,8 @@ $(function(){
 	$("#form-ledger-group").Validform({
 		tiptype:3,
 		beforeSubmit: function(form) {
+			console.log($(form).serializeJsonArray());
+			return false;
 			ajax_save_reload(form, 'y');
 			return false;
 		}
