@@ -64,6 +64,10 @@
 		}
 	};
 })(jQuery);
+
+function programming(){
+	layer.msg("still on programming ",{icon: 5, time: 5000})
+}
 /** * open full window ** */
 function openWind(title, url) {
 	var index = layer.open({
@@ -109,7 +113,7 @@ function ajax_post_reload(url, paramValue) {
 		success : function(data) {
 			if (data.status == 'y') {
 				layer.msg(data.msg, { icon : 1, time : 2000 });
-				location.replace(location.href);
+				location.reload();//replace(location.href)
 			} else {
 				layer.msg("返回错误", { icon : 5, time : 2000 });
 			}
@@ -125,7 +129,7 @@ function ajax_post_reload(url, paramValue) {
  * param: form --> Must
  * isCurrent (y) for reload location document
  */
-function ajax_save_reload(form, isCurrent) {
+function ajax_save_reload(form, isCurrentPage) {
 	$.ajax({
 		type : 'post',
 		url : $(form).attr("action"),
@@ -136,11 +140,11 @@ function ajax_save_reload(form, isCurrent) {
 			if (data.status == 'y') {
 				layer.msg("Sent Successful", { icon : 6, time : 1000 });
 				setTimeout(function() {
-					if (isCurrent !== 'undefined') {
+					if (isCurrentPage !== 'y') { //undefined
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.location.replace(parent.location.href);
 						parent.layer.close(index);
-					} else { location.replace(location.href);}
+					} else { location.reload();}
 				}, 1000);
 			} else {
 				layer.msg(data.errorMsg, { icon : 5, time :5000 });

@@ -25,7 +25,11 @@ public class GoodsReceivedDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	public List fetchGoodsReceivedList() throws Exception {
-		String sql = "select * from goodsReceived";
+		String sql = "select gr.vendorInvoice, gr.receivedDate, gr.poNumber, gr.stockId, si.description as itemDescription"
+				+ ", gr.receivedQty, gr.receivedUom, gr.apNumber, gr.supplierId, s.name as supplierName"
+				+ " from goodsreceived gr"
+				+ " left join stockitem si on si.id = gr.stockid"
+				+ " left join supplier s on s.id = gr.supplierId";
 		return jdbcTemplate.queryForList(sql);
 	}
 	

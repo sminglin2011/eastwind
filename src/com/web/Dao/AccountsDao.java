@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.web.domain.ChartOfAccounts;
+import com.web.domain.LedgerGroup;
 
 @Repository
 public class AccountsDao {
@@ -29,6 +30,20 @@ public class AccountsDao {
 	public List fetchLedgerGroupList() {
 		String sql = "select id, ledgerType, ledgerGroup from sysLedgerGroup";
 		return jdbcTemplate.queryForList(sql);
+	}
+	
+	public void saveLedgerGroupList(LedgerGroup lg) {
+		String sql = "insert into sysLedgerGroup (ledgerType, ledgerGroup) values (?, ?)";
+		jdbcTemplate.update(sql, lg.getLedgerType(), lg.getLedgerGroup());
+	}
+	public void updateLedgerGroupList(LedgerGroup lg) {
+		String sql = "update sysLedgerGroup set ledgerType = ?, ledgerGroup = ? where id = ?";
+		jdbcTemplate.update(sql, lg.getLedgerType(), lg.getLedgerGroup(), lg.getId());
+	}
+	
+	public void deleteLedgerGroupList(int id) {
+		String sql = "delete from sysLedgerGroup where id = ?";
+		jdbcTemplate.update(sql, id);
 	}
 	
 	public List fetchCOAList() {

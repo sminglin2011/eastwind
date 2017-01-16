@@ -103,8 +103,8 @@
 			<dd>
 				<ul>
 					<li><a data-href="generalLedger.htm" data-title="<fmt:message key="module.account.generalLedger"/>" href="javascript:;"><fmt:message key="module.account.generalLedger"/></a></li>
-					<li><a data-href="#" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup"/></a></li>
-					<li><a data-href="#" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup.COA"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup.COA"/></a></li>
+					<li><a data-href="ledgerGroup.htm" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup"/></a></li>
+					<li><a data-href="chartOfAccountsMain.htm" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup.COA"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup.COA"/></a></li>
 				</ul>
 			</dd>
 		</dl>
