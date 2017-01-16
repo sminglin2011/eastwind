@@ -48,6 +48,7 @@ public class AccountsController {
 	}
 	@RequestMapping(value="saveCOA.htm")
 	public Object saveCOA(ModelMap model, HttpServletResponse res, @RequestBody ChartOfAccounts coa) throws Exception {
+		log.debug("coa???==" + coa);
 		map = accountsSvc.saveCOA(model, coa);
 		return com.web.views.JsonView.Render(map, res);
 	}

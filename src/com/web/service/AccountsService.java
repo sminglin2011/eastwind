@@ -100,6 +100,7 @@ public class AccountsService {
 		} catch (Exception e) {
 			map.put("status", "n");
 			map.put("msg", "save error");
+			e.printStackTrace();
 		}
 		return map;
 	}

@@ -31,7 +31,7 @@
 
 <script type="text/javascript">
 //for default dataTable format 
-$('.table-sort').dataTable({
+var table = $('.table-sort').DataTable({
 	"bSort": false, // not sorting
 	"language": {
 	    "decimal":        "",

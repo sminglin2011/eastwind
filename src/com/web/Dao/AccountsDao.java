@@ -56,7 +56,7 @@ public class AccountsDao {
 		String sql = "insert into sysChartOfAccounts (description, accountCode, ledgerType, ledgerGroup, opening, gstType"
 				+ ", gstRate) values (?, ?, ?, ?, ?, ?, ?)";
 		jdbcTemplate.update(sql, coa.getDescription(), coa.getAccountCode(), coa.getLedgerType()
-				, coa.getLedgerGroup(), coa.getOpening(), coa.getGstType(), coa.getGstRate());
+				, coa.getLedgerGroup().getLedgerGroup(), coa.getOpening(), coa.getGstType(), coa.getGstRate());
 	}
 	
 	public void batchSaveCOA(List<ChartOfAccounts> coaList) {
@@ -69,7 +69,7 @@ public class AccountsDao {
 				ps.setString(1, coa.getDescription());
 				ps.setInt(2, coa.getAccountCode());
 				ps.setString(3, coa.getLedgerType());
-				ps.setString(4, coa.getLedgerGroup());
+				ps.setString(4, coa.getLedgerGroup().getLedgerGroup());
 				ps.setDouble(5, coa.getOpening());
 				ps.setString(6, coa.getGstType());
 				ps.setDouble(7, coa.getGstRate());

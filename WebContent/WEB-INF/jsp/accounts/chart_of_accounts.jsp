@@ -18,7 +18,7 @@
 		<i class="Hui-iconfont">&#xe67f;</i> 
 		<fmt:message key="home" /> <span class="c-gray en">&gt;</span>
 		<fmt:message key="module.account" /> <span class="c-gray en">&gt;</span> 
-		<fmt:message key="module.account.generalLedger.COA" /> <a
+		<fmt:message key="module.account.generalLedger.ledgerGroup.COA" /> <a
 			class="btn btn-success radius r btn-refresh"
 			style="line-height: 1.6em; margin-top: 3px"
 			href="javascript:;" onclick="javascript:location.reload();" title="<fmt:message key="action.reload" />"><i
@@ -88,7 +88,7 @@
 				</div>
 				<label class="form-label col-xs-1"></label>
 				<div class="formControls col-xs-2">
-					<button class="btn btn-success" type="submit">
+					<button class="btn btn-success" type="submit" ng-click="processForm()">
 					<i class="Hui-iconfont">&#xe632;</i> <fmt:message key="action.save" />
 				</button>
 				</div>
@@ -104,11 +104,11 @@
 						<th width="5%">SN</th>
 						<th width="10%">Ledger Type</th>
 						<th width="10%">Ledger Group</th>
-						<th width="5%">Account Code</th>
-						<th width="20%">Description</th>
-						<th width="5%">GST Type</th>
-						<th width="5%">GST Rate</th>
-						<th width="20%"><fmt:message key="action" /></th>
+						<th width="10%">Account Code</th>
+						<th width="15%">Description</th>
+						<th width="10%">GST Type</th>
+						<th width="10%">GST Rate</th>
+						<th width="10%"><fmt:message key="action" /></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -134,24 +134,46 @@
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
-<script>
+<script type="text/javascript">
+var validForm;
+$(function(){
+	validForm = $("#form-ledger-group").Validform({
+		tiptype:3,
+		beforeSubmit: function(form) {
+			//ajax_save_reload(form, 'y');
+			console.log("aaaaa");
+			return false;
+		}
+	});
+	
+});
 var app = angular.module('COA', []);
 app.controller('coaCtrl', function($scope, $http) {
     $http.get("chartOfAccounts.htm").then(function (response) {$scope.coaList = response.data;});
     $http.get("generalLedgerService.htm").then(function (response) {$scope.glList = response.data;});
     $http.get("ledgerGroupService.htm").then(function (response) {$scope.lgList = response.data;});
-});
-</script>
-<script type="text/javascript">
-$(function(){
-	$("#form-ledger-group").Validform({
-		tiptype:3,
-		beforeSubmit: function(form) {
-			ajax_save_reload(form, 'y');
-			return false;
-		}
-	});
-	
+    
+    // process the form
+    $scope.processForm = function() {
+    	console.log("111111111111111111===="+validForm.check());
+    	if(validForm.check()) {
+    		console.log(JSON.stringify($scope.model));
+    		$http({
+                url:'saveCOA.htm',
+                method: 'POST',            
+                data: $scope.model      
+            }).success(function(data){
+            	if (data.status == 'y') {
+					layer.msg(data.msg, { icon : 1, time : 2000 });
+					location.reload();//replace(location.href)
+				} else {
+					layer.msg("返回错误", { icon : 5, time : 2000 });
+				}
+            }).error(function(){
+            	layer.msg('system run ajax error', { icon : 5, time : 2000 });
+            });
+    	}
+    };
 });
 </script>
 </html>

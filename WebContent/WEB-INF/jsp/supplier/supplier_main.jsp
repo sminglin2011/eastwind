@@ -30,7 +30,7 @@
 			<input type="text" name="keyword" id="keyword" placeholder="keyword" value="${keyword }"
 				style="width: 250px" class="input-text">
 			<button name="" id="" class="btn btn-success" type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> <fmt:message key="search" />
+				<i class="Hui-iconfont">&#xe665;</i> <fmt:message key="action.search" />
 			</button>
 			</form>
 		</div>
@@ -78,43 +78,7 @@
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script type="text/javascript">
-	$('.table-sort').dataTable({
-		//"aaSorting" : [ [ 1, "desc" ] ],
-		//默认第几个排序
-		//"bStateSave" : false,//状态保存
-		//"aoColumnDefs" : [
-		//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		//{
-		//	"orderable" : false,
-		//	"aTargets" : [ 0, 1, 2, 3, 4, 5 ]
-		//} // 不参与排序的列
-		//]
-		"bSort": false, // not sorting
-		"language": {
-		    "decimal":        "",
-		    "emptyTable":     "No data available in table",
-		    "info":           "Showing _START_ to _END_ of _TOTAL_ entries",
-		    "infoEmpty":      "Showing 0 to 0 of 0 entries",
-		    "infoFiltered":   "(filtered from _MAX_ total entries)",
-		    "infoPostFix":    "",
-		    "thousands":      ",",
-		    "lengthMenu":     "Show _MENU_ entries",
-		    "loadingRecords": "Loading...",
-		    "processing":     "Processing...",
-		    "search":         "Search: ",
-		    "zeroRecords":    "No matching records found",
-		    "paginate": {
-		        "first":      "First",
-		        "last":       "Last",
-		        "next":       "Next",
-		        "previous":   "Previous"
-		    },
-		    "aria": {
-		        "sortAscending":  ": activate to sort column ascending",
-		        "sortDescending": ": activate to sort column descending"
-		    }
-		}
-	});
+table.order(1);
 	/*
 	参数解释：
 	title	标题
