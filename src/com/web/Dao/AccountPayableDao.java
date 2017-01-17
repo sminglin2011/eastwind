@@ -1,5 +1,6 @@
 package com.web.Dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,8 +15,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.web.domain.AccountPayable;
+import com.web.domain.AccountPayableItem;
 import com.web.domain.ChartOfAccounts;
+import com.web.domain.GoodsReceived;
 import com.web.domain.LedgerGroup;
+import com.web.util.DataFormat;
 
 @Repository
 public class AccountPayableDao {
@@ -74,4 +78,48 @@ public class AccountPayableDao {
 		jdbcTemplate.update(sql, id);
 	}
 	
+	/*************************** AP Item ***********************************/
+	public List fetchAPItemms(String apNumber) {
+		String sql = "select i.id, i.apNumber, i.supplierId, s.name as supplierName, i.stockId, i.description, i.remarks, i.quantity, i.uom"
+				+ ", i.unitPrice, i.goodsReceivedId, i.gstType, i.gstRate, i.purchaseOrderId, i.accountCode"
+				+ " from accountpayableItem i"
+				+ " left join supplier s on s.id = i.supplierId"
+				+ " where i.apNumber = ?";
+		return jdbcTemplate.queryForList(sql, apNumber);
+	}
+	
+	public void batchInsertApItems(List<AccountPayableItem> apItemList) {
+		String sql = "insert into AccountPayableItem (apNumber, supplierId, stockId, description, remarks"
+				+ ", quantity, uom, unitPrice, goodsReceivedId, gstType, gstRate, purchaseOrderId, accountCode)"
+				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				AccountPayableItem item = apItemList.get(i);
+				ps.setString(1, item.getApNumber());
+				ps.setInt(2, item.getSupplierId());
+				ps.setInt(3, item.getStockId());
+				ps.setString(4, item.getDescription());
+				ps.setString(5, item.getRemarks());
+				ps.setDouble(6, item.getQuantity());
+				ps.setString(7, item.getUom());
+				ps.setDouble(8, item.getUnitPrice());
+				ps.setInt(9, item.getGoodsReceivedId());
+				ps.setString(10, item.getGstType());
+				ps.setDouble(11, item.getGstRate());
+				ps.setInt(12, item.getPurchaseOrderId());
+				ps.setInt(13, item.getAccountCode());
+			}
+			
+			@Override
+			public int getBatchSize() {
+				return apItemList.size();
+			}
+		});
+	}
+	
+	public void deleteApItems(String apNumber) {
+		String sql = "delete from AccountPayableItem where apNumber = ?";
+		jdbcTemplate.update(sql, apNumber);
+	}
 }

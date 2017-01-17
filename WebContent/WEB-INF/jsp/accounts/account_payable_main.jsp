@@ -86,7 +86,7 @@ $(function(){
 });
 var app = angular.module('ap', []);
 app.controller('apCtrl', function($scope, $http) {
-    $http.get("chartOfAccounts.htm").then(function (response) {$scope.coaList = response.data;});
+    $http.get("apListService.htm").then(function (response) {$scope.coaList = response.data;});
     
     
 });

@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.web.domain.GoodsReceived;
-import com.web.util.DateFormat;
+import com.web.util.DataFormat;
 
 @Repository
 public class GoodsReceivedDao {
@@ -61,7 +61,7 @@ public class GoodsReceivedDao {
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
 				GoodsReceived gr = grList.get(i);
 				ps.setString(1, gr.getVendorInvoice());
-				ps.setDate(2, new Date(DateFormat.stringToDate(gr.getReceivedDate()).getTime()));
+				ps.setDate(2, new Date(DataFormat.stringToDate(gr.getReceivedDate()).getTime()));
 				ps.setString(3, gr.getPoNumber());
 				ps.setInt(4, gr.getStockId());
 				ps.setDouble(5, gr.getReceivedQty());
