@@ -15,36 +15,35 @@
 </head>
 <body>
 	<div class="page-container">
-		<form action="saveCustomer.htm" method="post" class="form form-horizontal responsive" id="form-ap">
+		<form action="saveAP.htm" method="post" class="form form-horizontal responsive" id="form-ap">
 		<div class="row cl">
 			<label class="form-label col-xs-2">AP Number：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text disabled" ng-model="ap.apNumber" 
-				datatype="*3-50" nullmsg="AP Number cannot empty" ajaxurl="checkDuplicateName.htm">
+				<input type="text" class="input-text disabled" ng-model="ap.apNumber" >
 			</div>
 			<label class="form-label col-xs-2">Date：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text" ng-model="ap.date" 
-				datatype="*3-50">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-2">Supplier：</label>
-			<div class="formControls col-xs-2">
-				<input list="supplierList" type="text" class="input-text" ng-model="ap.supplier" 
-				datatype="*3-50" nullmsg="Supplier cannot empry" >
-				<datalist id="supplierList">
-				<option ng-repeat="s in supplierList" value="{{s.id}}" ng-show="s.name">{{s.name}}</option>
-				</datalist>
+				<input type="text" class="input-text" id="ap.date" ng-model="ap.date" 
+				onfocus="WdatePicker()" datatype="*">
 			</div>
 			<label class="form-label col-xs-2">Pay Type：</label>
 			<div class="formControls col-xs-2">
 				<span class="select-box">
 					<select class="select" datatype="*"
-						ng-model="ap.payType" ng-options="pt.payType as pt.payType for pt in payTypes">
+						ng-model="ap.payType" ng-options="pt.type as pt.type for pt in payTypes">
 						<option value=""> Select Terms</option>
 					</select>
 				</span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-2">Supplier：</label>
+			<div class="formControls col-xs-6">
+				<input list="supplierList" type="text" class="input-text" ng-model="ap.supplierName" 
+				datatype="*3-50" nullmsg="Supplier cannot empry" >
+				<datalist id="supplierList">
+				<option ng-repeat="s in supplierList" value="{{s.name}}">{{s.name}}</option>
+				</datalist>
 			</div>
 			<label class="form-label col-xs-2">Terms：</label>
 			<div class="formControls col-xs-2">
@@ -65,30 +64,35 @@
 				<thead>
 					<tr class="text-c">
 						<th width="5%">SN</th>
-						<th width="10%">Ledger Type</th>
-						<th width="10%">Ledger Group</th>
-						<th width="10%">Account Code</th>
-						<th width="15%">Description</th>
-						<th width="10%">GST Type</th>
-						<th width="10%">GST Rate</th>
+						<th width="30%">Description</th>
+						<th width="25%">Remarks</th>
+						<th width="15%">Account Code</th>
+						<th width="10%">Quantity</th>
+						<th width="15%">Unit Price</th>
+						<th width="10%">UOM</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="text-c" ng-repeat="item in defaultItemList">
+					<tr class="text-c" ng-repeat="i in itemList">
 						<td style="padding:0px;">{{$index+1}}</td>
-						<td style="padding:0;"><input type="text" class="input-text"></td>
-						<td style="padding:0;"><input type="text" class="input-text"></td>
-						<td style="padding:0;"><input type="text" class="input-text"></td>
-						<td style="padding:0;"><input type="text" class="input-text"></td>
-						<td style="padding:0;"><input type="text" class="input-text"></td>
-						<td style="padding:0;"><input type="text" class="input-text"></td>
+						<td style="padding:0;"><input type="text" class="input-text" datatype="*1-50" ignore="ignore" ng-model="i.description"></td>
+						<td style="padding:0;"><input type="text" class="input-text" datatype="*1-200" ignore="ignore" ng-model="i.remarks"></td>
+						<td style="padding:0;">
+						<input type="text" list="accountCodeList{{$index+1}}" class="input-text" datatype="n4-4" ignore="ignore" ng-model="i.accountCode">
+						<datalist id="accountCodeList{{$index+1}}">
+						<option ng-repeat="coa in coaList" value="{{coa.accountCode}}">{{coa.description}}</option>
+						</datalist>
+						</td>
+						<td style="padding:0;"><input type="text" class="input-text" datatype="/[0-9]+([.]{1}[0-9]+){0,1}$/" ignore="ignore" ng-model="i.quantity"></td>
+						<td style="padding:0;"><input type="text" class="input-text" datatype="/[0-9]+([.]{1}[0-9]+){0,1}$/" ignore="ignore" ng-model="i.unitPrice"></td>
+						<td style="padding:0;"><input type="text" class="input-text" datatype="s1-6" ignore="ignore" ng-model="i.uom"></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="row cl">
 			<div class="col-xs-10 col-xs-offset-2">
-				<button name="" id="" class="btn btn-success" type="submit">
+				<button name="" id="" class="btn btn-success" type="submit" ng-click="save()">
 					<i class="Hui-iconfont">&#xe632;</i> <fmt:message key="action.save" />
 				</button>
 			</div>
@@ -99,6 +103,7 @@
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script type="text/javascript">
+var validForm = false;
 $(function(){
 	$('.table').dataTable( {  
 		"info": false,
@@ -116,8 +121,8 @@ $(function(){
 		console.log($(this).html());
 	} );
 	*/
-	$("#form-customer").Validform({
-		tiptype:3,
+	validForm = $("#form-ap").Validform({
+		tiptype:7,
 		beforeSubmit:function(form) { // here must return false to stop submit data by form
 			return false;
 		}
@@ -127,13 +132,45 @@ $(function(){
 var app = angular.module('ap', []);
 app.controller('apCtrl', function($scope, $http) {
 	$scope.ap = {};
+	var apItem = {id:0, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''};
+	$scope.itemList = [];
+	if ($scope.itemList.length==0) { //init items table 
+		for (var int = 0; int < 10; int++) {
+			$scope.itemList.push({id:0, description:'', remarks:'', quantity:'', unitPrice:'', uom:''});
+		}
+	}
+	
+	
 	$scope.terms = [{id:1, terms:'C.O.D'}, {id:2, terms:'7 DAYS'}]
 	$scope.payTypes = [{id:1, type:'Cash'}, {id:2, type:'Cheque'}]
 	
 	$scope.ap.apNumber = new Date().getTime(); //base on current time general AP number
-	$scope.defaultItemList = [0,1,2,3,4,5,6,7,8,9]
+	
     $http.get("supplierListService.htm").then(function (response) {$scope.supplierList =  response.data;});
+    $http.get("chartOfAccounts.htm").then(function (response) {$scope.coaList = response.data;});
     
+	/* submit form */
+	$scope.save = function() {
+		if (validForm.check()) {
+			$scope.ap.items = $scope.itemList;
+			console.log("ap", $scope.ap);
+			console.log("itemList", $scope.itemList);
+			$http({ // default headerType json/application
+                url:'saveAP.htm',
+                method: 'POST',            
+                data: $scope.ap
+            }).success(function(data){
+            	if (data.status == 'y') {
+					layer.msg(data.msg, { icon : 1, time : 2000 });
+					location.reload();//replace(location.href)
+				} else {
+					layer.msg(data.msg, { icon : 5, time : 2000 });
+				}
+            }).error(function(){
+            	layer.msg('system run ajax error', { icon : 5, time : 2000 });
+            });
+		}
+	}
     
 });
 </script>

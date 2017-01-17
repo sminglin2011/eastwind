@@ -13,8 +13,11 @@ public class AccountPayableItem implements Serializable{
 	
 	private int id;
 	private String apNumber;
+	private int supplierId;
 	private Supplier supplier;
 	private StockItem stockItem;
+	private String description;
+	private String remarks;
 	private double quantity;
 	private String uom;
 	private double unitPrice;
@@ -22,6 +25,7 @@ public class AccountPayableItem implements Serializable{
 	private String gstType;
 	private double gstRate;
 	private PurchaseOrder purchaseOrder;
+	private int accountCode;
 	
 	
 }

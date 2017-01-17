@@ -15,7 +15,7 @@ public class ChartOfAccounts implements Serializable{
 	private String description;
 	private int accountCode;
 	private String ledgerType;
-	private LedgerGroup ledgerGroup;
+	private String ledgerGroup;
 	private double opening;
 	private String gstType;
 	private double gstRate;

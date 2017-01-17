@@ -28,6 +28,7 @@
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
 			<form class="form form-horizontal" action="saveCOA.htm" id="form-ledger-group">
 			<div class="row cl">
+				<input type="hidden" ng-model="model.id">
 				<label class="form-label col-xs-1">Ledger Type</label>
 				<div class="formControls col-xs-3">
 					<span class="select-box">
@@ -35,14 +36,6 @@
 						ng-model="model.ledgerType" ng-options="model.ledgerType as model.ledgerType for model in glList">
 						<option value=""> Select Ledger Group</option>
 					</select>
-					<!-- 
-					<select class="select" size="1" id="ledgerType" name="ledgerType" datatype="*"
-						 nullmsg="Please Select Ledger Type">
-						<option value=""></option>
-						<c:forEach items="${glList }" var="gl">
-						<option value="${gl.ledgerType}">${gl.accountType}</option>
-						</c:forEach>
-					</select> -->
 					</span>
 				</div>
 				
@@ -53,13 +46,6 @@
 					 ng-options="model.ledgerGroup as model.ledgerGroup for model in lgList | filter:{ledgerType: model.ledgerType}:true">
 						<option value=""> Select Ledger Group</option>
 					</select>
-					<!-- 
-					<select class="select" size="1" id="ledgerGroup" name="ledgerGroup">
-						<option value=""></option>
-						<c:forEach items="${lgList }" var="lg">
-						<option value="${lg.ledgerGroup}">${lg.ledgerGroup}</option>
-						</c:forEach>
-					</select> -->
 					</span>
 				</div>
 				<label class="form-label col-xs-1">GST Type</label>
@@ -121,9 +107,9 @@
 						<td>{{coa.gstType}}</td>
 						<td>{{coa.gstRate}}</td>
 						<td class="f-14 td-manage">
-						<a ng-click="editCOA(coa.id)"><i class="Hui-iconfont">&#xe6df;</i>
+						<a style="text-decoration: none" class="ml-5" ng-click="editCOA(coa.id)"><i class="Hui-iconfont">&#xe6df;</i>
 						</a>
-						<a><i class="Hui-iconfont">&#xe6e2;</i>
+						<a style="text-decoration: none" class="ml-5"><i class="Hui-iconfont">&#xe6e2;</i>
 						</a>
 						</td>
 					</tr>
@@ -144,7 +130,7 @@ $(function(){
 	} );
 	
 	validForm = $("#form-ledger-group").Validform({
-		tiptype:3,
+		tiptype:7,
 		beforeSubmit: function(form) {
 			//ajax_save_reload(form, 'y');
 			console.log("aaaaa");
@@ -155,10 +141,11 @@ $(function(){
 });
 var app = angular.module('COA', []);
 app.controller('coaCtrl', function($scope, $http) {
-    $http.get("chartOfAccounts.htm").then(function (response) {$scope.coaList = response.data;});
+	$scope.coaList= {};
+    $http.get("chartOfAccounts.htm").then(function (response) {$scope.coaList = response.data; console.log("data fromat", $scope.coaList);});
     $http.get("generalLedgerService.htm").then(function (response) {$scope.glList = response.data;});
     $http.get("ledgerGroupService.htm").then(function (response) {$scope.lgList = response.data;});
-    
+   
     $scope.editCOA = function(id) {
     	$scope.models = $scope.coaList.filter(function(coa){ //forEach
     		if(coa.id == id){

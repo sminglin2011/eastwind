@@ -56,6 +56,10 @@ public class AccountsService {
 		accountsDao.saveCOA(coa);
 	}
 	@Transactional
+	public void updateCOA(ChartOfAccounts coa) {
+		accountsDao.updateCOA(coa);
+	}
+	@Transactional
 	public void batchSaveCOA(List<ChartOfAccounts> coaList) {
 		accountsDao.batchSaveCOA(coaList);
 	}
@@ -96,7 +100,12 @@ public class AccountsService {
 		map.put("status", "y");
 		map.put("msg", "success");
 		try {
-			saveCOA(coa);
+			if (coa.getId() == 0) {
+				saveCOA(coa);
+			} else if (coa.getId() > 0){
+				updateCOA(coa);
+			}
+			
 		} catch (Exception e) {
 			map.put("status", "n");
 			map.put("msg", "save error");
