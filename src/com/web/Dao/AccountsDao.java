@@ -41,7 +41,7 @@ public class AccountsDao {
 		jdbcTemplate.update(sql, lg.getLedgerType(), lg.getLedgerGroup(), lg.getId());
 	}
 	
-	public void deleteLedgerGroupList(int id) {
+	public void deleteLedgerGroup(int id) {
 		String sql = "delete from sysLedgerGroup where id = ?";
 		jdbcTemplate.update(sql, id);
 	}

@@ -44,7 +44,7 @@ public class AccountsService {
 		accountsDao.updateLedgerGroupList(lg);
 	}@Transactional
 	public void deleteLedgerGroup(int id) {
-		accountsDao.deleteLedgerGroupList(id);;
+		accountsDao.deleteLedgerGroup(id);;
 	}
 	
 	
