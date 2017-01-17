@@ -84,4 +84,15 @@ public class AccountsController {
 		log.debug("what is it ??????" + map);
 		return com.web.views.JsonView.Render(list, res);
 	}
+	
+	
+	/*************************************** Account payable *********************************************/
+	@RequestMapping(value="accountPayableMain.htm")
+	public ModelAndView accountPayableMain(){
+		return new ModelAndView("accounts/account_payable_main");
+	}
+	@RequestMapping(value="newAp.htm")
+	public ModelAndView newAp(){
+		return new ModelAndView("accounts/new_account_payable");
+	}
 }

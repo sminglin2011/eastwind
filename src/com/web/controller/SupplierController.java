@@ -102,4 +102,11 @@ public class SupplierController {
 		}
 		return "y";
 	}
+	
+	@RequestMapping(value="/supplierListService.htm")
+	public Object supplierListService(HttpServletResponse res) {
+		log.debug("supplierListService");
+		List list = supplierService.loadSupplierList();
+		return com.web.views.JsonView.Render(list, res);
+	}
 }

@@ -139,6 +139,10 @@
 <script type="text/javascript">
 var validForm;
 $(function(){
+	$('.table-sort tbody').on( 'dblclick', 'td', function () {
+		console.log($(this).html());
+	} );
+	
 	validForm = $("#form-ledger-group").Validform({
 		tiptype:3,
 		beforeSubmit: function(form) {

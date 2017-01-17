@@ -20,7 +20,7 @@ public class IndexController {
     @RequestMapping(value="index.php")
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+    	logger.debug("what is it???????");
         return new ModelAndView("main");
     }
 }

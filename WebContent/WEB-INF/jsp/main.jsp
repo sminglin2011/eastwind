@@ -102,9 +102,10 @@
 			<dt><i class="Hui-iconfont">&#xe63a;</i> <fmt:message key="module.account"/><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="generalLedger.htm" data-title="<fmt:message key="module.account.generalLedger"/>" href="javascript:;"><fmt:message key="module.account.generalLedger"/></a></li>
-					<li><a data-href="ledgerGroup.htm" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup"/></a></li>
+					<li><a data-href="accountPayableMain.htm" data-title="<fmt:message key="module.account.accountPayable"/>" href="javascript:;"><fmt:message key="module.account.accountPayable"/></a></li>
 					<li><a data-href="chartOfAccountsMain.htm" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup.COA"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup.COA"/></a></li>
+					<li><a data-href="ledgerGroup.htm" data-title="<fmt:message key="module.account.generalLedger.ledgerGroup"/>" href="javascript:;"><fmt:message key="module.account.generalLedger.ledgerGroup"/></a></li>
+					<li><a data-href="generalLedger.htm" data-title="<fmt:message key="module.account.generalLedger"/>" href="javascript:;"><fmt:message key="module.account.generalLedger"/></a></li>
 				</ul>
 			</dd>
 		</dl>
