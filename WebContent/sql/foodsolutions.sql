@@ -17,6 +17,47 @@ DROP DATABASE IF EXISTS `foodsolutions`;
 CREATE DATABASE IF NOT EXISTS `foodsolutions` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `foodsolutions`;
 
+-- Dumping structure for table foodsolutions.accountpayable
+DROP TABLE IF EXISTS `accountpayable`;
+CREATE TABLE IF NOT EXISTS `accountpayable` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `apNumber` varchar(20) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `payType` varchar(10) DEFAULT NULL,
+  `terms` varchar(10) DEFAULT NULL,
+  `supplierId` int(11) DEFAULT NULL,
+  `goodsReceivedId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.accountpayable: ~0 rows (approximately)
+/*!40000 ALTER TABLE `accountpayable` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accountpayable` ENABLE KEYS */;
+
+-- Dumping structure for table foodsolutions.accountpayableitem
+DROP TABLE IF EXISTS `accountpayableitem`;
+CREATE TABLE IF NOT EXISTS `accountpayableitem` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `apNumber` varchar(20) NOT NULL,
+  `supplierId` int(11) NOT NULL,
+  `stockId` int(11) DEFAULT NULL,
+  `description` varchar(50) DEFAULT NULL,
+  `remarks` varchar(1000) DEFAULT NULL,
+  `quantity` decimal(10,2) DEFAULT NULL,
+  `unitPrice` decimal(10,2) DEFAULT NULL,
+  `uom` varchar(6) DEFAULT NULL,
+  `goodsReceivedId` int(11) DEFAULT NULL,
+  `gstType` varchar(6) DEFAULT NULL,
+  `gstRate` decimal(2,2) DEFAULT NULL,
+  `purchaseOrderId` int(11) DEFAULT NULL,
+  `account` int(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.accountpayableitem: ~0 rows (approximately)
+/*!40000 ALTER TABLE `accountpayableitem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accountpayableitem` ENABLE KEYS */;
+
 -- Dumping structure for table foodsolutions.customer
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE IF NOT EXISTS `customer` (
@@ -26,10 +67,9 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `terms` varchar(10) DEFAULT NULL,
   `accountCode` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `migrationId_UNIQUE` (`migrationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table foodsolutions.customer: ~12 rows (approximately)
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
@@ -114,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `customerdeliverycontact` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `deliveryContact_customer_idx` (`customerId`),
   CONSTRAINT `deliveryContact_customer` FOREIGN KEY (`customerId`) REFERENCES `customer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table foodsolutions.customerdeliverycontact: ~7 rows (approximately)
 /*!40000 ALTER TABLE `customerdeliverycontact` DISABLE KEYS */;
@@ -127,6 +167,32 @@ INSERT INTO `customerdeliverycontact` (`id`, `customerId`, `deliveryAttention`, 
 	(12, 22, '1111', '0', NULL, '1@1.a', 'jurong east', '', '', '0'),
 	(13, 23, '111', '1', NULL, '1@1.1', 'jurong east 21', '', '', '111111');
 /*!40000 ALTER TABLE `customerdeliverycontact` ENABLE KEYS */;
+
+-- Dumping structure for table foodsolutions.goodsreceived
+DROP TABLE IF EXISTS `goodsreceived`;
+CREATE TABLE IF NOT EXISTS `goodsreceived` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `vendorInvoice` varchar(11) NOT NULL DEFAULT '',
+  `receivedDate` date DEFAULT NULL,
+  `poNumber` varchar(11) DEFAULT '',
+  `stockId` int(11) NOT NULL,
+  `receivedQty` decimal(6,2) NOT NULL,
+  `receivedUom` varchar(6) NOT NULL DEFAULT '',
+  `apNumber` varchar(11) DEFAULT NULL,
+  `supplierId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.goodsreceived: ~6 rows (approximately)
+/*!40000 ALTER TABLE `goodsreceived` DISABLE KEYS */;
+INSERT INTO `goodsreceived` (`id`, `vendorInvoice`, `receivedDate`, `poNumber`, `stockId`, `receivedQty`, `receivedUom`, `apNumber`, `supplierId`) VALUES
+	(1, 'vinvo0009', '2017-01-15', '232799457', 3, 89.00, 'kg', NULL, 4),
+	(2, 'vinvo0002', '2017-01-15', '754918265', 3, 11.00, 'kg', NULL, 4),
+	(3, 'vinvo0004', '2017-01-15', '987803639', 3, 122.00, 'kg', NULL, 4),
+	(4, 'vinvo0004', '2017-01-15', '987803639', 2, 11.00, 'kg', NULL, 4),
+	(5, 'vinvo00010', '2017-01-15', '754918265', 3, 1.00, 'kg', NULL, 4),
+	(6, 'vinvo000912', '2017-01-15', '997277271', 1, 1.00, 'pack', NULL, 4);
+/*!40000 ALTER TABLE `goodsreceived` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.menu
 DROP TABLE IF EXISTS `menu`;
@@ -187,13 +253,14 @@ CREATE TABLE IF NOT EXISTS `menuitem` (
   `menuItemGroupId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.menuitem: ~2 rows (approximately)
+-- Dumping data for table foodsolutions.menuitem: ~3 rows (approximately)
 /*!40000 ALTER TABLE `menuitem` DISABLE KEYS */;
 INSERT INTO `menuitem` (`id`, `menuId`, `stockId`, `onlineName`, `menuItemGroupId`) VALUES
 	(4, 6, 2, 'BBQ FoodItem A', 2),
-	(5, 3, 2, 'foodItem Tea', 1);
+	(5, 3, 2, 'foodItem Tea', 1),
+	(6, 2, 1, 'Table 3x3', 1);
 /*!40000 ALTER TABLE `menuitem` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.menuitemgroup
@@ -203,13 +270,17 @@ CREATE TABLE IF NOT EXISTS `menuitemgroup` (
   `menuItemGroupName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.menuitemgroup: ~2 rows (approximately)
+-- Dumping data for table foodsolutions.menuitemgroup: ~6 rows (approximately)
 /*!40000 ALTER TABLE `menuitemgroup` DISABLE KEYS */;
 INSERT INTO `menuitemgroup` (`id`, `menuItemGroupName`) VALUES
 	(1, 'Rice'),
-	(2, ' Appetizer');
+	(2, ' Appetizer'),
+	(3, 'Beef'),
+	(4, 'Fish'),
+	(5, ' Chicken'),
+	(6, 'Add On');
 /*!40000 ALTER TABLE `menuitemgroup` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.purchaseorder
@@ -219,37 +290,62 @@ CREATE TABLE IF NOT EXISTS `purchaseorder` (
   `ponumber` varchar(11) NOT NULL,
   `date` date NOT NULL,
   `preparedBy` int(11) NOT NULL,
+  `supplierId` int(11) DEFAULT NULL,
+  `status` varchar(11) DEFAULT 'open',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ponumber` (`ponumber`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.purchaseorder: ~0 rows (approximately)
+-- Dumping data for table foodsolutions.purchaseorder: ~9 rows (approximately)
 /*!40000 ALTER TABLE `purchaseorder` DISABLE KEYS */;
+INSERT INTO `purchaseorder` (`id`, `ponumber`, `date`, `preparedBy`, `supplierId`, `status`) VALUES
+	(8, '359796016', '2017-01-13', 0, 5, 'reject'),
+	(9, '490730867', '2017-01-13', 0, 5, 'open'),
+	(10, '892118408', '2017-01-13', 0, 5, 'open'),
+	(11, '810015793', '2017-01-14', 0, 5, 'reject'),
+	(12, '828402684', '2017-01-14', 0, 2, 'open'),
+	(13, '754918265', '2017-01-14', 0, 4, 'full'),
+	(14, '232799457', '2017-01-14', 0, 4, 'full'),
+	(15, '987803639', '2017-01-14', 0, 4, 'full'),
+	(16, '997277271', '2017-01-15', 0, 4, 'full');
 /*!40000 ALTER TABLE `purchaseorder` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.purchaseorderitems
 DROP TABLE IF EXISTS `purchaseorderitems`;
 CREATE TABLE IF NOT EXISTS `purchaseorderitems` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `poId` int(11) NOT NULL,
+  `poNumber` varchar(11) NOT NULL DEFAULT '',
   `stockId` int(11) DEFAULT NULL,
-  `itemdescription` varchar(200) NOT NULL,
+  `itemdescription` varchar(200) NOT NULL DEFAULT '',
   `prId` int(11) DEFAULT NULL,
   `purchaseQty` int(11) NOT NULL,
   `purchaseUom` varchar(6) NOT NULL,
   `requestQty` int(11) NOT NULL,
   `requestUom` varchar(6) NOT NULL,
+  `supplierId` int(11) DEFAULT NULL,
+  `price` decimal(6,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_purchaseorderitems_purchaseorder` (`poId`),
   KEY `FK_purchaseorderitems_stockitem` (`stockId`),
   KEY `FK_purchaseorderitems_purchaserequest` (`prId`),
-  CONSTRAINT `FK_purchaseorderitems_purchaseorder` FOREIGN KEY (`poId`) REFERENCES `purchaseorder` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `FK_poNumber` (`poNumber`),
+  CONSTRAINT `FK_poNumber` FOREIGN KEY (`poNumber`) REFERENCES `purchaseorder` (`ponumber`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_purchaseorderitems_purchaserequest` FOREIGN KEY (`prId`) REFERENCES `purchaserequest` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_purchaseorderitems_stockitem` FOREIGN KEY (`stockId`) REFERENCES `stockitem` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.purchaseorderitems: ~0 rows (approximately)
+-- Dumping data for table foodsolutions.purchaseorderitems: ~10 rows (approximately)
 /*!40000 ALTER TABLE `purchaseorderitems` DISABLE KEYS */;
+INSERT INTO `purchaseorderitems` (`id`, `poNumber`, `stockId`, `itemdescription`, `prId`, `purchaseQty`, `purchaseUom`, `requestQty`, `requestUom`, `supplierId`, `price`) VALUES
+	(8, '359796016', 1, '', 9, 45, 'pack', 45, 'pack', 5, 3.00),
+	(9, '490730867', 1, '', 3, 2, 'kg', 2, 'kg', 5, 32.00),
+	(10, '892118408', 1, '', 5, 4, 'pc', 4, 'kg', 5, 32.00),
+	(11, '810015793', 1, '', 1, 3, 'kg', 322, 'kg', 0, 32.00),
+	(12, '828402684', 4, 'prawn', 11, 11, 'kg', 12, 'kg', 0, 12.00),
+	(13, '754918265', 3, 'rice', 10, 12, 'kg', 12, 'kg', 4, 3.00),
+	(14, '232799457', 3, 'rice', 12, 89, 'kg', 90, 'kg', 4, 3.00),
+	(15, '987803639', 3, 'rice', 14, 122, 'kg', 122, 'kg', 4, 3.00),
+	(16, '987803639', 2, 'fire chicken', 13, 11, 'kg', 11, 'kg', 4, 32.00),
+	(17, '997277271', 1, 'table', 15, 1, 'pack', 1, 'pack', 4, 12.00);
 /*!40000 ALTER TABLE `purchaseorderitems` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.purchaserequest
@@ -260,21 +356,28 @@ CREATE TABLE IF NOT EXISTS `purchaserequest` (
   `requestQty` decimal(10,2) NOT NULL,
   `requestUom` varchar(6) NOT NULL,
   `requestBy` int(11) NOT NULL,
-  `prStatus` varchar(10) DEFAULT NULL,
+  `prStatus` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.purchaserequest: ~8 rows (approximately)
+-- Dumping data for table foodsolutions.purchaserequest: ~15 rows (approximately)
 /*!40000 ALTER TABLE `purchaserequest` DISABLE KEYS */;
 INSERT INTO `purchaserequest` (`id`, `stockId`, `requestQty`, `requestUom`, `requestBy`, `prStatus`) VALUES
 	(1, 1, 322.00, 'kg', 0, NULL),
-	(2, 1, 444.00, 'kg', 0, NULL),
+	(2, 1, 444.00, 'kg', 0, 'reject'),
 	(3, 1, 2.00, 'kg', 0, NULL),
-	(4, 1, 444.00, 'kg', 0, NULL),
+	(4, 1, 444.00, 'kg', 0, 'reject'),
 	(5, 1, 4.00, 'kg', 0, NULL),
-	(6, 2, 322.00, 'kg', 0, NULL),
+	(6, 2, 322.00, 'kg', 0, 'reject'),
 	(7, 1, 4.00, 'kg', 0, 'reject'),
-	(8, 1, 4343.00, 'kg', 0, 'reject');
+	(8, 1, 4343.00, 'kg', 0, 'reject'),
+	(9, 1, 45.00, 'pack', 0, NULL),
+	(10, 3, 12.00, 'kg', 0, 'full'),
+	(11, 4, 12.00, 'kg', 0, NULL),
+	(12, 3, 90.00, 'kg', 0, 'particular'),
+	(13, 2, 11.00, 'kg', 0, 'full'),
+	(14, 3, 122.00, 'kg', 0, 'full'),
+	(15, 1, 1.00, 'pack', 0, 'full');
 /*!40000 ALTER TABLE `purchaserequest` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.stockcategory
@@ -304,13 +407,18 @@ CREATE TABLE IF NOT EXISTS `stockitem` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `description_UNIQUE` (`description`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.stockitem: ~2 rows (approximately)
+-- Dumping data for table foodsolutions.stockitem: ~7 rows (approximately)
 /*!40000 ALTER TABLE `stockitem` DISABLE KEYS */;
 INSERT INTO `stockitem` (`id`, `description`, `description1`, `unitMs`, `avgUnitPrice`, `categoryId`) VALUES
-	(1, 'equipment1', 'equipment1', '', 12.00, 2),
-	(2, 'fooditem1', 'fooditem1', '', 0.00, 1);
+	(1, 'table', 'table', 'pc', 0.00, 2),
+	(2, 'fire chicken', 'fire chicken', 'pc', 0.00, 1),
+	(3, 'rice', 'rice', 'kg', 0.00, 1),
+	(4, 'prawn', 'prawn', 'kg', 0.00, 1),
+	(5, 'rice 1', 'rice 1', 'kg', 0.00, 1),
+	(6, 'living fish', 'living fish', 'kg', 0.00, 1),
+	(7, 'dddd1', 'dddd1', 'kg', 0.00, 1);
 /*!40000 ALTER TABLE `stockitem` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.stockitemsupplier
@@ -329,14 +437,19 @@ CREATE TABLE IF NOT EXISTS `stockitemsupplier` (
   KEY `supplierId_idx` (`supplierId`),
   CONSTRAINT `stockId` FOREIGN KEY (`stockId`) REFERENCES `stockitem` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `supplierId` FOREIGN KEY (`supplierId`) REFERENCES `supplier` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.stockitemsupplier: ~3 rows (approximately)
+-- Dumping data for table foodsolutions.stockitemsupplier: ~8 rows (approximately)
 /*!40000 ALTER TABLE `stockitemsupplier` DISABLE KEYS */;
 INSERT INTO `stockitemsupplier` (`id`, `stockId`, `supplierId`, `price`, `uom`, `isdefault`) VALUES
-	(1, 1, 5, 32.00, 'kg', 1),
+	(1, 1, 5, 32.00, 'kg', 0),
 	(2, 2, 4, 32.00, 'kg', 1),
-	(3, 1, 5, 11.00, 'pack', 0);
+	(3, 1, 5, 11.00, 'pack', 0),
+	(4, 3, 4, 3.00, 'kg', 1),
+	(5, 1, 4, 32.00, 'kg', 0),
+	(6, 4, 2, 12.00, 'kg', 1),
+	(7, 4, 4, 13.00, 'kg', 0),
+	(8, 1, 4, 12.00, 'pack', 1);
 /*!40000 ALTER TABLE `stockitemsupplier` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.supplier
@@ -360,6 +473,90 @@ INSERT INTO `supplier` (`id`, `name`, `accountCode`, `terms`, `remarks`) VALUES
 	(4, 'NTUC12', NULL, 'C.O.D', NULL),
 	(5, 'supplier name11', NULL, 'C.O.D', NULL);
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
+
+-- Dumping structure for table foodsolutions.syschartofaccounts
+DROP TABLE IF EXISTS `syschartofaccounts`;
+CREATE TABLE IF NOT EXISTS `syschartofaccounts` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `description` varchar(50) DEFAULT NULL,
+  `accountCode` int(11) DEFAULT NULL,
+  `ledgerType` varchar(11) DEFAULT NULL,
+  `ledgerGroup` varchar(50) DEFAULT NULL,
+  `opening` double(20,2) DEFAULT NULL,
+  `gstType` varchar(11) DEFAULT NULL,
+  `gstRate` double(4,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `accountCode` (`accountCode`),
+  UNIQUE KEY `description` (`description`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.syschartofaccounts: ~5 rows (approximately)
+/*!40000 ALTER TABLE `syschartofaccounts` DISABLE KEYS */;
+INSERT INTO `syschartofaccounts` (`id`, `description`, `accountCode`, `ledgerType`, `ledgerGroup`, `opening`, `gstType`, `gstRate`) VALUES
+	(1, 'CAS Bank SGD Current POSB', 1100, 'Asset', 'Current Asset', 0.00, 'NA', 0.00),
+	(2, 'CAS Bank SGD Current UOB', 1110, 'Asset', 'Current Asset', 0.00, 'NA', 0.00),
+	(4, 'CAS ank SGD Current OCBC', 1130, 'Asset', 'Current Asset', 0.00, 'NA', 0.00),
+	(6, 'Debitor', 2100, 'Liabilities', 'Current Liabilities', 0.00, 'NA', 0.00),
+	(7, 'Purchase Meet', 6100, 'Expenses', NULL, 0.00, 'SR', 7.00);
+/*!40000 ALTER TABLE `syschartofaccounts` ENABLE KEYS */;
+
+-- Dumping structure for table foodsolutions.sysgeneralledger
+DROP TABLE IF EXISTS `sysgeneralledger`;
+CREATE TABLE IF NOT EXISTS `sysgeneralledger` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `accountType` varchar(20) DEFAULT '',
+  `accountCode` int(11) DEFAULT NULL,
+  `endCode` int(11) DEFAULT NULL,
+  `ledgerType` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `accountType` (`accountType`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.sysgeneralledger: ~6 rows (approximately)
+/*!40000 ALTER TABLE `sysgeneralledger` DISABLE KEYS */;
+INSERT INTO `sysgeneralledger` (`id`, `accountType`, `accountCode`, `endCode`, `ledgerType`) VALUES
+	(1, 'Asset', 1000, 1999, 'Asset'),
+	(2, 'Liabilities', 2000, 2999, 'Liabilities'),
+	(3, 'Equity', 3000, 3999, 'Equity'),
+	(4, 'Revenues', 5000, 5999, 'Revenues'),
+	(5, 'Expenses', 6000, 6999, 'Expenses'),
+	(6, 'Cost Of Goods Sold', 7000, 7999, 'COG');
+/*!40000 ALTER TABLE `sysgeneralledger` ENABLE KEYS */;
+
+-- Dumping structure for table foodsolutions.sysledgergroup
+DROP TABLE IF EXISTS `sysledgergroup`;
+CREATE TABLE IF NOT EXISTS `sysledgergroup` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ledgerType` varchar(11) DEFAULT NULL,
+  `ledgerGroup` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ledgerGroup` (`ledgerGroup`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.sysledgergroup: ~4 rows (approximately)
+/*!40000 ALTER TABLE `sysledgergroup` DISABLE KEYS */;
+INSERT INTO `sysledgergroup` (`id`, `ledgerType`, `ledgerGroup`) VALUES
+	(1, 'Asset', 'Current Asset'),
+	(5, 'Asset', 'Fixed Asset'),
+	(6, 'Liabilities', 'Current Liabilities'),
+	(7, 'Liabilities', 'Fixed Liabilities');
+/*!40000 ALTER TABLE `sysledgergroup` ENABLE KEYS */;
+
+-- Dumping structure for table foodsolutions.systerms
+DROP TABLE IF EXISTS `systerms`;
+CREATE TABLE IF NOT EXISTS `systerms` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `terms` varchar(20) NOT NULL,
+  `days` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table foodsolutions.systerms: ~2 rows (approximately)
+/*!40000 ALTER TABLE `systerms` DISABLE KEYS */;
+INSERT INTO `systerms` (`id`, `terms`, `days`) VALUES
+	(1, 'C.O.D', 0),
+	(2, '7 DAYS', 7);
+/*!40000 ALTER TABLE `systerms` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.uom
 DROP TABLE IF EXISTS `uom`;
@@ -389,13 +586,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table foodsolutions.user: ~2 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES
-	(1, 'ming', '11111@qq', '1'),
-	(2, 'carrie', 'fff@qqq.ll', '1');
+	(6, 'sming', '1@1.com', ''),
+	(7, 'carrie', '1@1.com', '1');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
