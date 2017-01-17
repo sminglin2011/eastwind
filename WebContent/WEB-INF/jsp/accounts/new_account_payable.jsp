@@ -132,19 +132,19 @@ $(function(){
 var app = angular.module('ap', []);
 app.controller('apCtrl', function($scope, $http) {
 	$scope.ap = {};
-	var apItem = {id:0, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''};
+	$scope.ap.apNumber = new Date().getTime(); //base on current time general AP number
+	
+	var apItem = {id:0, apNumber:$scope.ap.apNumber, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''};
 	$scope.itemList = [];
 	if ($scope.itemList.length==0) { //init items table 
 		for (var int = 0; int < 10; int++) {
-			$scope.itemList.push({id:0, description:'', remarks:'', quantity:'', unitPrice:'', uom:''});
+			$scope.itemList.push({id:0, apNumber:$scope.ap.apNumber, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''});
 		}
 	}
 	
 	
 	$scope.terms = [{id:1, terms:'C.O.D'}, {id:2, terms:'7 DAYS'}]
 	$scope.payTypes = [{id:1, type:'Cash'}, {id:2, type:'Cheque'}]
-	
-	$scope.ap.apNumber = new Date().getTime(); //base on current time general AP number
 	
     $http.get("supplierListService.htm").then(function (response) {$scope.supplierList =  response.data;});
     $http.get("chartOfAccounts.htm").then(function (response) {$scope.coaList = response.data;});
