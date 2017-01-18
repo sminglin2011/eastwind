@@ -43,6 +43,14 @@ public class APService {
 	private List loadApItems(String apNumber) {
 		return apDao.fetchAPItemms(apNumber);
 	}
+	
+	public AccountPayable loadAP(ModelMap model, String id) {
+		AccountPayable ap = new AccountPayable();
+		ap = apDao.fetchAP(Integer.parseInt(id));
+		ap.setItems(apDao.fetchAPItemms(ap.getApNumber()));
+		return ap;
+	}
+	
 	/**************************** Business function ***************************************/
 	
 	public List gotApList(ModelMap model) {

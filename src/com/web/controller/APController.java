@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.web.domain.AccountPayable;
 import com.web.service.APService;
@@ -34,6 +35,23 @@ public class APController extends BaseController{
 	
 	//封装jsonView 格式{status:y, errorMsg:''}
 	private Map<String, Object> map = new HashMap<>();
+	
+	@RequestMapping(value="newAp.htm")
+	public ModelAndView newAp(){
+		return new ModelAndView("accounts/new_account_payable");
+	}
+	
+	@RequestMapping(value="editAp.htm")
+	public ModelAndView editAp(ModelMap model, String param){
+		log.debug("param = " + param);
+		return new ModelAndView("accounts/edit_account_payable");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="loadApService.htm")
+	public Object loadApService(ModelMap model, HttpServletResponse res, String param){
+		return com.web.views.JsonView.Render(apSvc.loadAP(model, param), res);
+	}
 	
 	@ResponseBody
 	@RequestMapping(value="apListService.htm")

@@ -1,3 +1,11 @@
+//jquery扩展一个方法来通过jquery获取url参数
+//(function ($) {
+//                $.getUrlParam = function (name) {
+//                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+//                    var r = window.location.search.substr(1).match(reg);
+//                    if (r != null) return unescape(r[2]); return null;
+//                }
+//})(jQuery)
 //将表单序列化成json格式的数据
 (function($) {
 	$.fn.serializeJson = function() {

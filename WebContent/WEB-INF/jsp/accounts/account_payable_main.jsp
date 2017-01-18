@@ -54,7 +54,7 @@
 				</thead>
 				<tbody>
 					<tr class="text-c" ng-repeat="ap in apList">
-						<td>{{$index + 1}}</td>
+						<td>{{$index + 1}} {{ap.id}}</td>
 						<td>{{ap.apNumber}}</td>
 						<td>{{ap.date}}</td>
 						<td>{{ap.supplierName}}</td>
@@ -62,7 +62,8 @@
 						<td>{{ap.terms}}</td>
 						<td>{{ap.amount}}</td>
 						<td class="f-14 td-manage">
-						<a style="text-decoration: none" class="ml-5" ><i class="Hui-iconfont">&#xe6df;</i>
+						<a style="text-decoration: none" class="ml-5" 
+							ng-click="editAp('<fmt:message key="action.edit"/>','editAp.htm',ap.id)"><i class="Hui-iconfont">&#xe6df;</i>
 						</a>
 						<a style="text-decoration: none" class="ml-5"><i class="Hui-iconfont">&#xe6e2;</i>
 						</a>
@@ -78,17 +79,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
 <script type="text/javascript">
-var validForm;
-$(function(){
-	$('.table-sort tbody').on( 'dblclick', 'td', function () {
-		console.log($(this).html());
-	} );
-});
-var app = angular.module('ap', []);
-app.controller('apCtrl', function($scope, $http) {
-    $http.get("apListService.htm").then(function (response) {$scope.apList = response.data;});
-    
-    
-});
+(function(){
+	var app = angular.module('ap', []);
+	app.controller('apCtrl', function($scope, $http) {
+	    $http.get("apListService.htm").then(function (response) {$scope.apList = response.data;});
+	    $scope.editAp = function(title, url, param) {
+	    	openWind(title, url+"?param="+param);
+	    }
+	});
+})();
+
 </script>
 </html>
