@@ -28,10 +28,16 @@ CREATE TABLE IF NOT EXISTS `accountpayable` (
   `supplierId` int(11) DEFAULT NULL,
   `goodsReceivedId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
--- Dumping data for table foodsolutions.accountpayable: ~0 rows (approximately)
+-- Dumping data for table foodsolutions.accountpayable: ~1 rows (approximately)
 /*!40000 ALTER TABLE `accountpayable` DISABLE KEYS */;
+INSERT INTO `accountpayable` (`id`, `apNumber`, `date`, `payType`, `terms`, `supplierId`, `goodsReceivedId`) VALUES
+	(15, '1484710713773', NULL, 'Cash', 'C.O.D', 0, 0),
+	(16, '1484727396199', NULL, 'Cash', 'C.O.D', 4, 0),
+	(17, '1484727542861', NULL, 'Cheque', 'C.O.D', 3, 0),
+	(18, '1484727616774', NULL, 'Cash', '7 DAYS', 2, 0),
+	(19, '1484738311430', '2017-01-18 00:00:00', 'Cheque', '7 DAYS', 4, 0);
 /*!40000 ALTER TABLE `accountpayable` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.accountpayableitem
@@ -50,12 +56,18 @@ CREATE TABLE IF NOT EXISTS `accountpayableitem` (
   `gstType` varchar(6) DEFAULT NULL,
   `gstRate` decimal(2,2) DEFAULT NULL,
   `purchaseOrderId` int(11) DEFAULT NULL,
-  `account` int(4) DEFAULT NULL,
+  `accountCode` int(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table foodsolutions.accountpayableitem: ~0 rows (approximately)
 /*!40000 ALTER TABLE `accountpayableitem` DISABLE KEYS */;
+INSERT INTO `accountpayableitem` (`id`, `apNumber`, `supplierId`, `stockId`, `description`, `remarks`, `quantity`, `unitPrice`, `uom`, `goodsReceivedId`, `gstType`, `gstRate`, `purchaseOrderId`, `accountCode`) VALUES
+	(1, '1484710713773', 0, 0, '99999999', '999999', 9.00, 8.00, 'KG', 0, NULL, 0.00, 0, 6100),
+	(2, '1484727396199', 0, 0, '9', '9', 98.00, 8.00, 'KG', 0, NULL, 0.00, 0, 6100),
+	(3, '1484727542861', 0, 0, '98', '98', 98.00, 9.00, 'kg', 0, NULL, 0.00, 0, 9999),
+	(4, '1484727616774', 0, 0, '9', '9', 98.00, 8.00, 'kg', 0, NULL, 0.00, 0, 9999),
+	(5, '1484738311430', 0, 0, '9', '', 9.00, 9.00, 'kg', 0, NULL, 0.00, 0, 9999);
 /*!40000 ALTER TABLE `accountpayableitem` ENABLE KEYS */;
 
 -- Dumping structure for table foodsolutions.customer
