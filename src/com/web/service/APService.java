@@ -11,6 +11,7 @@ import org.springframework.cglib.core.DuplicatesPredicate;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
@@ -21,6 +22,7 @@ import com.web.domain.AccountPayable;
 import com.web.domain.AccountPayableItem;
 import com.web.domain.ChartOfAccounts;
 import com.web.domain.LedgerGroup;
+import com.web.exception.AjaxRequestException;
 
 @Service
 public class APService {
@@ -37,37 +39,18 @@ public class APService {
 	private List loadAPList() {
 		return apDao.fetchAPList();
 	}
-	
-	@Transactional
-	private void saveAP(AccountPayable ap) {
-		apDao.saveAP(ap);
-	}
-	@Transactional
-	private void updateAP(AccountPayable ap) {
-		apDao.updateAP(ap);
-	}@Transactional
-	private void deleteAP(int id) {
-		apDao.deleteAP(id);
-	}
 	/**************************** AP item ***************************************/
 	private List loadApItems(String apNumber) {
 		return apDao.fetchAPItemms(apNumber);
-	}
-	@Transactional
-	private void batchSaveApItems(List<AccountPayableItem> itemList) {
-		apDao.batchInsertApItems(itemList);
-	}
-	@Transactional
-	private void deleteApItems(String apNumber) {
-		apDao.deleteApItems(apNumber);
 	}
 	/**************************** Business function ***************************************/
 	
 	public List gotApList(ModelMap model) {
 		return loadAPList();
 	}
-	@Transactional
-	public Map<String, Object> saveAP(ModelMap model, AccountPayable ap) {
+	/********* if split the @Transactional function to other function, it cannot roll back   ************/
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public Map<String, Object> saveAP(ModelMap model, AccountPayable ap) throws RuntimeException {
 		map.put("status", "y");
 		map.put("msg", "success");
 		List<AccountPayableItem> itemList = new ArrayList<>();
@@ -80,14 +63,25 @@ public class APService {
 			}
 		}
 		try {
-			if(ap.getId() == 0) {
-				saveAP(ap);
-				batchSaveApItems(itemList);
-			} else if (ap.getId() > 0) {
-				deleteApItems(ap.getApNumber());
-				batchSaveApItems(itemList);
+			if(ap.getId() == 0) { //save
+				apDao.saveAP(ap);
+				if(itemList.size()<= 0) {
+					throw new AjaxRequestException("AP Items empty");
+				}else {
+					apDao.batchInsertApItems(itemList);
+				}
+			} else if (ap.getId() > 0) { //udpate
+				apDao.updateAP(ap);
+				if(itemList.size()<= 0) {
+					throw new AjaxRequestException("AP Items empty");
+				}else {
+					apDao.deleteApItems(ap.getApNumber());
+					apDao.batchInsertApItems(itemList);
+				}
 			}
-			
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new AjaxRequestException(e.getLocalizedMessage()); // must throw this runtime exception then it can roll back
 		} catch (Exception e) {
 			map.put("status", "n");
 			map.put("msg", "save error");
@@ -95,16 +89,14 @@ public class APService {
 		}
 		return map;
 	}
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Map<String, Object> deleteAP(ModelMap model, String id) {
 		map.put("status", "y");
 		map.put("msg", "success");
 		try {
-			deleteAP(Integer.parseInt(id));
-		} catch (DuplicateKeyException dke) {
-			map.put("status", "n");
-			map.put("msg", "Delete error");
-			dke.printStackTrace();
+			apDao.deleteAP(Integer.parseInt(id));
+		} catch (RuntimeException e) {
+			throw new AjaxRequestException(e.getLocalizedMessage());
 		} catch (Exception e) {
 			map.put("status", "n");
 			map.put("msg", "delete error");

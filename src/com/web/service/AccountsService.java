@@ -10,6 +10,7 @@ import org.springframework.cglib.core.DuplicatesPredicate;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
@@ -35,77 +36,57 @@ public class AccountsService {
 	public List loadLedgerGroupList() {
 		return accountsDao.fetchLedgerGroupList();
 	}
-	@Transactional
-	public void saveLedgerGroup(LedgerGroup lg) {
-		accountsDao.saveLedgerGroupList(lg);
-	}
-	@Transactional
-	public void updateLedgerGroup(LedgerGroup lg) {
-		accountsDao.updateLedgerGroupList(lg);
-	}@Transactional
-	public void deleteLedgerGroup(int id) {
-		accountsDao.deleteLedgerGroup(id);;
-	}
-	
-	
+		
 	public List loadCOAList() {
 		return accountsDao.fetchCOAList();
 	}
-	@Transactional
-	public void saveCOA(ChartOfAccounts coa) {
-		accountsDao.saveCOA(coa);
-	}
-	@Transactional
-	public void updateCOA(ChartOfAccounts coa) {
-		accountsDao.updateCOA(coa);
-	}
-	@Transactional
-	public void batchSaveCOA(List<ChartOfAccounts> coaList) {
-		accountsDao.batchSaveCOA(coaList);
-	}
-	@Transactional
-	public void deleteCOA(int id) {
-		accountsDao.deleteCOA(id);
-	}
 	
 	/**************************** Business function ***************************************/
-	
-	public Map<String, Object> saveLedgerGroup(ModelMap model, LedgerGroup lg) {
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public Map<String, Object> saveLedgerGroup(ModelMap model, LedgerGroup lg)throws RuntimeException {
 		map.put("status", "y");
 		map.put("msg", "success");
 		try {
-			saveLedgerGroup(lg);
+			accountsDao.saveLedgerGroup(lg);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
 		} catch (Exception e) {
 			map.put("status", "n");
 			map.put("msg", "save error");
+			e.printStackTrace();
 		}
 		return map;
 	}
-	public Map<String, Object> deleteLedgerGroup(ModelMap model, String id) {
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public Map<String, Object> deleteLedgerGroup(ModelMap model, String id) throws RuntimeException {
 		map.put("status", "y");
 		map.put("msg", "success");
 		try {
-			deleteLedgerGroup(Integer.parseInt(id));
-		} catch (DuplicateKeyException dke) {
-			map.put("status", "n");
-			map.put("msg", "Ledger Group already exist");
+			accountsDao.deleteLedgerGroup(Integer.parseInt(id));
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
 		} catch (Exception e) {
 			map.put("status", "n");
-			map.put("msg", "save error");
+			map.put("msg", "delete error");
+			e.printStackTrace();
 		}
 		return map;
 	}
-	
-	public Map<String, Object> saveCOA(ModelMap model, ChartOfAccounts coa) {
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public Map<String, Object> saveCOA(ModelMap model, ChartOfAccounts coa) throws RuntimeException {
 		map.put("status", "y");
 		map.put("msg", "success");
 		try {
 			if (coa.getId() == 0) {
-				saveCOA(coa);
+				accountsDao.saveCOA(coa);
 			} else if (coa.getId() > 0){
-				updateCOA(coa);
+				accountsDao.updateCOA(coa);
 			}
-			
+		}  catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
 		} catch (Exception e) {
 			map.put("status", "n");
 			map.put("msg", "save error");

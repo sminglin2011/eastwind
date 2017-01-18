@@ -23,8 +23,7 @@
 			</div>
 			<label class="form-label col-xs-2"><span class="c-red">*</span>Date：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text date" ng-model="ap.date" wdate-picker
-				 datatype="*">
+				<div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>
 			</div>
 			<label class="form-label col-xs-2"><span class="c-red">*</span>Pay Type：</label>
 			<div class="formControls col-xs-2">
@@ -100,14 +99,10 @@
 </body>
 <%@ include file="/WEB-INF/jsp/_footer.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script type="text/javascript" src="lib/My97DatePicker/ng-WdatePicker.js"></script>
 <script type="text/javascript" src="lib/select2-4.0.3/dist/js/select2.js"></script>
 <script type="text/javascript">
-function showValue(obj){
-	console.log($(obj).val());
-}
 var validForm = false;
-(function(){
+$(function(){
 	$('.table').dataTable( {  
 		"info": false,
 		"paging": false,
@@ -115,6 +110,15 @@ var validForm = false;
         "bLengthChange": false,
         "searching": false
      } );
+	/* below test function
+	$('.table-sort tbody').on( 'dblclick', 'td', function () {
+		console.log(table.cell(this), "what is it ?");
+		var rowNumber = table.cell( this ).index().row;
+		console.log(rowNumber, "what is it ?");
+	    console.log( data );
+		console.log($(this).html());
+	} );
+	*/
 	validForm = $("#form-ap").Validform({
 		tiptype:7,
 		beforeSubmit:function(form) { // here must return false to stop submit data by form
@@ -122,50 +126,52 @@ var validForm = false;
 		}
 	});
 	$(".select").select2(); //init select2
+});
+var app = angular.module('ap', []);
+app.controller('apCtrl', function($scope, $http) {
+	var ap = this;
+	ap.apNumber = new Date().getTime(); //base on current time general AP number
 	
-	 var app = angular.module('ap', ['ng-WdatePicker']);
-     app.controller('apCtrl', function($scope, $http) {
-    	 var ap = this;
-    		ap.apNumber = new Date().getTime(); //base on current time general AP number
-    		
-    		var apItem = {id:0, apNumber:ap.apNumber, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''};
-    		$scope.itemList = [];
-    		if ($scope.itemList.length==0) { //init items table 
-    			for (var int = 0; int < 10; int++) {
-    				$scope.itemList.push({id:0, apNumber:ap.apNumber, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''});
-    			}
-    		}
-    		
-    		
-    		$scope.terms = [{id:1, terms:'C.O.D'}, {id:2, terms:'7 DAYS'}]
-    		$scope.payTypes = [{id:1, type:'Cash'}, {id:2, type:'Cheque'}]
-    		
-    	    $http.get("supplierListService.htm").then(function (response) {$scope.supplierList =  response.data;});
-    		$http.get("chartOfAccounts.htm").then(function (response) {$scope.coaList = response.data;});
-    	    
-    		/* submit form */
-    		$scope.save = function() {
-    			if (validForm.check()) {
-    				$scope.ap.items = $scope.itemList;
-    				$http({ // default headerType json/application
-    	                url:'saveAP.htm',
-    	                method: 'POST',            
-    	                data: $scope.ap
-    	            }).success(function(data){
-    	            	if (data.status == 'y') {
-    						layer.msg(data.msg, { icon : 1, time : 2000 });
-    						var index = parent.layer.getFrameIndex(window.name);
-    						parent.location.reload()
-    						parent.layer.close(index);
-    					} else {
-    						layer.msg(data.msg, { icon : 5, time : 5000 });
-    					}
-    	            }).error(function(){
-    	            	layer.msg('system run ajax error', { icon : 5, time : 5000 });
-    	            });
-    			}
-    		}
-     })
-})();
+	var apItem = {id:0, apNumber:ap.apNumber, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''};
+	$scope.itemList = [];
+	if ($scope.itemList.length==0) { //init items table 
+		for (var int = 0; int < 10; int++) {
+			$scope.itemList.push({id:0, apNumber:ap.apNumber, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''});
+		}
+	}
+	
+	
+	$scope.terms = [{id:1, terms:'C.O.D'}, {id:2, terms:'7 DAYS'}]
+	$scope.payTypes = [{id:1, type:'Cash'}, {id:2, type:'Cheque'}]
+	
+    $http.get("supplierListService.htm").then(function (response) {$scope.supplierList =  response.data;});
+	$http.get("chartOfAccounts.htm").then(function (response) {$scope.coaList = response.data;});
+    
+	/* submit form */
+	$scope.save = function() {
+		if (validForm.check()) {
+			$scope.ap.items = $scope.itemList;
+			console.log("ap", $scope.ap);
+			console.log("itemList", $scope.itemList);
+			return null;
+			$http({ // default headerType json/application
+                url:'saveAP.htm',
+                method: 'POST',            
+                data: $scope.ap
+            }).success(function(data){
+            	if (data.status == 'y') {
+					layer.msg(data.msg, { icon : 1, time : 2000 });
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.location.reload()
+					parent.layer.close(index);
+				} else {
+					layer.msg(data.msg, { icon : 5, time : 5000 });
+				}
+            }).error(function(){
+            	layer.msg('system run ajax error', { icon : 5, time : 5000 });
+            });
+		}
+	}
+});
 </script>
 </html>

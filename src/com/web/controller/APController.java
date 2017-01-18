@@ -18,8 +18,13 @@ import com.web.service.APService;
 import com.web.service.AccountsService;
 
 @Controller
-public class APController {
+public class APController extends BaseController{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	Logger log = Logger.getLogger(APController.class);
 	
 	@Autowired

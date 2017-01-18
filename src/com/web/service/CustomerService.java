@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,7 @@ public class CustomerService {
 			try {
 				customer = customerDao.fetchCustomer(Integer.parseInt(id));
 			} catch (ParameterException e) {
+				e.printStackTrace();
 				throw e;
 			}
 		}
@@ -52,7 +54,7 @@ public class CustomerService {
 		log.debug("service checkDuplicateCustomerName " + customer);
 		try {
 			customer = customerDao.fetchCustomerByName(name);
-		} catch (Exception e) {
+		} catch (EmptyResultDataAccessException e) {
 			throw e;
 		}
 		if (customer.getId() > 0) { //ID 存在意思是客户名字已经存在不能在用这个名字注册了
@@ -69,14 +71,11 @@ public class CustomerService {
 	 * @return
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Customer saveCustomer(Customer customer) {
+	public Customer saveCustomer(Customer customer) throws RuntimeException {
 		try {
 			if (customer.getId() == null || customer.getId()== 0) {
 				customerDao.saveCustomer(customer);
 				int customerId = customerDao.selectLastInsertId();
-//				if(customer.getBillContact().getBillAttention() == null){
-//					
-//				}
 				customer.getBillContact().setCustomerId(0);
 				customerDao.saveCustomerBillContact(customer.getBillContact());
 				int billContactId = customerDao.selectLastInsertId();
@@ -94,6 +93,7 @@ public class CustomerService {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw e;
 		}
 		return customer;

@@ -32,11 +32,11 @@ public class AccountsDao {
 		return jdbcTemplate.queryForList(sql);
 	}
 	
-	public void saveLedgerGroupList(LedgerGroup lg) {
+	public void saveLedgerGroup(LedgerGroup lg) {
 		String sql = "insert into sysLedgerGroup (ledgerType, ledgerGroup) values (?, ?)";
 		jdbcTemplate.update(sql, lg.getLedgerType(), lg.getLedgerGroup());
 	}
-	public void updateLedgerGroupList(LedgerGroup lg) {
+	public void updateLedgerGroup(LedgerGroup lg) {
 		String sql = "update sysLedgerGroup set ledgerType = ?, ledgerGroup = ? where id = ?";
 		jdbcTemplate.update(sql, lg.getLedgerType(), lg.getLedgerGroup(), lg.getId());
 	}

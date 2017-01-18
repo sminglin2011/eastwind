@@ -1,6 +1,8 @@
 package com.web.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,4 +25,12 @@ public class IndexController {
     	logger.debug("what is it???????");
         return new ModelAndView("main");
     }
+    @RequestMapping(value="ajaxError")
+	public Object ajaxError(HttpServletRequest request, HttpServletResponse res, Exception ex){
+    	logger.debug("come here base ajaxError!!!!!!!!!!!!!!!!!!!");
+		Map<String, Object> map1 = new HashMap<>();
+		map1.put("status", "n");
+		map1.put("msg", ex.getMessage());
+		return com.web.views.JsonView.Render(map1, res);
+	}
 }

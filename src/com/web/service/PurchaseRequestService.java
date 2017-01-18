@@ -93,16 +93,19 @@ public class PurchaseRequestService implements Serializable{
 		return model;
 	}
 	@Transactional
-	public Map<String, Object> savePurchaseRequest(PurchaseRequest purchaseRequest) {
+	public Map<String, Object> savePurchaseRequest(PurchaseRequest purchaseRequest) throws RuntimeException{
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", "y");
-		
+		map.put("msg", "Save Success");
 		try {
 			if (purchaseRequest.getId() == 0) {
 				prDao.savePurchaseRequest(purchaseRequest);
 			} else {
 				prDao.updatePurchaseRequest(purchaseRequest);
 			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
 		} catch (Exception e) {
 			map.put("status", "n");
 			map.put("errorMsg", "Save Purchase Request Error");

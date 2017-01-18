@@ -43,26 +43,26 @@
 				<thead>
 					<tr class="text-c">
 						<th width="5%">SN</th>
-						<th width="10%">Ledger Type</th>
-						<th width="10%">Ledger Group</th>
-						<th width="10%">Account Code</th>
-						<th width="15%">Description</th>
-						<th width="10%">GST Type</th>
-						<th width="10%">GST Rate</th>
+						<th width="10%">AP Number</th>
+						<th width="10%">Date</th>
+						<th width="10%">Supplier</th>
+						<th width="15%">Pay Type</th>
+						<th width="10%">Terms</th>
+						<th width="10%">Amount</th>
 						<th width="10%"><fmt:message key="action" /></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="text-c" ng-repeat="coa in coaList">
+					<tr class="text-c" ng-repeat="ap in apList">
 						<td>{{$index + 1}}</td>
-						<td>{{coa.ledgerType}}</td>
-						<td>{{coa.ledgerGroup}}</td>
-						<td>{{coa.accountCode}}</td>
-						<td>{{coa.description}}</td>
-						<td>{{coa.gstType}}</td>
-						<td>{{coa.gstRate}}</td>
+						<td>{{ap.apNumber}}</td>
+						<td>{{ap.date}}</td>
+						<td>{{ap.supplierName}}</td>
+						<td>{{ap.payType}}</td>
+						<td>{{ap.terms}}</td>
+						<td>{{ap.amount}}</td>
 						<td class="f-14 td-manage">
-						<a style="text-decoration: none" class="ml-5" ng-click="editCOA(coa.id)"><i class="Hui-iconfont">&#xe6df;</i>
+						<a style="text-decoration: none" class="ml-5" ><i class="Hui-iconfont">&#xe6df;</i>
 						</a>
 						<a style="text-decoration: none" class="ml-5"><i class="Hui-iconfont">&#xe6e2;</i>
 						</a>
@@ -86,7 +86,7 @@ $(function(){
 });
 var app = angular.module('ap', []);
 app.controller('apCtrl', function($scope, $http) {
-    $http.get("apListService.htm").then(function (response) {$scope.coaList = response.data;});
+    $http.get("apListService.htm").then(function (response) {$scope.apList = response.data;});
     
     
 });
