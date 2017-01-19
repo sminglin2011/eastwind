@@ -56,7 +56,7 @@
 					<tr class="text-c" ng-repeat="ap in apList">
 						<td>{{$index + 1}} {{ap.id}}</td>
 						<td>{{ap.apNumber}}</td>
-						<td>{{ap.date}}</td>
+						<td>{{ap.date | date:"yyyy-MM-dd"}}</td>
 						<td>{{ap.supplierName}}</td>
 						<td>{{ap.payType}}</td>
 						<td>{{ap.terms}}</td>

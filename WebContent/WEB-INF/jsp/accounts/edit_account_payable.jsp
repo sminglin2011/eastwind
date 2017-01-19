@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/include.jsp"%>
 <!DOCTYPE HTML>
-<html ng-app="ap" ng-controller="apController">
+<html ng-app="ap" ng-controller="apController" ng-init="init()">
 <head>
 <meta charset="utf-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -19,18 +19,17 @@
 		<div class="row cl">
 			<label class="form-label col-xs-2">AP Number：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text disabled" ng-model="ap.apNumber" value="">
+				<input type="text" class="input-text disabled" ng-model="ap.apNumber">
 			</div>
 			<label class="form-label col-xs-2"><span class="c-red">*</span>Date：</label>
 			<div class="formControls col-xs-2">
-				<input type="text" class="input-text date" ng-model="ap.date" wdate-picker value=""
+				<input type="text" class="input-text date" ng-model="ap.date" wdate-picker
 				 datatype="*">
 			</div>
 			<label class="form-label col-xs-2"><span class="c-red">*</span>Pay Type：</label>
 			<div class="formControls col-xs-2">
 				<span class="select-box">
 					<select class="select" ng-model="ap.payType" ng-options="pt.type as pt.type for pt in payTypes">
-						<option value=""> Select Terms</option>
 					</select>
 				</span>
 			</div>
@@ -39,16 +38,16 @@
 			<label class="form-label col-xs-2"><span class="c-red">*</span>Supplier：</label>
 			<div class="formControls col-xs-6">
 			<span class="select-box">
-				<select ng-model="ap.supplierId" class="select">
-                    <option value="{{ s.id }}" ng-repeat="s in supplierList">{{ s.name }}</option>
+				<select ng-model="ap.supplierId" class="select"
+					ng-options="s.id as s.name for s in supplierList" >
                 </select>
             </span>
 			</div>
 			<label class="form-label col-xs-2"><span class="c-red">*</span>Terms：</label>
 			<div class="formControls col-xs-2">
 				<span class="select-box">
-					<select class="select" ng-model="ap.terms" ng-options="t.terms as t.terms for t in terms">
-						<option value=""> Select Terms</option>
+					<select class="select" ng-model="ap.terms"
+						ng-options="t.terms as t.terms for t in terms">
 					</select>
 				</span>
 			</div>
@@ -71,7 +70,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="text-c" ng-repeat="i in itemList">
+					<tr class="text-c" ng-repeat="i in ap.items">
 						<td style="padding:0px;">{{$index+1}}</td>
 						<td style="padding:0;"><input type="text" class="input-text" datatype="*1-50" ignore="ignore" ng-model="i.description"></td>
 						<td style="padding:0;"><input type="text" class="input-text" datatype="*1-200" ignore="ignore" ng-model="i.remarks"></td>
@@ -126,19 +125,50 @@ function getUrlParam(name) {
 	$(".select").select2(); //init select2
 
 	var app = angular.module('ap', ['ng-WdatePicker']);
-	app.controller('apController', function($scope, $http){
-		var ctrl = apController($scope, $http);
+	app.controller('apController', function($scope, $http, $filter){
+		$scope.ap = {};
+		
+		$scope.init = function () {
+			$http.get("supplierListService.htm").then(function (response) {$scope.supplierList =  response.data;});
+			$scope.terms = [{id:1, terms:'C.O.D'}, {id:2, terms:'7 DAYS'}];
+			$scope.payTypes = [{id:1, type:'Cash'}, {id:2, type:'Cheque'}];
+			$http.get("loadApService.htm?param="+getUrlParam("param"))
+				.success(function(data){
+					$scope.ap = data;
+					$scope.ap.date = $filter('date')(new Date($scope.ap.date),'yyyy-MM-dd');
+					var itemsLength = $scope.ap.items.length;
+					if (itemsLength < 10) {
+						for(var i=itemsLength; i< 10; i++){
+							$scope.ap.items.push({id:0, apNumber:$scope.ap.apNumber, description:'', remarks:'', accountCode:'', quantity:'', unitPrice:'', uom:''});
+						}
+					}
+				});
+        };
+        /* submit form */
+		$scope.save = function() {
+			if (validForm.check()) {
+				console.log($scope.ap);
+				$http({ // default headerType json/application
+	                url:'saveAP.htm',
+	                method: 'POST',            
+	                data: $scope.ap
+	            }).success(function(data){
+	            	if (data.status == 'y') {
+						layer.msg(data.msg, { icon : 1, time : 2000 });
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.location.reload()
+						parent.layer.close(index);
+					} else {
+						layer.msg(data.msg, { icon : 5, time : 5000 });
+					}
+	            }).error(function(data){
+	            	layer.msg('system run ajax error,'+data, { icon : 5, time : 5000 });
+	            });
+			}
+		}
 	})
-	function apController($scope, $http) {
-		 var ap = $scope.ap = {};
-		 $scope.fetchAp = function(){
-			 $http.get("loadApService.htm?param="+getUrlParam("param")).success(function(data){$scope.ap = data; });
-		 }
-		 $http.get("supplierListService.htm").then(function (response) {$scope.supplierList =  response.data;});
-		 console.log($scope.supplierList,"$scope.supplierList");
-		 $scope.fetchAp();
-		 console.log($scope.ap,"=1pa");
-	}
+	
 })(jQuery);
+
 </script>
 </html>

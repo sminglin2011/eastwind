@@ -17,6 +17,7 @@ public class AccountPayableItem implements Serializable{
 	private String apNumber;
 	private int supplierId;
 	private Supplier supplier;
+	private String supplierName;
 	private int stockId;
 	private StockItem stockItem;
 	private String description;
